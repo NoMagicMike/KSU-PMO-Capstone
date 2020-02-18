@@ -1,0 +1,81 @@
+/* Style inputs with type="text", select elements and textareas */
+input[type=text], select, textarea {
+  font-size: large;
+  width: 30%; 
+  padding: 12px; /* Some padding */ 
+  border: 1px solid #ccc; /* Gray border */
+  border-radius: 4px; /* Rounded borders */
+  box-sizing: border-box; /* Make sure that padding and width stays in place */
+  resize: vertical; /* Allow the user to vertically resize the textarea (not horizontally) */
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+/* Style the submit button with a specific background color etc */
+input[type=submit] {
+  font-size: x-large;
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+ 
+}
+
+/* When moving the mouse over the submit button, add a darker green color */
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+/*set margins around these elements*/
+label, input[type=file], [type=radio],[type=submit] {
+  margin: 16px 8px 16px 50px;
+}
+
+
+
+/* select and option styling to keep the placeholder grey*/ 
+select:required:invalid {	
+  color: gray;
+}
+
+/* To keep the placeholder "Select a Priority Level" hidden from selectable options*/
+option[value=""][disabled] {
+  display: none;
+}
+
+/*To make the selectable dropdown choices text black*/
+option {
+  color: black;
+}
+
+/*display labels as an inline-level block container adjacent with input and textarea boxes*/
+label {
+    display: inline-block;
+}
+
+/*Make the textarea for the project description 150px high*/
+textarea {
+	height: 150px;
+	vertical-align: middle;
+}
+
+/* Formatting for the logo*/
+.logo {
+	height: 200px;
+    width: auto;
+    float: center;
+    margin: 20px;
+}
+
+/* Add a background color and some padding around the form */
+.container {
+    font-size: x-large;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+
+
