@@ -18,6 +18,11 @@ class TableRows extends RecursiveIteratorIterator {
         echo "</tr>" . "\n";
     }
 }
+// For Development Server Only!
+// $servername = "localhost";
+// $username = "KSUPMO";
+// $password = "KSU_Capstone_2020";
+// $dbname = "pmo";
 
 $servername = "localhost";
 $username = "root";
@@ -26,7 +31,7 @@ $dbname = "pmo";
 
 try {
 
-	
+
     $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$query = $_GET["queries"];
@@ -46,4 +51,3 @@ catch(PDOException $e) {
 $conn = null;
 echo "</table>";
 ?>
-
