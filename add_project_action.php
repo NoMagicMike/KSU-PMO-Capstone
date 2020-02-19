@@ -1,4 +1,10 @@
 <?php
+// For Development Server Only!
+// $servername = "localhost";
+// $username = "KSUPMO";
+// $password = "KSU_Capstone_2020";
+// $dbname = "pmo";
+
 //Set php variables for connections to the database
 $servername = "localhost";
 $username = "root";

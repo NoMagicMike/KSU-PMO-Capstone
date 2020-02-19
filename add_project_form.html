@@ -5,13 +5,42 @@
 
 <!--Link this html page to the project_style.css page-->
 <link rel="stylesheet" type="text/css" href="project_style.css">
+<!-- Bootstrap References -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
 </head>
 <body>
 
-<!--define a class for the KSU logo image-->
-<img class="logo" id="ksulogo" src="ksu_logo_ltrs.png" alt="Kennesaw State University Logo">
+  <!-- Start of Navbar -->
+  <nav class="navbar navbar-light navbar-expand-lg" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="index.html">
+      <img src="static/KSUBrand.png" width="50" height="50" alt="KSU Logo"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Projects
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="add_project_form.html">Add New Project</a>
+            <a class="dropdown-item" href="get_project_form.html">View All Projects</a>
+            <div class="dropdown-divider"></div>
+          </div>
+        </li>
+
+    </div>
+  </nav>
+  <!-- End of Navbar -->
 <div class="container">
   <form action="add_project_action.php" autocomplete="off" method="post">
 
@@ -25,13 +54,13 @@
       <option value="Computer Science">Computer Science</option>
       <option value="Information Technology">Information Technology</option>
 	  <option value="Software Engineering and Game Development">Software Engineering and Game Development</option>
-    </select><br />  
-	
+    </select><br />
+
 	<label for="start_date">Start Date :</label>
-    <input type="text" id="start_date" name="st_date" placeholder="Format: YYYY-MM-DD"><br />  
+    <input type="text" id="start_date" name="st_date" placeholder="Format: YYYY-MM-DD"><br />
 
 	<label for="end_date">End Date :</label>
-    <input type="text" id="end_date" name="en_date" placeholder="Format: YYYY-MM-DD"><br /> 
+    <input type="text" id="end_date" name="en_date" placeholder="Format: YYYY-MM-DD"><br />
 
     <label for="priority_level">Priority Level :</label>
     <select required id="priority_level" name="p_level" required>
@@ -39,22 +68,22 @@
 	  <option value="Low">Low</option>
       <option value="Medium">Medium</option>
       <option value="High">High</option>
-    </select><br />              
-	
+    </select><br />
+
 	<label for="is_funded">Is this project funded ?</label>
 	 <input type="radio" name="is_funded" value="yes"> Yes
      <input type="radio" name="is_funded" value="no"> No
 	 <input type="radio" name="is_funded" value="n/a" checked> N/A
-    <br />  
-	
+    <br />
+
 	<label for="total_cost">Total Cost (If Applicable):</label>
     <input type="text" id="total_cost" name="tot_cost" placeholder="Format: 0.00"><br />
 
     <label for="description">Description :</label>
-    <textarea id="desc" maxlength="600" name="desc" placeholder="You can write up to 600 characters.."></textarea><br />  
+    <textarea id="desc" maxlength="600" name="desc" placeholder="You can write up to 600 characters.."></textarea><br />
 
     <input type="submit" value="Submit"><br />
-  
+
 </div>
 
 </body>

@@ -1,0 +1,13 @@
+CREATE DATABASE pmo;
+CREATE TABLE projects (
+ `project_id`    bigint(20) unsigned NOT NULL AUTO_INCREMENT ,
+ `project_title` varchar(100) NOT NULL ,
+ `department` varchar(45) NOT NULL ,
+ `start_date`    date NULL ,
+ `end_date`      date NULL ,
+ `priority_level`    varchar(10) NOT NULL ,
+ `funded`     enum('yes', 'no', 'n/a') NOT NULL ,
+ `total_cost` decimal(10,2) NULL ,
+ `project_description`   varchar(600) NULL ,
+PRIMARY KEY (`project_id`)
+);
