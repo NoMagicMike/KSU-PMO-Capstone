@@ -1,0 +1,32 @@
+<html>
+<head>
+
+<title>Get Project Form</title>
+
+<!--Link this html page to the project_style.css page-->
+<link rel="stylesheet" type="text/css" href="project_style.css">
+
+</head>
+<body>
+
+<!--define a class for the KSU logo image-->
+<img class="logo" id="ksulogo" src="ksu_logo_ltrs.png" alt="Kennesaw State University Logo">
+
+<div class="container">
+  <form action="get_project_action.php" autocomplete="off" method="get">
+
+
+    <label for="Query Selections">Query Selections : (You can only select all data from "Projects" for now):</label>
+    <select id="first_query" name="queries" required>
+      <option value="" disabled selected>Make a Selection</option>
+	  <option value="Projects">Projects</option>
+    </select><br />
+
+
+
+    <input type="submit" value="Submit"><br />
+
+</div>
+
+</body>
+</html>

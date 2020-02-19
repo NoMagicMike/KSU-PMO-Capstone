@@ -1,0 +1,61 @@
+<html>
+<head>
+
+<title>Add Project Form</title>
+
+<!--Link this html page to the project_style.css page-->
+<link rel="stylesheet" type="text/css" href="project_style.css">
+
+</head>
+<body>
+
+<!--define a class for the KSU logo image-->
+<img class="logo" id="ksulogo" src="ksu_logo_ltrs.png" alt="Kennesaw State University Logo">
+
+<div class="container">
+  <form action="add_project_action.php" autocomplete="off" method="post">
+
+    <label for="project_title">Project Title :</label>
+    <input type="text" id="project_title" name="proj_title" placeholder="ex./ PMO Capstone" required><br />
+
+    <label for="department">Department :</label>
+    <select id="department" name="dept" required>
+      <option value="" disabled selected>Select a Department</option>
+	  <option value="Analytics and Data Science">Analytics and Data Science</option>
+      <option value="Computer Science">Computer Science</option>
+      <option value="Information Technology">Information Technology</option>
+	  <option value="Software Engineering and Game Development">Software Engineering and Game Development</option>
+    </select><br />  
+	
+	<label for="start_date">Start Date :</label>
+    <input type="text" id="start_date" name="st_date" placeholder="Format: YYYY-MM-DD"><br />  
+
+	<label for="end_date">End Date :</label>
+    <input type="text" id="end_date" name="en_date" placeholder="Format: YYYY-MM-DD"><br /> 
+
+    <label for="priority_level">Priority Level :</label>
+    <select required id="priority_level" name="p_level" required>
+      <option value="" disabled selected>Select a Priority Level</option>
+	  <option value="Low">Low</option>
+      <option value="Medium">Medium</option>
+      <option value="High">High</option>
+    </select><br />              
+	
+	<label for="is_funded">Is this project funded ?</label>
+	 <input type="radio" name="is_funded" value="yes"> Yes
+     <input type="radio" name="is_funded" value="no"> No
+	 <input type="radio" name="is_funded" value="n/a" checked> N/A
+    <br />  
+	
+	<label for="total_cost">Total Cost (If Applicable):</label>
+    <input type="text" id="total_cost" name="tot_cost" placeholder="Format: 0.00"><br />
+
+    <label for="description">Description :</label>
+    <textarea id="desc" maxlength="600" name="desc" placeholder="You can write up to 600 characters.."></textarea><br />  
+
+    <input type="submit" value="Submit"><br />
+  
+</div>
+
+</body>
+</html>
