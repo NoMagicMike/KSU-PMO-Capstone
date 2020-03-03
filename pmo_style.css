@@ -1,0 +1,32 @@
+/*the only classes being used so far are inline bootstrap and fontawesome classes
+and they are only used in the pmo_functions.php and the get_projet.php files so far*/
+
+/*------------------------------Some basic setup----------------------------------*/
+* {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body {
+  background-color: #FFFFFF;
+  margin: 0;
+}
+/*----------------------------------end basic setup-------------------------------------------*/
+
+
+/*-------------These are used in the forms for the dropdown choices in create_project and update_project pages--------------*/
+/* select and option styling to keep the placeholder grey*/
+select:required:invalid {
+  color: gray;
+}
+/*To make the selectable dropdown choices text black*/
+option {
+  color: black;
+}
+/* To keep the placeholder "Select a Priority Level" hidden from selectable options*/
+option[value=""][disabled] {
+  display: none;
+}
+/*------------------------------------------end
