@@ -21,7 +21,7 @@ $conn = pdo_connect_mysql();
   //message so the user can acknowledge an alert that the record was added.
   //URL in javascript below will need to be changed to one tht will work with the actual server!
 	echo "<script type='text/JavaScript'>
-        window.location.href = 'http://localhost:8015/get_project.php';
+        window.location.href = '/get_project.php';
 	      alert('Record Successfully Added.');
 	      </script>";
   }

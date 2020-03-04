@@ -21,7 +21,7 @@ if (isset($_GET['project_id'])) {
             //message so the user can acknowledge an alert that the record was deleted.
             //the javascript below will need to be changed to the URL that will work on the actual server!
             echo "<script type='text/JavaScript'>
-                  window.location.href = 'http://localhost:8015/get_project.php';
+                  window.location.href = '/get_project.php';
 	                alert('Record was Deleted!');
 	                </script>";
         } else {
