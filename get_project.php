@@ -22,7 +22,7 @@ previously specified (on one page)*/
 if (isset($_GET['search'])) {
 	if ($records_per_page == 'All') {
 		// SQL statement to get all records containing the specific search query
-		$stmt = $conn->prepare('SELECT * FROM projects
+		$stmt = $conn->prepare('SELECT * FROM project
 							   WHERE project_id LIKE :search_query
 								  OR project_title LIKE :search_query
 								  OR department LIKE :search_query
@@ -38,7 +38,7 @@ if (isset($_GET['search'])) {
 		/*After the user does a search for records containing specific data, they can navigate back and
 		forth between pages of the records that contain the specific data, and also limit the amout of
 		these records they want displayed at a time for each page*/
-		$stmt = $conn->prepare('SELECT * FROM projects
+		$stmt = $conn->prepare('SELECT * FROM project
 								WHERE project_id LIKE :search_query
 								  OR project_title LIKE :search_query
 			 						OR department LIKE :search_query
@@ -59,24 +59,24 @@ if (isset($_GET['search'])) {
  single record contained in the database table on one page*/
 else {
 	if ($records_per_page == 'All') {
-		$stmt = $conn->prepare('SELECT * FROM projects ORDER BY ' . $order_by . ' ' . $order_sort);
+		$stmt = $conn->prepare('SELECT * FROM project ORDER BY ' . $order_by . ' ' . $order_sort);
 	}
 	/*If the user did not specify any data to search for, they could navigate back and forth through pages
 	that contain every single record in the database table. The user can limit the number of records they
 	want to have displayed at a time (it will default to 5 at first).*/
 	else {
-		$stmt = $conn->prepare('SELECT * FROM projects ORDER BY ' . $order_by . ' ' . $order_sort . ' LIMIT :current_page, :record_per_page');
+		$stmt = $conn->prepare('SELECT * FROM project ORDER BY ' . $order_by . ' ' . $order_sort . ' LIMIT :current_page, :record_per_page');
 		$stmt->bindValue(':current_page', ($page-1)*(int)$records_per_page, PDO::PARAM_INT);
 		$stmt->bindValue(':record_per_page', (int)$records_per_page, PDO::PARAM_INT);
 	}
 }
 $stmt->execute();
 // Fetch the records to be displayed.
-$projects = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$project = $stmt->fetchAll(PDO::FETCH_ASSOC);
 /* Get the total number of records searched that match the specified search criteria, this is so
 we can see if needs to have a next and previous button*/
 if (isset($_GET['search'])) {
-	$stmt = $conn->prepare('SELECT COUNT(*) FROM projects
+	$stmt = $conn->prepare('SELECT COUNT(*) FROM project
 							WHERE project_id LIKE :search_query
 							  OR project_title LIKE :search_query
 								OR department LIKE :search_query
@@ -88,19 +88,19 @@ if (isset($_GET['search'])) {
 								OR project_description LIKE :search_query');
 	$stmt->bindValue(':search_query', '%' . $_GET['search'] . '%');
 	$stmt->execute();
-	$num_projects = $stmt->fetchColumn();
+	$num_project = $stmt->fetchColumn();
 }
 /*If no serch criteria was specified, just count all of the records in the database table
 to see if there should be a next and previous button*/
 else {
-	$num_projects = $conn->query('SELECT COUNT(*) FROM projects')->fetchColumn();
+	$num_project = $conn->query('SELECT COUNT(*) FROM project')->fetchColumn();
 }
 ?>
 <!--Add in header from pmo_functions.php and insert the title of this page, "Get Project"-->
 <?=template_header('Get Project')?>
 <!--beginning of container for the get project section-->
 <div class="container">
-	<h2>View and Search Projects</h2>
+	<h2>View and Search project</h2>
 	<!--beginning of container for a button that links back to create_project.php,
   (this "Create Project" button can be deleted and the navbar could be used instead,
 	since that function is available, just thought this could be an option)
@@ -210,7 +210,7 @@ else {
         </thead><!--end of table column header section-->
 				<!--Body of table that will populate rows with the values of each field in a record-->
 				<tbody>
-            <?php foreach ($projects as $project): ?>
+            <?php foreach ($project as $project): ?>
             <tr>
 							  <td><?=$project['project_id']?></td>
                 <td><?=$project['project_title']?></td>
@@ -257,7 +257,7 @@ else {
 			Page <?=$page?>
 			</div>
 			<!--End of container for just the page and number displayed-->
-			<?php if ($records_per_page != 'All' && $page*$records_per_page < $num_projects): ?>
+			<?php if ($records_per_page != 'All' && $page*$records_per_page < $num_project): ?>
 			<a href="get_project.php?page=<?=$page+1?>&records_per_page=<?=$records_per_page?>&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 			<i class="fas fa-angle-double-right fa-sm"></i>
 			</a>

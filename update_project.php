@@ -17,7 +17,7 @@ if (isset($_GET['project_id'])) {
         $cost = isset($_POST["total_cost"]) ? $_POST["total_cost"] : '';
         $des = isset($_POST["project_description"]) ? $_POST["project_description"] : '';
         // Update the record with prepared sql
-        $stmt = $conn->prepare('UPDATE projects SET project_title = ?, department = ?, start_date = ?, end_date = ?,
+        $stmt = $conn->prepare('UPDATE project SET project_title = ?, department = ?, start_date = ?, end_date = ?,
           priority_level = ?, funded = ?, total_cost = ?, project_description = ? WHERE project_id = ?');
         $stmt->execute([$title, $dep, $start, $end, $priority, $fund, $cost, $des, $_GET['project_id']]);
         //javascript to pop up a message so the user can acknowledge an alert that the record was updated.
@@ -27,8 +27,8 @@ if (isset($_GET['project_id'])) {
       	      alert('Record Successfully Updated.');
       	      </script>";
     }
-    // Get the specified project from the projects table
-    $stmt = $conn->prepare('SELECT * FROM projects WHERE project_id = ?');
+    // Get the specified project from the project table
+    $stmt = $conn->prepare('SELECT * FROM project WHERE project_id = ?');
     $stmt->execute([$_GET['project_id']]);
     $project = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$project) {

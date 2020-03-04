@@ -6,7 +6,7 @@ $conn = pdo_connect_mysql();
 // Check that the project ID exists
 if (isset($_GET['project_id'])) {
     // Select the record that is going to be deleted
-    $stmt = $conn->prepare('SELECT * FROM projects WHERE project_id = ?');
+    $stmt = $conn->prepare('SELECT * FROM project WHERE project_id = ?');
     $stmt->execute([$_GET['project_id']]);
     $project = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$project) {
@@ -16,7 +16,7 @@ if (isset($_GET['project_id'])) {
     if (isset($_GET['confirm'])) {
         if ($_GET['confirm'] == 'yes') {
             // If the user clicks the "Yes" button, delete the record
-            $stmt = $conn->prepare('DELETE FROM projects WHERE project_id = ?');
+            $stmt = $conn->prepare('DELETE FROM project WHERE project_id = ?');
             $stmt->execute([$_GET['project_id']]);
             //message so the user can acknowledge an alert that the record was deleted.
             //the javascript below will need to be changed to the URL that will work on the actual server!

@@ -14,8 +14,8 @@ $conn = pdo_connect_mysql();
   $fund = isset($_POST["funded"]) ? $_POST["funded"] : '';
   $cost = isset($_POST["total_cost"]) ? $_POST["total_cost"] : '';
   $des = isset($_POST["project_description"]) ? $_POST["project_description"] : '';
-  // prepared sql statements to insert new record into projects table
-  $stmt = $conn->prepare('INSERT INTO projects (project_title, department,
+  // prepared sql statements to insert new record into project table
+  $stmt = $conn->prepare('INSERT INTO project (project_title, department,
 	start_date, end_date, priority_level, funded, total_cost, project_description) VALUES(?, ?, ?, ?, ?, ?, ?, ?)');
   $stmt->execute([$title, $dep, $start, $end, $priority, $fund, $cost, $des]);
   //message so the user can acknowledge an alert that the record was added.

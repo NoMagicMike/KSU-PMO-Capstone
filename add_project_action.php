@@ -20,8 +20,8 @@ try {
 	// set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // prepared sql statements to send input to Projects database table, and bind the parameters to php variables
-  $stmt = $conn->prepare("INSERT INTO projects (project_title, department,
+    // prepared sql statements to send input to project database table, and bind the parameters to php variables
+  $stmt = $conn->prepare("INSERT INTO project (project_title, department,
 	start_date, end_date, priority_level, funded, total_cost, project_description)
   VALUES (:p_title, :dept, :s_date, :e_date, :pri_lvl, :fund, :t_cost, :des)");
   $stmt->bindParam(':p_title', $title);
