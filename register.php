@@ -1,6 +1,7 @@
 <?php
 // Include pmo_functions file
-require_once "pmo_functions.php";
+include 'pmo_functions.php';
+include 'navbar.php';
 
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
@@ -95,57 +96,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-
-</head>
 <body>
-  <!-- Start of Navbar -->
-  <nav class="navbar navbar-light navbar-expand-lg" style="background-color: #e3f2fd;">
-    <a class="navbar-brand" href="index.php">
-      <img src="static/KSUBrand.png" width="50" height="50" alt="KSU Logo"></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <?php if(isset($_SESSION['loggedin'])): ?>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Projects
-            </a>
-
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="add_project_form.html">Add New Project</a>
-              <a class="dropdown-item" href="get_project_form.html">View All Projects</a>
-              <div class="dropdown-divider"></div>
-            </div>
-          </li>
-        <?php else: ?>
-            <!-- If logged out, show nothing in Navbar -->
-        <?php endif; ?>
-
-        <li class="nav-item active d-flex justify-content-end">
-          <?php if(isset( $_SESSION['loggedin'])): ?>
-              <a class="nav-link text-right" href="logout.php">Logout <span class="sr-only">(current)</span></a>
-          <?php else: ?>
-              <a class="nav-link text-right" href="login.php">Login <span class="sr-only">(current)</span></a>
-          <?php endif; ?>
-
-        </li>
-
-    </div>
-  </nav>
-  <!-- End of Navbar -->
     <div class="jumbotron">
         <h2>Sign Up</h2>
         <p>Please fill this form to create an account.</p>
@@ -174,3 +126,4 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </div>
 </body>
 </html>
+<?=template_footer()?>

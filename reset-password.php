@@ -3,13 +3,15 @@
 session_start();
 
 // Check if the user is logged in, if not then redirect to login page
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: login.php");
-    exit;
-}
+// if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+//     header("location: login.php");
+//     exit;
+// }
 
 // Include pmo_functions file
-require_once "pmo_functions.php";
+include 'pmo_functions.php';
+include 'navbar.php';
+
 
 // Define variables and initialize with empty values
 $new_password = $confirm_password = "";
@@ -72,15 +74,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Reset Password</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <style type="text/css">
-        body{ font: 14px sans-serif; }
-        .wrapper{ width: 350px; padding: 20px; }
-    </style>
-</head>
+
 <body>
     <div class="wrapper">
         <h2>Reset Password</h2>
@@ -104,3 +98,4 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </div>
 </body>
 </html>
+<?=template_footer()?>
