@@ -23,16 +23,3 @@ INSERT INTO `project` (`project_title`, `department`, `start_date`, `end_date`, 
 ('Last One', 'Software Engineering and Game Development', '2018-04-12', '2020-07-09', 'High', 'yes', '343255.00', 'free labor'),
 ('One More', 'Information Technology', '2012-09-09', '2020-09-09', 'Medium', 'n/a', '545443.00', 'Thats it'),
 ('Test', 'Computer Science', '1983-07-01', '2020-09-09', 'Medium', 'n/a', '0.00', 'it worked');
-
-Mike Kilinc  1:45 PM
-Awesome, that one works. Thanks
-1:46
-Also, just an FYI, I noticed your comment here:
-1:46
-//URL in javascript below will need to be changed to one tht will work with the actual server!
-	echo "<script type='text/JavaScript'>
-        window.location.href = 'http://localhost:8015/get_project.php';
-	      alert('Record Successfully Added.');
-	      </script>";
-  }
-?>

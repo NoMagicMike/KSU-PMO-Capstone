@@ -1,6 +1,6 @@
 <?php
 // Include pmo_functions file
-include 'pmo_functions.php';
+require 'pmo_functions.php';
 include 'navbar.php';
 
 // Define variables and initialize with empty values
