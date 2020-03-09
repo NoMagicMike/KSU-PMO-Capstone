@@ -14,7 +14,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
   </head>
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-<a class="navbar-brand" href="pmo_index.php"><img src="static/KSUBrand.png" width="50" height="50" alt="KSU Logo"></a>
+<a class="navbar-brand" href="index.php"><img src="static/KSUBrand.png" width="50" height="50" alt="KSU Logo"></a>
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 <span class="navbar-toggler-icon"></span>
 </button>
@@ -22,7 +22,7 @@
     <ul class="navbar-nav mr-auto">
 			<?php if(isset($_SESSION['loggedin'])): ?>
 	      <li class="nav-item active">
-	        <a class="nav-link" href="pmo_index.php"><i class="fas fa-home"></i> Home<span class="sr-only">(current)</span></a>
+	        <a class="nav-link" href="index.php"><i class="fas fa-home"></i> Home<span class="sr-only">(current)</span></a>
 	      </li>
 
         <li class="nav-item dropdown">
@@ -48,6 +48,7 @@
         <?php endif; ?>
 
       </li>
+		</ul>
   </div>
 </nav>
 </html>
