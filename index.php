@@ -1,10 +1,19 @@
 <?php
-//include the pmo_functions.php file to add header, footer, and navbar
+// Initialize the session
+session_start();
+
+// Check if the user is logged in, if not then redirect to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+//include the pmo_functions.php file and navbar.php to add header, footer, and navbar
 include 'pmo_functions.php';
+include 'navbar.php';
 // Additional PHP code can go here if needed.
 ?>
 <!--Add in header from pmo_functions.php and insert the title of this page, "Home"-->
-<?=template_header('Home')?>
+
 <!--Beginning of container for jumbotron-->
 <div class="jumbotron">
 	<h1 class="display-4">Kennesaw State University</h1>
