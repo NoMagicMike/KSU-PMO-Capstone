@@ -1,11 +1,11 @@
 <?php
 /*This file will be included in every other file for this project except any .css or .scss files*/
 // This DB Connection is for the Log In. This is NOT PDO!!
-define('DB_SERVER', 'localhost');
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', '');
-define('DB_DATABASE', 'pmo');
-$link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+    define('DB_SERVER', 'localhost');
+    define('DB_USERNAME', 'root');
+    define('DB_PASSWORD', '');
+    define('DB_DATABASE', 'pmo');
+    $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
 /*-----------start of function to connect to pmo database-----------------*/
 function pdo_connect_mysql() {
  /*------ For Development Server Only!-----*/
