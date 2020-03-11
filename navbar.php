@@ -37,9 +37,17 @@
           </div>
 				</li>
 				<?php if($_SESSION['adminCheck'] == 1): ?>
-					<li class="nav-item active">
-		        <a class="nav-link" href="admin.php">Admin Portal<span class="sr-only">(current)</span></a>
-		      </li>
+					<li class="nav-item dropdown">
+	          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	            Admin Portal
+	          </a>
+
+	          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+	            <a class="dropdown-item" href="register.php">Add New Users</a>
+	            <a class="dropdown-item" href="">Placeholder</a>
+	            <div class="dropdown-divider"></div>
+	          </div>
+					</li>
 				<?php endif; ?>
       <?php else: ?>
           <!-- If logged out, show nothing in Navbar -->
