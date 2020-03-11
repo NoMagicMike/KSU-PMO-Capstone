@@ -35,7 +35,12 @@
             <a class="dropdown-item" href="get_project.php">View All Projects</a>
             <div class="dropdown-divider"></div>
           </div>
-        </li>
+				</li>
+				<?php if($_SESSION['adminCheck'] == 1): ?>
+					<li class="nav-item active">
+		        <a class="nav-link" href="admin.php">Admin Portal<span class="sr-only">(current)</span></a>
+		      </li>
+				<?php endif; ?>
       <?php else: ?>
           <!-- If logged out, show nothing in Navbar -->
       <?php endif; ?>

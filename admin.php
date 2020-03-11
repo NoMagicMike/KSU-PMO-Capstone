@@ -6,6 +6,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
+if($_SESSION['adminCheck'] != 1){
+  echo "<script type='text/JavaScript'>
+        window.location.href = '/index.php';
+	      alert('You are not an administrative user.');
+	      </script>";
+  exit;
+}
+
 //include the pmo_functions.php file and navbar.php to add header, footer, and navbar
 include 'pmo_functions.php';
 include 'navbar.php';
@@ -19,7 +27,7 @@ echo "$secretword";
 <!--Beginning of container for jumbotron-->
 
 <div class="jumbotron">
-	<?php var_dump ($_SESSION) ?>
+
 </div>
 <!--End of container for jumbotron-->
 <!--Add in footer from pmo_functions.php-->
