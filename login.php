@@ -1,75 +1,75 @@
-<!-- credit to https://www.tutorialrepublic.com/php-tutorial/php-mysql-login-system.php -->
 <?php
 // Initialize the session
 session_start();
-
-// Check if the user is already logged in, if yes then redirect him to welcome page
+ 
+// Check if the user is already logged in, if yes then redirect him to index page
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
     header("location: index.php");
     exit;
 }
-
 // Include pmo_functions file
 include 'pmo_functions.php';
 include 'navbar.php';
 
+ 
 // Define variables and initialize with empty values
 $username = $password = "";
 $username_err = $password_err = "";
-
+ 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-
+ 
     // Check if username is empty
     if(empty(trim($_POST["username"]))){
         $username_err = "Please enter username.";
     } else{
         $username = trim($_POST["username"]);
     }
-
+    
     // Check if password is empty
     if(empty(trim($_POST["password"]))){
         $password_err = "Please enter your password.";
     } else{
         $password = trim($_POST["password"]);
     }
-
+    
     // Validate credentials
     if(empty($username_err) && empty($password_err)){
         // Prepare a select statement
-        $sql = "SELECT id, username, password, user_admin FROM users WHERE username = ?";
-
-        if($stmt = mysqli_prepare($link, $sql)){
+        $sql = "SELECT user_id, username, password, user_admin FROM User WHERE username = :username";
+        
+        if($stmt = $pdo->prepare($sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_username);
-
+            $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
+            
             // Set parameters
-            $param_username = $username;
-
+            $param_username = trim($_POST["username"]);
+            
             // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                // Store result
-                mysqli_stmt_store_result($stmt);
-
+            if($stmt->execute()){
                 // Check if username exists, if yes then verify password
-                if(mysqli_stmt_num_rows($stmt) == 1){
-                    // Bind result variables
-                    mysqli_stmt_bind_result($stmt, $id, $username, $hashed_password, $user_admin);
-                    if(mysqli_stmt_fetch($stmt)){
+                if($stmt->rowCount() == 1){
+                    if($row = $stmt->fetch()){
+                        $user_id = $row["user_id"];
+                        $username = $row["username"];
+                        $hashed_password = $row["password"];
+                        $user_admin = $row["user_admin"];
                         if(password_verify($password, $hashed_password)){
                             // Password is correct, so start a new session
                             session_start();
-
-                            // Store data in session variables
                             
+                            // Store data in session variables
                             $_SESSION["loggedin"] = true;
-                            $_SESSION["id"] = $id;
-                            $_SESSION["username"] = $username;
+                            $_SESSION["user_id"] = $user_id;
+                            $_SESSION["username"] = $username; 
+                            $_SESSION["adminCheck"] = $user_admin;                           
                             // Get Admin Boolean
-                            $getAdmin = mysqli_fetch_assoc(mysqli_query($link, "SELECT user_admin FROM users WHERE username = '$username'"));
-                            $_SESSION["adminCheck"] = $getAdmin['user_admin'];
-
-                            // Redirect user to welcome page
+                            // $getAdmin = mysqli_fetch_assoc(mysqli_query($link, "SELECT user_admin FROM User WHERE username = '$username'"));
+                            // $_SESSION["adminCheck"] = $getAdmin['user_admin'];
+                            // $getAdmin = "SELECT user_admin FROM User WHERE username = '$username'";   
+                            // $_SESSION["adminCheck"] = $pdo->query($getAdmin);
+                            // $_SESSION["adminCheck"] = $pdo->query("SELECT user_admin FROM User WHERE username = '$username'")->fetch();
+                            // Redirect user to index page
                             header("location: index.php");
                         } else{
                             // Display an error message if password is not valid
@@ -85,15 +85,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             }
 
             // Close statement
-            mysqli_stmt_close($stmt);
+            unset($stmt);
         }
     }
-
+    
     // Close connection
-    mysqli_close($link);
+    unset($pdo);
 }
 ?>
-
+ 
 <!DOCTYPE html>
 <html lang="en">
     <div class="jumbotron">
@@ -113,6 +113,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Login">
             </div>
+            <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
         </form>
     </div>
 

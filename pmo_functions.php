@@ -1,11 +1,19 @@
 <?php
 /*This file will be included in every other file for this project except any .css or .scss files*/
-// This DB Connection is for the Log In. This is NOT PDO!!
+// This DB Connection is for the Log In. 
     define('DB_SERVER', 'localhost');
     define('DB_USERNAME', 'root');
     define('DB_PASSWORD', '');
-    define('DB_DATABASE', 'pmo');
-    $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+    define('DB_NAME', 'pmo');
+ 
+/* Attempt to connect to MySQL database */
+try{
+    $pdo = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_NAME, DB_USERNAME, DB_PASSWORD);
+    // Set the PDO error mode to exception
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e){
+    die("ERROR: Could not connect. " . $e->getMessage());
+}
 /*-----------start of function to connect to pmo database-----------------*/
 function pdo_connect_mysql() {
  /*------ For Development Server Only!-----*/
@@ -53,7 +61,7 @@ EOT;
 /*-----------start of function for making the footer for every page--------------*/
 //This function contains the closing body tag, and the closing html tag
 function template_footer() {
-var_dump ($_SESSION);
+  var_dump($_SESSION);
 echo <<<EOT
   <p>To add footer content here, use the pmo_functions.php file. </p>
 

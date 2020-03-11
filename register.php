@@ -14,38 +14,35 @@ if($_SESSION['adminCheck'] != 1){
 	      </script>";
   exit;
 }
-// Include pmo_functions file
-require 'pmo_functions.php';
-include 'navbar.php';
 
+//include the pmo_functions.php file and navbar.php to add header, footer, and navbar
+include 'pmo_functions.php';
+include 'navbar.php';
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
 $user_admin = 0;
-
+ 
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-
+ 
     // Validate username
     if(empty(trim($_POST["username"]))){
         $username_err = "Please enter a username.";
     } else{
         // Prepare a select statement
-        $sql = "SELECT id FROM users WHERE username = ?";
-
-        if($stmt = mysqli_prepare($link, $sql)){
+        $sql = "SELECT user_id FROM User WHERE username = :username";
+        
+        if($stmt = $pdo->prepare($sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_username);
-
+            $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
+            
             // Set parameters
             $param_username = trim($_POST["username"]);
-
+            
             // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                /* store result */
-                mysqli_stmt_store_result($stmt);
-
-                if(mysqli_stmt_num_rows($stmt) == 1){
+            if($stmt->execute()){
+                if($stmt->rowCount() == 1){
                     $username_err = "This username is already taken.";
                 } else{
                     $username = trim($_POST["username"]);
@@ -55,22 +52,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             }
 
             // Close statement
-            mysqli_stmt_close($stmt);
+            unset($stmt);
         }
     }
-
+    
     // Validate password
     if(empty(trim($_POST["password"]))){
-        $password_err = "Please enter a password.";
+        $password_err = "Please enter a password.";     
     } elseif(strlen(trim($_POST["password"])) < 6){
         $password_err = "Password must have atleast 6 characters.";
     } else{
         $password = trim($_POST["password"]);
     }
-
+    
     // Validate confirm password
     if(empty(trim($_POST["confirm_password"]))){
-        $confirm_password_err = "Please confirm password.";
+        $confirm_password_err = "Please confirm password.";     
     } else{
         $confirm_password = trim($_POST["confirm_password"]);
         if(empty($password_err) && ($password != $confirm_password)){
@@ -79,28 +76,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     // Check admin priveledge
     if (isset($_POST["adminCheckBox"])){
-      $user_admin = (int)$_POST["adminCheckBox"];
+      $adminCheck = (int)$_POST["adminCheckBox"];
     }
-
-
-
     // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
-
+        
         // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password, user_admin) VALUES (?, ?, ?)";
-
-        if($stmt = mysqli_prepare($link, $sql)){
-            // Bind variables to the prepared statement as parameters (Number of "sss" is equal to number of parameters)
-            mysqli_stmt_bind_param($stmt, "sss", $param_username, $param_password, $param_user_admin);
-
+        $sql = "INSERT INTO User (username, password, user_admin) VALUES (:username, :password, :user_admin)";
+         
+        if($stmt = $pdo->prepare($sql)){
+            // Bind variables to the prepared statement as parameters
+            $stmt->bindParam(":username", $param_username, PDO::PARAM_STR);
+            $stmt->bindParam(":password", $param_password, PDO::PARAM_STR);
+            $stmt->bindParam(":user_admin", $param_user_admin, PDO::PARAM_STR);
+            
             // Set parameters
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-            $param_user_admin = $user_admin;
-
+            $param_user_admin = $adminCheck;
             // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
+            if($stmt->execute()){
                 // Redirect to login page
                 header("location: login.php");
             } else{
@@ -108,15 +103,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             }
 
             // Close statement
-            mysqli_stmt_close($stmt);
+            unset($stmt);
         }
     }
-
+    
     // Close connection
-    mysqli_close($link);
+    unset($pdo);
 }
 ?>
-
+ 
 <!DOCTYPE html>
 <html lang="en">
 <body>
@@ -148,6 +143,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <input type="submit" class="btn btn-primary" value="Submit">
                 <input type="reset" class="btn btn-default" value="Reset">
             </div>
+            <p>Already have an account? <a href="login.php">Login here</a>.</p>
         </form>
     </div>
 </body>
