@@ -6,6 +6,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
+//Check if user is admin
 if($_SESSION['adminCheck'] != 1){
   echo "<script type='text/JavaScript'>
         window.location.href = '/index.php';
@@ -27,7 +28,7 @@ echo "$secretword";
 <!--Beginning of container for jumbotron-->
 
 <div class="jumbotron">
-
+<p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
 </div>
 <!--End of container for jumbotron-->
 <!--Add in footer from pmo_functions.php-->
