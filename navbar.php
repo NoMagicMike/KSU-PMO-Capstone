@@ -55,7 +55,7 @@
 	    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
 	        <ul class="navbar-nav ml-auto text-nowrap">
 	          <form class="form-inline my-2 my-lg-0 ">
-	            <input class="form-control mr-sm-2" type="search" placeholder="Not Yet Functional :(" aria-label="Search">
+	            <input id = "search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
 	          	<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 	          </form>
 	        <?php else: ?>
@@ -72,12 +72,19 @@
 	                    <a class="dropdown-item" href="logout.php">Logout</a>
 	                  </div>
 	                </li>
-	                  
+								</li>
+
 	              <?php else: ?>
-	                  <a class="nav-link text-right" href="login.php">Login <span class="sr-only">(current)</span></a>
+
+									<div class="mx-auto order-0">
+											<a class="navbar-brand mx-auto" href="index.php"><img src="static/KSUBrandLong.png" height="50" alt="KSU Logo"></a>
+											<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+											<span class="navbar-toggler-icon"></span>
+											</button>
+									</div>
+
 	              <?php endif; ?>
-	            </li>
-	        </ul>
-	    </div>
-	</nav>
+							</ul>
+	 			 </div>
+	 	 </nav>
 </html>

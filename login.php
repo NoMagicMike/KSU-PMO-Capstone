@@ -63,12 +63,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["user_id"] = $user_id;
                             $_SESSION["username"] = $username; 
                             $_SESSION["adminCheck"] = $user_admin;                           
-                            // Get Admin Boolean
-                            // $getAdmin = mysqli_fetch_assoc(mysqli_query($link, "SELECT user_admin FROM User WHERE username = '$username'"));
-                            // $_SESSION["adminCheck"] = $getAdmin['user_admin'];
-                            // $getAdmin = "SELECT user_admin FROM User WHERE username = '$username'";   
-                            // $_SESSION["adminCheck"] = $pdo->query($getAdmin);
-                            // $_SESSION["adminCheck"] = $pdo->query("SELECT user_admin FROM User WHERE username = '$username'")->fetch();
+                            
                             // Redirect user to index page
                             header("location: index.php");
                         } else{
@@ -113,7 +108,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Login">
             </div>
-            <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
         </form>
     </div>
 
