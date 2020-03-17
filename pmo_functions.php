@@ -1,10 +1,16 @@
 <?php
 /*This file will be included in every other file for this project except any .css or .scss files*/
 // This DB Connection is for the Log In. 
+    // define('DB_SERVER', 'localhost');
+    // define('DB_USERNAME', 'root');
+    // define('DB_PASSWORD', '');
+    // define('DB_NAME', 'pmo');
+    /*------ For Development Server Only!-----*/
     define('DB_SERVER', 'localhost');
-    define('DB_USERNAME', 'root');
-    define('DB_PASSWORD', '');
+    define('DB_USERNAME', 'KSUPMO');
+    define('DB_PASSWORD', 'KSU_Capstone_2020');
     define('DB_NAME', 'pmo');
+    
  
 /* Attempt to connect to MySQL database */
 try{
@@ -17,14 +23,14 @@ try{
 /*-----------start of function to connect to pmo database-----------------*/
 function pdo_connect_mysql() {
  /*------ For Development Server Only!-----*/
- // $servername = "localhost";
- // $username = "KSUPMO";
- // $password = "KSU_Capstone_2020";
- // $dbname = "pmo";
-    $DATABASE_HOST = 'localhost';
-    $DATABASE_USER = 'root';
-    $DATABASE_PASS = '';
-    $DATABASE_NAME = 'pmo';
+ $servername = "localhost";
+ $username = "KSUPMO";
+ $password = "KSU_Capstone_2020";
+ $dbname = "pmo";
+    // $DATABASE_HOST = 'localhost';
+    // $DATABASE_USER = 'root';
+    // $DATABASE_PASS = '';
+    // $DATABASE_NAME = 'pmo';
 //try the following code
 try {
     	return new PDO('mysql:host=' . $DATABASE_HOST . ';dbname=' . $DATABASE_NAME . ';charset=utf8', $DATABASE_USER, $DATABASE_PASS);
