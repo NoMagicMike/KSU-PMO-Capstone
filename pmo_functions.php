@@ -5,6 +5,12 @@
     define('DB_USERNAME', 'root');
     define('DB_PASSWORD', '');
     define('DB_NAME', 'pmo');
+    /*------ For Development Server Only!-----*/
+    // define('DB_SERVER', 'localhost');
+    // define('DB_USERNAME', 'KSUPMO');
+    // define('DB_PASSWORD', 'KSU_Capstone_2020');
+    // define('DB_NAME', 'pmo');
+    
  
 /* Attempt to connect to MySQL database */
 try{
@@ -61,6 +67,8 @@ EOT;
 /*-----------start of function for making the footer for every page--------------*/
 //This function contains the closing body tag, and the closing html tag
 function template_footer() {
+  // For Dev Use Only
+  // var_dump($_SESSION);
 echo <<<EOT
   <p>To add footer content here, use the pmo_functions.php file. </p>
 

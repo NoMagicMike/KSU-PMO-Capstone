@@ -16,6 +16,7 @@ include 'navbar.php';
 
 <!--Beginning of container for jumbotron-->
 <div class="jumbotron">
+  <?php echo "Hello, {$_SESSION['username']}"?>
 	<h1 class="display-4">Kennesaw State University</h1>
 	<p class="lead">Project Management System</p>
 	<hr class="my-4">

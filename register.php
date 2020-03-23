@@ -1,11 +1,27 @@
 <?php
-// Include pmo_functions file
-require 'pmo_functions.php';
+// Initialize the session
+session_start();
+// Check if the user is logged in, if not then redirect to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+//Check if user is admin
+if($_SESSION['adminCheck'] != 1){
+  echo "<script type='text/JavaScript'>
+        window.location.href = '/index.php';
+	      alert('You are not an administrative user.');
+	      </script>";
+  exit;
+}
+
+//include the pmo_functions.php file and navbar.php to add header, footer, and navbar
+include 'pmo_functions.php';
 include 'navbar.php';
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
-$user_admin = 0;
+$adminCheck = 0;
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -60,7 +76,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     // Check admin priveledge
     if (isset($_POST["adminCheckBox"])){
-      $user_admin = (int)$_POST["adminCheckBox"];
+      $adminCheck = (int)$_POST["adminCheckBox"];
     }
     // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
@@ -77,11 +93,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Set parameters
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-            $param_user_admin = $user_admin;
+            $param_user_admin = $adminCheck;
             // Attempt to execute the prepared statement
             if($stmt->execute()){
                 // Redirect to login page
-                header("location: login.php");
+                // header("location: login.php");
+                
             } else{
                 echo "Something went wrong. Please try again later.";
             }
@@ -101,7 +118,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <body>
 
     <div class="jumbotron">
-        <h2>Sign Up</h2>
+        <h2>Add User</h2>
         <p>Please fill this form to create an account.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
@@ -127,7 +144,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <input type="submit" class="btn btn-primary" value="Submit">
                 <input type="reset" class="btn btn-default" value="Reset">
             </div>
-            <p>Already have an account? <a href="login.php">Login here</a>.</p>
         </form>
     </div>
 </body>

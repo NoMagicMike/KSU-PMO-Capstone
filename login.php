@@ -36,7 +36,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate credentials
     if(empty($username_err) && empty($password_err)){
         // Prepare a select statement
-        $sql = "SELECT user_id, username, password FROM User WHERE username = :username";
+        $sql = "SELECT user_id, username, password, user_admin FROM User WHERE username = :username";
         
         if($stmt = $pdo->prepare($sql)){
             // Bind variables to the prepared statement as parameters
@@ -53,6 +53,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         $user_id = $row["user_id"];
                         $username = $row["username"];
                         $hashed_password = $row["password"];
+                        $user_admin = $row["user_admin"];
                         if(password_verify($password, $hashed_password)){
                             // Password is correct, so start a new session
                             session_start();
@@ -60,7 +61,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             // Store data in session variables
                             $_SESSION["loggedin"] = true;
                             $_SESSION["user_id"] = $user_id;
-                            $_SESSION["username"] = $username;                            
+                            $_SESSION["username"] = $username; 
+                            $_SESSION["adminCheck"] = $user_admin;                           
                             
                             // Redirect user to index page
                             header("location: index.php");
@@ -106,7 +108,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Login">
             </div>
-            <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
         </form>
     </div>
 
