@@ -38,8 +38,8 @@
 	    	          </a>
 
 	    	          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-	    	            <a class="dropdown-item" href="register.php">Add New Users</a>
-	    	            <a class="dropdown-item" href="">Placeholder</a>
+	    	            <a class="dropdown-item" href="add_user.php">Add New Users</a>
+	    	            <a class="dropdown-item" href="get_user.php">View All Users</a>
 	    	            <div class="dropdown-divider"></div>
 	    	          </div>
 	    					</li>
@@ -70,9 +70,10 @@
 
 	                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 	                    <a class="dropdown-item" href="logout.php">Logout</a>
+											<a class="dropdown-item" href="reset_password.php">Reset Password</a>
 	                  </div>
 	                </li>
-	                  
+
 	              <?php else: ?>
 	                  <a class="nav-link text-right" href="login.php">Login <span class="sr-only">(current)</span></a>
 	              <?php endif; ?>
