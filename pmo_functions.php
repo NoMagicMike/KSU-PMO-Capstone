@@ -68,7 +68,7 @@ EOT;
 //This function contains the closing body tag, and the closing html tag
 function template_footer() {
   // For Dev Use Only
-  var_dump($_SESSION);
+  // var_dump($_SESSION);
 echo <<<EOT
   <p>To add footer content here, use the pmo_functions.php file. </p>
 
