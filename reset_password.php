@@ -57,8 +57,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             if($stmt->execute()){
                 // Password updated successfully. Destroy the session, and redirect to login page
                 session_destroy();
-                header("Location: login.php");
-                exit();
+                ?>
+                <script type='text/JavaScript'>
+                window.location.href = '/get_project.php';
+              	alert('You have logged out successfully.');
+              	</script>
+                
+                <script type="text/javascript">
+                window.location.href = '/login.php';
+                </script>
+                <?php
+                
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
             }
