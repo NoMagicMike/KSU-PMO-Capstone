@@ -86,7 +86,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <html lang="en">
 <body>
     <div class="jumbotron">
-        <h2>Reset Password(Does not work yet!)</h2>
+        <h2>Reset Password</h2>
         <?php echo "<p> Hello, {$_SESSION['username']}! Please fill out this form to reset your password.</p>"?>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post"> 
             <div class="form-group <?php echo (!empty($new_password_err)) ? 'has-error' : ''; ?>">
