@@ -1,4 +1,12 @@
-
+<head>
+	<meta charset="utf-8">
+	<!--link all the pages to the external styling css file, pmo_style.css-->
+	<link href="pmo_style.css" rel="stylesheet" type="text/css">
+	<!-- fontawesome is used for the icons-->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+	<!-- Bootstrap References -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	</head>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	    <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
 	        <ul class="navbar-nav mr-auto">
