@@ -59,13 +59,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 session_destroy();
                 ?>
                 <script type='text/JavaScript'>
-                window.location.href = '/get_project.php';
-              	alert('You have logged out successfully.');
+                window.location.href = '/login.php';
+              	alert('You have reset your password successfully.');
               	</script>
                 
-                <script type="text/javascript">
-                window.location.href = '/login.php';
-                </script>
                 <?php
                 
             } else{

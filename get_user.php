@@ -1,6 +1,19 @@
 <?php
 // Initialize the session
 session_start();
+// Check if the user is logged in, if not then redirect to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+//Check if user is admin
+if($_SESSION['adminCheck'] != 1){
+  echo "<script type='text/JavaScript'>
+        window.location.href = '/index.php';
+	      alert('You are not an administrative user.');
+	      </script>";
+  exit;
+}
 //include the pmo_functions.php file to add header, footer, and navbar
 include 'pmo_functions.php';
 include 'navbar.php';
@@ -99,6 +112,7 @@ else {
 	</div>
 	<!--end of container for the add_user.php button link and custom search bar-->
 	<!--Beginning of table for records to be displayed-->
+	<!-- class="table table-striped" -->
 	<table>
 		    <!--beginning of table column header row-->
 				<!--The records are ordered by user_id by default, but if the user clicks the

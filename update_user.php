@@ -1,11 +1,26 @@
 <?php
 // Initialize the session
 session_start();
+// Check if the user is logged in, if not then redirect to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+//Check if user is admin
+if($_SESSION['adminCheck'] != 1){
+  echo "<script type='text/JavaScript'>
+        window.location.href = '/index.php';
+	      alert('You are not an administrative user.');
+	      </script>";
+  exit;
+}
 //include the pmo_functions.php file to add header, footer, and navbar
 require 'pmo_functions.php';
 include 'navbar.php';
 //make a connection to the database for these specific tasks
 $conn = pdo_connect_mysql();
+// Define variables and initialize with empty values
+$result = $user_admin = "";
 // Check if the user_id exists
 if (isset($_GET['user_id'])) {
     //make sure post data is not empty
@@ -16,18 +31,15 @@ if (isset($_GET['user_id'])) {
           $user_admin = (int)$_POST["user_adminBox"];
         }
         else {
-          $user_admin = (int)$_POST[0];
+          $user_admin = 0;
         } 
         // Update the record with prepared sql
         $stmt = $conn->prepare('UPDATE user SET username = ?, user_admin = ? WHERE user_id = ?');
         $stmt->execute([$username,$user_admin, $_GET['user_id']]);
         
         //javascript to pop up a message so the user can acknowledge an alert that the record was updated.
-        //URL below will need to be changed to one tht will work with the actual server!
-      	echo "<script type='text/JavaScript'>
-              window.location.href = '/get_user.php';
-      	      alert('User Successfully Updated.');
-      	      </script>";
+        //Bootstrap Success Alert
+      	$result = '<div class="alert alert-success"><strong>Success!</strong> User Updated. <a href="get_user.php" class="alert-link">View All Users</a>.</div>';
     }
     // Get the specified user from the user table
     $stmt = $conn->prepare('SELECT * FROM user WHERE user_id = ?');
@@ -44,6 +56,7 @@ if (isset($_GET['user_id'])) {
 <?=template_header('Update User')?>
 <!--Start of container for Update User section-->
 <div class="container">
+  <?php echo $result; ?>
   <!--In the heading, pull up the ID number and username of the user selected for updating-->
 	<h2>Update User #<?=$user['user_id']?> - <?=$user['username']?></h2>
     <!--Link this form's actions to this file, update_user.php-->

@@ -22,6 +22,7 @@ include 'navbar.php';
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
 $adminCheck = 0;
+$result = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -47,6 +48,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 } else{
                     $username = trim($_POST["username"]);
                 }
+                
             } else{
                 echo "Oops! Something went wrong. Please try again later.";
             }
@@ -98,9 +100,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             if($stmt->execute()){
                 // Redirect to login page
                 // header("location: login.php");
-                
+                $result = '<div class="alert alert-success"><strong>Success!</strong> User Added </div>';
             } else{
-                echo "Something went wrong. Please try again later.";
+                $result = "Something went wrong. Please try again later.";
             }
 
             // Close statement
@@ -118,6 +120,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <body>
 
     <div class="jumbotron">
+        <?php echo $result; ?>
         <h2>Add User</h2>
         <p>Please fill this form to create an account.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
