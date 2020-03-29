@@ -10,7 +10,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
  
 // Include pmo_functions file
 include 'pmo_functions.php';
-include 'navbar.php';
 
  
 // Define variables and initialize with empty values
@@ -80,6 +79,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 ?>
  
 <!DOCTYPE html>
+<?=template_header('Reset Password')?>
 <html lang="en">
 <body>
     <div class="jumbotron">

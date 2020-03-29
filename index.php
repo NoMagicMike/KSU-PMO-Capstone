@@ -9,12 +9,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 }
 //include the pmo_functions.php file and navbar.php to add header, footer, and navbar
 include 'pmo_functions.php';
-include 'navbar.php';
 // Additional PHP code can go here if needed.
 ?>
 <!--Add in header from pmo_functions.php and insert the title of this page, "Home"-->
 
 <!--Beginning of container for jumbotron-->
+<!--Add in header from pmo_functions.php and insert the title of this page, "Get Project"-->
+<?=template_header('Home')?>
 <div class="jumbotron">
   <?php echo "Hello, {$_SESSION['username']}"?>
 	<h1 class="display-4">Kennesaw State University</h1>
