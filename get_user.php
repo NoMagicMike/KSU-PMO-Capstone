@@ -82,7 +82,7 @@ else {
 <?=template_header('Get User')?>
 <!--beginning of container for the get user section-->
 <div class="container">
-	<h2>View and Search user</h2>
+	<h2>View and Search Users</h2>
 	<!--beginning of container for a button that links back to add_user.php,
   (this "Create User" button can be deleted and the navbar could be used instead,
 	since that function is available, just thought this could be an option)
@@ -152,7 +152,13 @@ else {
 							  <td><?=$user['user_id']?></td>
                 <td><?=$user['username']?></td>
                 <td><?=$user['created_at']?></td>
-                <td><?=$user['user_admin']?></td>
+                <td>
+									<?php if ($user['user_admin'] == 1){
+										echo "Yes";
+									} else echo "No";
+									?>										
+									
+								</td>
 								<!--Populate the end of each row with icons links that edit and delete each record-->
                 <td>
                     <a href="update_user.php?user_id=<?=$user['user_id']?>"><i class="fas fa-pen fa-xs"></i></a>
