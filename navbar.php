@@ -11,10 +11,12 @@
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-
+      <!-- Logo only shows on smaller screens -->
+      <a class="navbar-brand d-md-none justify-content-md-center" href="index.php"><img src="static/KSUBrandLong.png" height="50" alt="KSU Logo"></a>
+      <!-- Check if user is logged in -->
+      <?php if(isset($_SESSION['loggedin'])): ?>
       <div class="collapse navbar-collapse justify-content-between" id="navbarsExample04">
-				<a class="navbar-brand d-md-none" href="index.php"><img src="static/KSUBrandLong.png" height="50" alt="KSU Logo"></a>
-				<?php if(isset($_SESSION['loggedin'])): ?>
+        
         <ul class="navbar-nav">
 					
 						<li class="nav-item active text-nowrap">
@@ -31,7 +33,7 @@
 								<div class="dropdown-divider"></div>
 							</div>
 						</li>
-						
+						<!-- Check if user is an admin -->
 						<?php if($_SESSION['adminCheck'] == 1): ?>
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -44,16 +46,19 @@
 									<div class="dropdown-divider"></div>
 								</div>
 							</li>
-					   <?php endif; ?>
-					</ul>	
-        
-					
-					<?php endif; ?>
+            <?php endif; ?> <!--end of admin check -->
+					</ul>
+          <?php endif; ?> <!--end of loggedin check -->
+          <!-- Logo shows on larger screens in center -->
 					<a class="navbar-brand d-none d-md-block" href="index.php"><img src="static/KSUBrandLong.png" height="50" alt="KSU Logo"></a>
+        
+        
+          
+          
 			    
 					<?php if(isset( $_SESSION['loggedin'])): ?>
 					<ul class="navbar-nav">
-						<form class="form-inline my-2 my-md-0">
+						<form class="form-inline my-2 my-md-0 ">
 							<input class="form-control mr-sm-2" type="search" placeholder="Not Yet Functional :(" aria-label="Search">
 							<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 						</form>
