@@ -14,9 +14,9 @@
 
       <div class="collapse navbar-collapse justify-content-between" id="navbarsExample04">
 				<a class="navbar-brand d-md-none" href="index.php"><img src="static/KSUBrandLong.png" height="50" alt="KSU Logo"></a>
-				
+				<?php if(isset($_SESSION['loggedin'])): ?>
         <ul class="navbar-nav">
-					<?php if(isset($_SESSION['loggedin'])): ?>
+					
 						<li class="nav-item active text-nowrap">
 								<a class="nav-link" href="index.php"><i class="fas fa-home"></i> Home<span class="sr-only">(current)</span></a>
 						</li>
@@ -31,7 +31,7 @@
 								<div class="dropdown-divider"></div>
 							</div>
 						</li>
-						<?php endif; ?>
+						
 						<?php if($_SESSION['adminCheck'] == 1): ?>
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -44,20 +44,20 @@
 									<div class="dropdown-divider"></div>
 								</div>
 							</li>
-					<?php endif; ?>
+					   <?php endif; ?>
 					</ul>	
+        
 					
-					
+					<?php endif; ?>
 					<a class="navbar-brand d-none d-md-block" href="index.php"><img src="static/KSUBrandLong.png" height="50" alt="KSU Logo"></a>
 			    
-					
+					<?php if(isset( $_SESSION['loggedin'])): ?>
 					<ul class="navbar-nav">
 						<form class="form-inline my-2 my-md-0">
 							<input class="form-control mr-sm-2" type="search" placeholder="Not Yet Functional :(" aria-label="Search">
 							<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 						</form>
 						<li class="nav-item">
-							<?php if(isset( $_SESSION['loggedin'])): ?>
 								<li class="nav-item dropdown">
 									<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										Account
@@ -69,9 +69,7 @@
 									</div>
 								</li>
 
-							<?php else: ?>
-									<a class="nav-link text-right" href="login.php">Login <span class="sr-only">(current)</span></a>
-							<?php endif; ?>
+						<?php endif; ?>
 						</li>
 					</ul>
         
