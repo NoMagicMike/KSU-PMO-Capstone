@@ -1,4 +1,5 @@
 <?php
+
 // Initialize the session
 session_start();
 // Check if the user is logged in, if not then redirect to login page
@@ -17,7 +18,6 @@ if($_SESSION['adminCheck'] != 1){
 
 //include the pmo_functions.php file and navbar.php to add header, footer, and navbar
 include 'pmo_functions.php';
-include 'navbar.php';
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
@@ -117,6 +117,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
  
 <!DOCTYPE html>
 <html lang="en">
+<!--Add in header from pmo_functions.php and insert the title of this page, "Get Project"-->
+<?=template_header('Create User')?>
 <body>
 
     <div class="jumbotron">

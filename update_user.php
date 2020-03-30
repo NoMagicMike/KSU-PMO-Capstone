@@ -16,7 +16,6 @@ if($_SESSION['adminCheck'] != 1){
 }
 //include the pmo_functions.php file to add header, footer, and navbar
 require 'pmo_functions.php';
-include 'navbar.php';
 //make a connection to the database for these specific tasks
 $conn = pdo_connect_mysql();
 // Define variables and initialize with empty values

@@ -9,7 +9,6 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
 }
 // Include pmo_functions file
 include 'pmo_functions.php';
-include 'navbar.php';
 
  
 // Define variables and initialize with empty values

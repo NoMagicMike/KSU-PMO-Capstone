@@ -3,7 +3,6 @@
 session_start();
 //include the pmo_functions.php file to add header, footer, and navbar
 require 'pmo_functions.php';
-include 'navbar.php';
 //make a connection to the database for these specific tasks
 $conn = pdo_connect_mysql();
   //make sure post data is not empty
