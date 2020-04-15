@@ -29,4 +29,8 @@ option {
 option[value=""][disabled] {
   display: none;
 }
+
+#jumboTable {
+    background: none;
+}
 /*------------------------------------------end
