@@ -77,7 +77,7 @@ EOT;
 function template_footer() {
   // For Dev Use Only
   // var_dump($_SESSION);
-  include 'footer.php';
+  //include 'footer.php';
 }
 /*-----------end of function for making the footer of each page-------*/
 ?>
