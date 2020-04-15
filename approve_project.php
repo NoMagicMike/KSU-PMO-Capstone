@@ -1,6 +1,19 @@
 <?php
 // Initialize the session
 session_start();
+// Check if the user is logged in, if not then redirect to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+//Check if user is admin
+if($_SESSION['adminCheck'] != 1){
+  echo "<script type='text/JavaScript'>
+        window.location.href = '/index.php';
+	      alert('You are not an administrative user.');
+	      </script>";
+  exit;
+}
 //include the pmo_functions.php file to add header, footer, and navbar
 require 'pmo_functions.php';
 //make a connection to the database for these specific tasks
@@ -145,7 +158,7 @@ else {
 			<a class="btn btn-outline-primary btn-sm" href="create_project.php" role="button">Create Project</a>
 		</div>
 		<div class="d-inline-block">
-			<form action="get_project.php" method="get">
+			<form action="approve_project.php" method="get">
 				<input type="text" name="search" placeholder="Search..." value="<?=isset($_GET['search']) ? htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 			</form>
 		</div>
@@ -172,7 +185,7 @@ else {
 							<?php endif; ?> <!--end of admin check -->
 							<!--Project ID column header-->
 							<td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=project.project_id&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=project.project_id&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 								ID
 								<?php if ($order_by == 'project.project_id'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -181,7 +194,7 @@ else {
 			        </td>
 							<!--Project Category column header-->
 							<td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=project_category&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=project_category&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 								Category
 								<?php if ($order_by == 'project_category'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -190,7 +203,7 @@ else {
 			        </td>
 							<!--Organization Name column header-->
 							<td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=organization_name&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=organization_name&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 								Organization
 								<?php if ($order_by == 'organization_name'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -199,7 +212,7 @@ else {
 			        </td>
 							<!--Project Title column header-->
               <td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=project_title&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=project_title&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 								Title
 								<?php if ($order_by == 'project_title'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -208,7 +221,7 @@ else {
 							</td>
 							<!--Department column header-->
               <td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=ksu_department&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=ksu_department&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 						    KSU Department
 								<?php if ($order_by == 'ksu_department'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -217,7 +230,7 @@ else {
 							</td>
 							<!--Priority Level column header-->
               <td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=priority_level&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=priority_level&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 								Priority
 								<?php if ($order_by == 'priority_level'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -226,7 +239,7 @@ else {
               </td>
 							<!--Start Date column header-->
               <td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=start_date&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=start_date&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 						    Start Date
 								<?php if ($order_by == 'start_date'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -235,7 +248,7 @@ else {
               </td>
 							<!--End Date column header-->
               <td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=end_date&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=end_date&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 								End Date
 								<?php if ($order_by == 'end_date'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -244,7 +257,7 @@ else {
               </td>
 							<!--Funded column header-->
               <td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=funded&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=funded&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 								Funded
 								<?php if ($order_by == 'funded'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -253,7 +266,7 @@ else {
               </td>
 							<!--Cost column header-->
 							<td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=total_cost&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=total_cost&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 								Cost
 								<?php if ($order_by == 'total_cost'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -262,7 +275,7 @@ else {
 							</td>
 							<!--Description column header-->
 							<td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=description&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=description&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 						    Description
 								<?php if ($order_by == 'description'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -271,7 +284,7 @@ else {
 							</td>
 							<!--Last Name column header-->
 							<td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=last_name&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=last_name&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 						    Sponsor's Last Name
 								<?php if ($order_by == 'last_name'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -280,7 +293,7 @@ else {
 							</td>
 							<!--First Name column header-->
 							<td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=first_name&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=first_name&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 						    Sponsor's First Name
 								<?php if ($order_by == 'first_name'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -289,7 +302,7 @@ else {
 							</td>
 							<!--Participant's Organization column header-->
 							<td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=participant_org&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=participant_org&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 						    Sponsor's Organizaion
 								<?php if ($order_by == 'participant_org'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -298,7 +311,7 @@ else {
 							</td>
 							<!--Email column header-->
 							<td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=email&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=email&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 						    Sponsor's Email
 								<?php if ($order_by == 'email'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -307,7 +320,7 @@ else {
 							</td>
 							<!--Phone column header-->
 							<td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=phone&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=phone&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 						    Sponsor's Phone
 								<?php if ($order_by == 'phone'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -316,7 +329,7 @@ else {
 							</td>
 							<!--Approval column header-->
 							<td>
-								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=approval&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+								<a href="approve_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=approval&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 						    Approval Status
 								<?php if ($order_by == 'approval'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
@@ -373,12 +386,12 @@ else {
 	<div>
 		<!--Beginning of container for the records per page selections-->
 		<div>
-			<a href="get_project.php?page=1&records_per_page=5&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">5</a>
-			<a href="get_project.php?page=1&records_per_page=10&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">10</a>
-			<a href="get_project.php?page=1&records_per_page=20&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">20</a>
-			<a href="get_project.php?page=1&records_per_page=50&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">50</a>
-			<a href="get_project.php?page=1&records_per_page=100&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">100</a>
-			<a href="get_project.php?page=1&records_per_page=All&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">All</a>
+			<a href="approve_project.php?page=1&records_per_page=5&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">5</a>
+			<a href="approve_project.php?page=1&records_per_page=10&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">10</a>
+			<a href="approve_project.php?page=1&records_per_page=20&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">20</a>
+			<a href="approve_project.php?page=1&records_per_page=50&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">50</a>
+			<a href="approve_project.php?page=1&records_per_page=100&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">100</a>
+			<a href="approve_project.php?page=1&records_per_page=All&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">All</a>
 		</div>
 		<!--End of container for the records per page selections-->
 		<!--Beginning of container for the pagination
@@ -386,20 +399,22 @@ else {
 	  click to move page to page).-->
 		<div>
 			<?php if ($page > 1): ?>
-			<a href="get_project.php?page=<?=$page-1?>&records_per_page=<?=$records_per_page?>&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+			<a href="approve_project.php?page=<?=$page-1?>&records_per_page=<?=$records_per_page?>&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 				<i class="fas fa-angle-double-left fa-sm"></i>
 			</a>
 			<?php endif; ?>
 			<!--Beginning of container for "Page" and the page number displayed-->
-			<div href="get_project.php?page=<?=$page?>&records_per_page=<?=$records_per_page?>&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+			<div href="approve_project.php?page=<?=$page?>&records_per_page=<?=$records_per_page?>&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 			Page <?=$page?>
 			</div>
 			<!--End of container for just the page and number displayed-->
 			<?php if ($records_per_page != 'All' && $page*$records_per_page < $num_project): ?>
-			<a href="get_project.php?page=<?=$page+1?>&records_per_page=<?=$records_per_page?>&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+			<a href="approve_project.php?page=<?=$page+1?>&records_per_page=<?=$records_per_page?>&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 			<i class="fas fa-angle-double-right fa-sm"></i>
 			</a>
-			<?php endif; ?>
+			<?php endif; ?>	
+				
+			
 		</div>
 		<!--End of container for the pagination-->
 	</div>
