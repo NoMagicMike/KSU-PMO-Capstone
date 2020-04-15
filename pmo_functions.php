@@ -1,5 +1,27 @@
 <?php
 /*This file will be included in every other file for this project except any .css or .scss files*/
+include 'navbar.php';
+
+// This DB Connection is for the Log In. 
+    define('DB_SERVER', 'localhost');
+    define('DB_USERNAME', 'root');
+    define('DB_PASSWORD', '');
+    define('DB_NAME', 'pmo');
+    /*------ For Development Server Only!-----*/
+    // define('DB_SERVER', 'localhost');
+    // define('DB_USERNAME', 'KSUPMO');
+    // define('DB_PASSWORD', 'KSU_Capstone_2020');
+    // define('DB_NAME', 'pmo');
+    
+ 
+/* Attempt to connect to MySQL database */
+try{
+    $pdo = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_NAME, DB_USERNAME, DB_PASSWORD);
+    // Set the PDO error mode to exception
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e){
+    die("ERROR: Could not connect. " . $e->getMessage());
+}
 /*-----------start of function to connect to pmo database-----------------*/
 function pdo_connect_mysql() {
  /*------ For Development Server Only!-----*/
@@ -13,10 +35,9 @@ function pdo_connect_mysql() {
     $DATABASE_NAME = 'pmo';
 //try the following code
 try {
-    	$pdo = new PDO('mysql:host=' . $DATABASE_HOST . ';dbname=' . $DATABASE_NAME . ';charset=utf8mb4', $DATABASE_USER, $DATABASE_PASS);
+    	return new PDO('mysql:host=' . $DATABASE_HOST . ';dbname=' . $DATABASE_NAME . ';charset=utf8', $DATABASE_USER, $DATABASE_PASS);
       // Set the PDO error mode to report errors and throw exceptions
       $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      return $pdo;
       //catch errors or exceptions
     } catch (PDOException $exception) {
     	// If there is an error with the connection, stop the script and display the error.
@@ -43,32 +64,10 @@ echo <<<EOT
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-  </head>
+    </head>
 	<body>
-  <!-- Start of Navbar -->
-  <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
-  <a class="navbar-brand" href="pmo_index.php"><img src="static/KSUBrand.png" width="50" height="50" alt="KSU Logo"></a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
-  </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="pmo_index.php"><i class="fas fa-home"></i> Home<span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Projects
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="create_project.php">Add New Project</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="get_project.php">View All Projects</a>
-          </div>
-        </li>
-    </div>
-  </nav>
-  <!-- End of Navbar -->
+  
+
 EOT;
 }
 /*-----------end of function for making the header for every page----------------*/
@@ -76,11 +75,9 @@ EOT;
 /*-----------start of function for making the footer for every page--------------*/
 //This function contains the closing body tag, and the closing html tag
 function template_footer() {
-echo <<<EOT
-  <p>To add footer content here, use the pmo_functions.php file. </p>
-</body>
-</html>
-EOT;
+  // For Dev Use Only
+  // var_dump($_SESSION);
+  include 'footer.php';
 }
 /*-----------end of function for making the footer of each page-------*/
 ?>
