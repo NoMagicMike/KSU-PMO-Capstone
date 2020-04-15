@@ -134,7 +134,7 @@ else {
 <!--Add in header from pmo_functions.php and insert the title of this page, "Get Project"-->
 <?=template_header('Get Project')?>
 <!--beginning of container for the get project section-->
-<div class="container">
+<div class="jumbotron" id="jumboTable">
 	<h1>All Projects - General Project & Sponsor Information</h1>
 	<!--beginning of container for a button that links back to create_project.php,
   (this "Create Project" button can be deleted and the navbar could be used instead,
@@ -152,12 +152,23 @@ else {
 	</div>
 	<!--end of container for the Create_project.php button link and custom search bar-->
 	<!--Beginning of table for records to be displayed-->
-	<table>
+	<table> <!-- class="table-responsive table-striped table-sm" -->
 		    <!--beginning of table column header row-->
 				<!--The records are ordered by project_id by default, but if the user clicks the
 				column heading i.e. "Title", the records will then be ordered by "Title".-->
         <thead>
             <tr>
+							<?php if($_SESSION['adminCheck'] == 1): ?>
+								<!--Empty cell column header for the column containing the edit/delete icon links-->
+	              <td></td>
+								<!--Empty cell column header for the column containing the edit/delete icon links-->
+	              <td></td>
+								<!--Empty cell column header for the column containing the edit/delete icon links-->
+	              <td></td>								
+							<?php else: ?>
+								<!--Empty cell column header for the column containing the edit/delete icon links-->
+	              <td></td>
+							<?php endif; ?> <!--end of admin check -->
 							<!--Project ID column header-->
 							<td>
 								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=project.project_id&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
@@ -311,14 +322,29 @@ else {
 								<?php endif; ?>
 								</a>
 							</td>
-							<!--Empty cell column header for the column containing the edit/delete icon links-->
-              <td></td>
+							
             </tr>
         </thead><!--end of table column header section-->
 				<!--Body of table that will populate rows with the values of each field in a record-->
 				<tbody>
             <?php foreach ($project as $project): ?>
             <tr>
+							<!--Populate the end of each row with icons links that edit and delete each record-->
+							<?php if($_SESSION['adminCheck'] == 1): ?>
+								<td>
+										<a href="update_project.php?project_id=<?=$project['project_id']?>"><i class="fas fa-pen fa-xs"></i></a>
+								</td>
+								<td>
+										<a href="delete_project.php?project_id=<?=$project['project_id']?>"><i class="fas fa-trash fa-xs"></i></a>
+								</td>
+								<td>
+										<a href="view_project.php?project_id=<?=$project['project_id']?>"><i class="fas fa-eye fa-xs"></i></a>
+								</td>
+							<?php else: ?>
+								<td>
+										<a href="view_project.php?project_id=<?=$project['project_id']?>"><i class="fas fa-eye fa-xs"></i></a>
+								</td>
+							<?php endif; ?> <!--end of admin check -->
 							  <td><?=$project['project_id']?></td>
 								<td><?=$project['project_category']?></td>
 								<td><?=$project['organization_name']?></td>
@@ -336,12 +362,7 @@ else {
 								<td><?=$project['email']?></td>
 								<td><?=$project['phone']?></td>
 								<td><?=$project['approval']?></td>
-								<!--Populate the end of each row with icons links that edit and delete each record-->
-                <td>
-                    <a href="update_project.php?project_id=<?=$project['project_id']?>"><i class="fas fa-pen fa-xs"></i></a>
-                    <a href="delete_project.php?project_id=<?=$project['project_id']?>"><i class="fas fa-trash fa-xs"></i></a>
-										<a href="view_project.php?project_id=<?=$project['project_id']?>"><i class="fas fa-eye fa-xs"></i></a>
-                </td>
+								
             </tr>
             <?php endforeach; ?>
         </tbody>

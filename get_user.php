@@ -93,7 +93,7 @@ else {
 <!--Add in header from pmo_functions.php and insert the title of this page, "Get User"-->
 <?=template_header('Get User')?>
 <!--beginning of container for the get user section-->
-<div class="container">
+<div class="jumbotron" id="jumboTable">
 	<h2>View and Search Users</h2>
 	<!--beginning of container for a button that links back to add_user.php,
   (this "Create User" button can be deleted and the navbar could be used instead,
@@ -112,7 +112,7 @@ else {
 	<!--end of container for the add_user.php button link and custom search bar-->
 	<!--Beginning of table for records to be displayed-->
 	<!-- class="table table-striped" -->
-	<table>
+	<table><!-- class="table-responsive table-striped table-sm" -->
 		    <!--beginning of table column header row-->
 				<!--The records are ordered by user_id by default, but if the user clicks the
 				column heading i.e. "Title", the records will then be ordered by "Title".-->

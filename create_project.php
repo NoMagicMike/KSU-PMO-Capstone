@@ -616,10 +616,17 @@ function add_c_row()
         <input type="button" onclick="add_c_row(); addHeader('contractor_table', 'c_row0')" value="ADD CONTRACTOR">
         <!--Approval Status with Admin Permission only-->
         <h2>Admin Use Only</h2>
-        <label for="approval">Approval Status :</label>
-        <input type="radio" id="approved" name="approval" value="Approved"> Approved
-        <input type="radio" id="disapproved" name="approval" value="Disapproved"> Disapproved
-        <input type="radio" id="pending" name="approval" value="Pending" checked> Pending
+        <?php if($_SESSION['adminCheck'] == 1): ?>
+          <label for="approval">Approval Status :</label>
+          <input type="radio" id="approved" name="approval" value="Approved"> Approved
+          <input type="radio" id="disapproved" name="approval" value="Disapproved"> Disapproved
+          <input type="radio" id="pending" name="approval" value="Pending" checked> Pending
+        <?php else: ?>
+          <label for="approval">Approval Status :</label>
+          <input type="radio" id="approved" name="approval" value="Approved" disabled> Approved
+          <input type="radio" id="disapproved" name="approval" value="Disapproved" disabled> Disapproved
+          <input type="radio" id="pending" name="approval" value="Pending" checked disabled> Pending
+        <?php endif; ?> <!--end of admin check -->
         <br />
         <input type="submit" id="submit_btn" value="Submit">
         <br />
