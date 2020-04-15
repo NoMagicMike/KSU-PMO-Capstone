@@ -41,7 +41,7 @@ if (isset($_GET['project_id'])) {
 <!--Beginning of container for delete project section-->
 <div>
   <!--pull up the project ID and Title as part of the heading-->
-	<h2>Delete Project #<?=$project['project_id']?> - <?=$project['project_title']?></h2>
+	<h1>Delete <?=$project['project_category']?> Project # <?=$project['project_id']?> - <?=$project['project_title']?></h1>
 	<p>Are you sure you want to delete this project?</p>
     <!--Beginning of container for confirmation links yes or no-->
     <div>
