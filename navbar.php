@@ -41,9 +41,11 @@
 								</a>
 
 								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<a class="dropdown-item" href="approve_project.php">Review Projects</a>
+									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" href="add_user.php">Add New Users</a>
 									<a class="dropdown-item" href="get_user.php">View All Users</a>
-									<div class="dropdown-divider"></div>
+									
 								</div>
 							</li>
             <?php endif; ?> <!--end of admin check -->

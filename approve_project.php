@@ -96,13 +96,13 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
  single record contained in the database table on one page*/
 else {
 	if ($records_per_page == 'All') {
-		$stmt = $conn->prepare('SELECT * FROM project INNER JOIN project_participant ON project.project_id = project_participant.project_id WHERE project_participant.participant_category ="Sponsor" ORDER BY ' . $order_by . ' ' . $order_sort);
+		$stmt = $conn->prepare('SELECT * FROM project INNER JOIN project_participant ON project.project_id = project_participant.project_id WHERE project_participant.participant_category ="Sponsor" AND project.approval = "Pending" ORDER BY ' . $order_by . ' ' . $order_sort);
 	}
 	/*If the user did not specify any data to search for, they could navigate back and forth through pages
 	that contain every single record in the database table. The user can limit the number of records they
 	want to have displayed at a time (it will default to 5 at first).*/
 	else {
-		$stmt = $conn->prepare('SELECT * FROM project INNER JOIN project_participant ON project.project_id = project_participant.project_id WHERE project_participant.participant_category ="Sponsor" ORDER BY ' . $order_by . ' ' . $order_sort . ' LIMIT :current_page, :record_per_page');
+		$stmt = $conn->prepare('SELECT * FROM project INNER JOIN project_participant ON project.project_id = project_participant.project_id WHERE project_participant.participant_category ="Sponsor" AND project.approval = "Pending" ORDER BY ' . $order_by . ' ' . $order_sort . ' LIMIT :current_page, :record_per_page');
 		$stmt->bindValue(':current_page', ($page-1)*(int)$records_per_page, PDO::PARAM_INT);
 		$stmt->bindValue(':record_per_page', (int)$records_per_page, PDO::PARAM_INT);
 	}
@@ -141,14 +141,14 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 /*If no serch criteria was specified, just count all of the records in the database table
 to see if there should be a next and previous button*/
 else {
-	$num_project = $conn->query('SELECT COUNT(*) FROM project INNER JOIN project_participant ON project.project_id = project_participant.project_id WHERE project_participant.participant_category ="Sponsor"')->fetchColumn();
+	$num_project = $conn->query('SELECT COUNT(*) FROM project INNER JOIN project_participant ON project.project_id = project_participant.project_id WHERE project_participant.participant_category ="Sponsor" AND project.approval = "Pending"')->fetchColumn();
 }
 ?>
 <!--Add in header from pmo_functions.php and insert the title of this page, "Get Project"-->
 <?=template_header('Get Project')?>
 <!--beginning of container for the get project section-->
 <div class="jumbotron" id="jumboTable">
-	<h1>All Projects - General Project & Sponsor Information</h1>
+	<h1>Pending Projects</h1>
 	<!--beginning of container for a button that links back to create_project.php,
   (this "Create Project" button can be deleted and the navbar could be used instead,
 	since that function is available, just thought this could be an option)
@@ -173,11 +173,11 @@ else {
         <thead>
             <tr>
 							<?php if($_SESSION['adminCheck'] == 1): ?>
-								<!--Empty cell column header for the column containing the edit/delete icon links-->
+								<!--Empty cell column header for the column containing the edit icon links-->
 	              <td></td>
-								<!--Empty cell column header for the column containing the edit/delete icon links-->
+								<!--Empty cell column header for the column containing the delete icon links-->
 	              <td></td>
-								<!--Empty cell column header for the column containing the edit/delete icon links-->
+								<!--Empty cell column header for the column containing the view icon links-->
 	              <td></td>								
 							<?php else: ?>
 								<!--Empty cell column header for the column containing the edit/delete icon links-->
