@@ -3,6 +3,19 @@
 error_reporting(E_ALL);
 // Initialize the session
 session_start();
+// Check if the user is logged in, if not then redirect to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+//Check if user is admin
+if($_SESSION['adminCheck'] != 1){
+  echo "<script type='text/JavaScript'>
+        window.location.href = '/index.php';
+	      alert('You are not an administrative user.');
+	      </script>";
+  exit;
+}
 // Include the pmo_functions.php file to add header, footer, and navbar
 require 'pmo_functions.php';
 // Check if the project_id exists
