@@ -434,7 +434,7 @@ function add_c_row()
 <!--Add in header from pmo_functions.php and insert the title of this page, "Create Project"-->
 <?=template_header('Create Project')?>
 <!--Start of container for Create Project section-->
-<div class="container">
+<div class="jumbotron">
   <h1>Create a New Project</h1>
     <!--Link this form's actions to this file, create_project.php-->
     <form action="create_project.php" autocomplete="off" method="post">

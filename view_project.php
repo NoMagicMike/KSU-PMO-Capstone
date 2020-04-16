@@ -106,7 +106,7 @@ else {
 <?=template_header('View Project')?>
 <body onload="checkProjectCategory();">
 <!--Start of container for Update Project section-->
-<div class="container">
+<div class="jumbotron">
   <!--In the heading, pull up the category, ID number,  and title of the project selected for updating-->
 	<h1><?=$project['project_category']?> Project # <?=$project['project_id']?> - <?=$project['project_title']?></h1>
   <a class="btn btn-outline-primary btn-sm" href="get_project.php" role="button">Projects List</a>
