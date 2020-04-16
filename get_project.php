@@ -153,7 +153,7 @@ else {
 	</div>
 	<!--end of container for the Create_project.php button link and custom search bar-->
 	<!--Beginning of table for records to be displayed-->
-	<table> <!-- class="table-responsive table-striped table-sm" -->
+	<table class="table-responsive table-striped table-sm"> <!-- class="table-responsive table-striped table-sm" -->
 		    <!--beginning of table column header row-->
 				<!--The records are ordered by project_id by default, but if the user clicks the
 				column heading i.e. "Title", the records will then be ordered by "Title".-->
@@ -165,7 +165,7 @@ else {
 								<!--Empty cell column header for the column containing the edit/delete icon links-->
 	              <td></td>
 								<!--Empty cell column header for the column containing the edit/delete icon links-->
-	              <td></td>								
+	              <td></td>
 							<?php else: ?>
 								<!--Empty cell column header for the column containing the edit/delete icon links-->
 	              <td></td>
@@ -323,7 +323,7 @@ else {
 								<?php endif; ?>
 								</a>
 							</td>
-							
+
             </tr>
         </thead><!--end of table column header section-->
 				<!--Body of table that will populate rows with the values of each field in a record-->
@@ -363,7 +363,7 @@ else {
 								<td><?=$project['email']?></td>
 								<td><?=$project['phone']?></td>
 								<td><?=$project['approval']?></td>
-								
+
             </tr>
             <?php endforeach; ?>
         </tbody>

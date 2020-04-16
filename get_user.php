@@ -113,7 +113,7 @@ else {
 	<!--end of container for the add_user.php button link and custom search bar-->
 	<!--Beginning of table for records to be displayed-->
 	<!-- class="table table-striped" -->
-	<table><!-- class="table-responsive table-striped table-sm" -->
+	<table class="table-responsive table-striped table-sm"><!-- class="table-responsive table-striped table-sm" -->
 		    <!--beginning of table column header row-->
 				<!--The records are ordered by user_id by default, but if the user clicks the
 				column heading i.e. "Title", the records will then be ordered by "Title".-->
@@ -170,8 +170,8 @@ else {
 									<?php if ($user['user_admin'] == 1){
 										echo "Yes";
 									} else echo "No";
-									?>										
-									
+									?>
+
 								</td>
 								<!--Populate the end of each row with icons links that edit and delete each record-->
                 <td>
