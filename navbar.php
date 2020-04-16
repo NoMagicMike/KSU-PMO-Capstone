@@ -41,9 +41,11 @@
 								</a>
 
 								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<a class="dropdown-item" href="approve_project.php">Review Projects</a>
+									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" href="add_user.php">Add New Users</a>
 									<a class="dropdown-item" href="get_user.php">View All Users</a>
-									<div class="dropdown-divider"></div>
+									
 								</div>
 							</li>
             <?php endif; ?> <!--end of admin check -->
@@ -58,8 +60,8 @@
 			    
 					<?php if(isset( $_SESSION['loggedin'])): ?>
 					<ul class="navbar-nav">
-						<form class="form-inline my-2 my-md-0 ">
-							<input class="form-control mr-sm-2" type="search" placeholder="Not Yet Functional :(" aria-label="Search">
+						<form class="form-inline my-2 my-md-0 " action="get_project.php" method="get">
+							<input class="form-control mr-sm-2" type="text" name="search" placeholder="Search Projects" aria-label="Search" value="<?=isset($_GET['search']) ? htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 							<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 						</form>
 						<li class="nav-item">
@@ -68,7 +70,7 @@
 										Account
 									</a>
 
-									<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 										<a class="dropdown-item" href="logout.php">Logout</a>
 										<a class="dropdown-item" href="reset_password.php">Reset Password</a>
 									</div>
