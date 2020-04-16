@@ -108,7 +108,7 @@ else {
 				<input type="text" name="search" placeholder="Search..." value="<?=isset($_GET['search']) ? htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 			</form>
 		</div>
-    <?php	echo "($num_user) total records";?>
+    <?php	echo "($num_user) total record(s)";?>
 	</div>
 	<!--end of container for the add_user.php button link and custom search bar-->
 	<!--Beginning of table for records to be displayed-->
