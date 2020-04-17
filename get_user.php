@@ -103,6 +103,9 @@ else {
 		<div class="d-inline-block">
 			<a class="btn btn-outline-primary btn-sm" href="add_user.php" role="button">Create User</a>
 		</div>
+    <div class="d-inline-block">
+			<a class="btn btn-outline-primary btn-sm" role="button" onclick="ExportExcel('xlsx')">Export Table</a>
+		</div>
 		<div class="d-inline-block">
 			<form action="get_user.php" method="get">
 				<input type="text" name="search" placeholder="Search..." value="<?=isset($_GET['search']) ? htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
@@ -113,7 +116,7 @@ else {
 	<!--end of container for the add_user.php button link and custom search bar-->
 	<!--Beginning of table for records to be displayed-->
 	<!-- class="table table-striped" -->
-	<table class="table-responsive table-striped table-sm"><!-- class="table-responsive table-striped table-sm" -->
+	<table class="table-responsive table-striped table-sm" id="exportable_table"><!-- class="table-responsive table-striped table-sm" -->
 		    <!--beginning of table column header row-->
 				<!--The records are ordered by user_id by default, but if the user clicks the
 				column heading i.e. "Title", the records will then be ordered by "Title".-->
