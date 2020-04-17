@@ -2,7 +2,7 @@
 /*This file will be included in every other file for this project except any .css or .scss files*/
 include 'navbar.php';
 
-// This DB Connection is for the Log In. 
+// This DB Connection is for the Log In.
     define('DB_SERVER', 'localhost');
     define('DB_USERNAME', 'root');
     define('DB_PASSWORD', '');
@@ -12,8 +12,8 @@ include 'navbar.php';
     // define('DB_USERNAME', 'KSUPMO');
     // define('DB_PASSWORD', 'KSU_Capstone_2020');
     // define('DB_NAME', 'pmo');
-    
- 
+
+
 /* Attempt to connect to MySQL database */
 try{
     $pdo = new PDO("mysql:host=" . DB_SERVER . ";dbname=" . DB_NAME, DB_USERNAME, DB_PASSWORD);
@@ -64,9 +64,21 @@ echo <<<EOT
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <!--link all the pages to the external styling css file, pmo_style.css-->
 		<link href="pmo_style.css" rel="stylesheet" type="text/css">
+    <script src="export.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    
+    <script type="text/javascript">
+       function ExportExcel(type, fn, dl) {
+          var elt = document.getElementById('exportable_table');
+          var wb = XLSX.utils.table_to_book(elt, {sheet:"Sheet JS"});
+          return dl ?
+             XLSX.write(wb, {bookType:type, bookSST:true, type: 'base64'}) :
+             XLSX.writeFile(wb, fn || ('SheetJSTableExport.' + (type || 'xlsx')));
+       }
+    </script>
     </head>
 	<body>
-  
+
 
 EOT;
 }
