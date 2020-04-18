@@ -341,6 +341,7 @@ else {
                     <a href="update_project.php?project_id=<?=$project['project_id']?>"><i class="fas fa-pen fa-xs"></i></a>
                     <a href="delete_project.php?project_id=<?=$project['project_id']?>"><i class="fas fa-trash fa-xs"></i></a>
 										<a href="view_project.php?project_id=<?=$project['project_id']?>"><i class="fas fa-eye fa-xs"></i></a>
+										<a href="pmo_files.php?project_id=<?=$project['project_id']?>"><i class="fas fa-paperclip fa-xs"></i></a>
                 </td>
             </tr>
             <?php endforeach; ?>
