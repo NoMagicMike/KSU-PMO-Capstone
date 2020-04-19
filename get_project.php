@@ -7,12 +7,12 @@ require 'pmo_functions.php';
 $conn = pdo_connect_mysql();
 /* Get the page via GET request (URL param: page), if not enough records exist for there to
 be more than one page, default the page to 1*/
-$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
 // Number of records to show on each page, default to 5
 $records_per_page = isset($_GET['records_per_page']) && (is_numeric($_GET['records_per_page']) || $_GET['records_per_page'] == 'All') ? $_GET['records_per_page'] : 5;
 // These are the columns the users can "order by"
 $order_by_list = array('project.project_id', 'project_category', 'organization_name', 'project_title', 'ksu_department', 'priority_level',
-'start_date', 'end_date', 'funded', 'total_cost', 'description', 'last_name', 'first_name', 'participant_org', 'email', 'phone', 'approval');
+    'start_date', 'end_date', 'funded', 'total_cost', 'description', 'last_name', 'first_name', 'participant_org', 'email', 'phone', 'approval');
 // Get the column the user picks to order by (default to project_id)
 $order_by = isset($_GET['order_by']) && in_array($_GET['order_by'], $order_by_list) ? $_GET['order_by'] : 'project.project_id';
 // Sort by ascending or descending if specified, default to ascending
@@ -22,9 +22,9 @@ that contain the user-specified value, but it will default to only displaying 5 
 then selects "ALL", it will then display all of the records in the database table that contain the value the user
 previously specified (on one page)*/
 if (isset($_GET['search']) && !empty($_GET['search'])) {
-	if ($records_per_page == 'All') {
-		// SQL statement to get all records containing the specific search query
-		$stmt = $conn->prepare('SELECT * FROM project
+    if ($records_per_page == 'All') {
+        // SQL statement to get all records containing the specific search query
+        $stmt = $conn->prepare('SELECT * FROM project
 								INNER JOIN project_participant
                 ON project.project_id = project_participant.project_id
 								WHERE project_participant.participant_category = "Sponsor"
@@ -46,12 +46,12 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 								OR phone LIKE :search_query
 								OR approval LIKE :search_query)
 								ORDER BY ' . $order_by . ' ' . $order_sort);
-		$stmt->bindValue(':search_query', '%' . $_GET['search'] . '%');
-	} else {
-		/*After the user does a search for records containing specific data, they can navigate back and
-		forth between pages of the records that contain the specific data, and also limit the amout of
-		these records they want displayed at a time for each page*/
-		$stmt = $conn->prepare('SELECT *  FROM project
+        $stmt->bindValue(':search_query', '%' . $_GET['search'] . '%');
+    } else {
+        /*After the user does a search for records containing specific data, they can navigate back and
+        forth between pages of the records that contain the specific data, and also limit the amout of
+        these records they want displayed at a time for each page*/
+        $stmt = $conn->prepare('SELECT *  FROM project
 								INNER JOIN project_participant
                 ON project.project_id = project_participant.project_id
 								WHERE project_participant.participant_category = "Sponsor"
@@ -74,112 +74,114 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
 								OR approval LIKE :search_query)
 								ORDER BY ' . $order_by . ' ' . $order_sort . '
 								LIMIT :current_page, :record_per_page');
-		$stmt->bindValue(':search_query', '%' . $_GET['search'] . '%');
-		$stmt->bindValue(':current_page', ($page-1)*(int)$records_per_page, PDO::PARAM_INT);
-		$stmt->bindValue(':record_per_page', (int)$records_per_page, PDO::PARAM_INT);
-	}
+        $stmt->bindValue(':search_query', '%' . $_GET['search'] . '%');
+        $stmt->bindValue(':current_page', ($page - 1) * (int) $records_per_page, PDO::PARAM_INT);
+        $stmt->bindValue(':record_per_page', (int) $records_per_page, PDO::PARAM_INT);
+    }
 }
 /*If the user did not specify any data to search for and just clicked "All", it will pull up every
- single record contained in the database table on one page*/
+single record contained in the database table on one page*/
 else {
-	if ($records_per_page == 'All') {
-		$stmt = $conn->prepare('SELECT * FROM project INNER JOIN project_participant ON project.project_id = project_participant.project_id WHERE project_participant.participant_category ="Sponsor" ORDER BY ' . $order_by . ' ' . $order_sort);
-	}
-	/*If the user did not specify any data to search for, they could navigate back and forth through pages
-	that contain every single record in the database table. The user can limit the number of records they
-	want to have displayed at a time (it will default to 5 at first).*/
-	else {
-		$stmt = $conn->prepare('SELECT * FROM project INNER JOIN project_participant ON project.project_id = project_participant.project_id WHERE project_participant.participant_category ="Sponsor" ORDER BY ' . $order_by . ' ' . $order_sort . ' LIMIT :current_page, :record_per_page');
-		$stmt->bindValue(':current_page', ($page-1)*(int)$records_per_page, PDO::PARAM_INT);
-		$stmt->bindValue(':record_per_page', (int)$records_per_page, PDO::PARAM_INT);
-	}
-}
-$stmt->execute();
+        if ($records_per_page == 'All') {
+            $stmt = $conn->prepare('SELECT * FROM project INNER JOIN project_participant ON project.project_id = project_participant.project_id WHERE project_participant.participant_category ="Sponsor" ORDER BY ' . $order_by . ' ' . $order_sort);
+        }
+        /*If the user did not specify any data to search for, they could navigate back and forth through pages
+    that contain every single record in the database table. The user can limit the number of records they
+    want to have displayed at a time (it will default to 5 at first).*/
+    else {
+            $stmt = $conn->prepare('SELECT * FROM project INNER JOIN project_participant ON project.project_id = project_participant.project_id WHERE project_participant.participant_category ="Sponsor" ORDER BY ' . $order_by . ' ' . $order_sort . ' LIMIT :current_page, :record_per_page');
+            $stmt->bindValue(':current_page', ($page - 1) * (int) $records_per_page, PDO::PARAM_INT);
+            $stmt->bindValue(':record_per_page', (int) $records_per_page, PDO::PARAM_INT);
+        }
+    }
+    $stmt->execute();
 // Fetch the records to be displayed.
-$project = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $project = $stmt->fetchAll(PDO::FETCH_ASSOC);
 /* Get the total number of records searched that match the specified search criteria, this is so
 we can see if needs to have a next and previous button*/
-if (isset($_GET['search']) && !empty($_GET['search'])) {
-	$stmt = $conn->prepare('SELECT COUNT(*) FROM project
-							INNER JOIN project_participant
-              ON project.project_id = project_participant.project_id
-							WHERE project_participant.participant_category = "Sponsor"
-							AND (project.project_id LIKE :search_query
-							OR project_category LIKE :search_query
-							OR organization_name LIKE :search_query
-							OR project_title LIKE :search_query
-							OR ksu_department LIKE :search_query
-							OR priority_level LIKE :search_query
-							OR start_date LIKE :search_query
-							OR end_date LIKE :search_query
-							OR funded LIKE :search_query
-							OR total_cost LIKE :search_query
-							OR description LIKE :search_query
-							OR last_name LIKE :search_query
-							OR first_name LIKE :search_query
-							OR participant_org LIKE :search_query
-							OR email LIKE :search_query
-							OR phone LIKE :search_query
-							OR approval LIKE :search_query)');
-	$stmt->bindValue(':search_query', '%' . $_GET['search'] . '%');
-	$stmt->execute();
-	$num_project = $stmt->fetchColumn();
-}
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $stmt = $conn->prepare('SELECT COUNT(*) FROM project
+								INNER JOIN project_participant
+	              ON project.project_id = project_participant.project_id
+								WHERE project_participant.participant_category = "Sponsor"
+								AND (project.project_id LIKE :search_query
+								OR project_category LIKE :search_query
+								OR organization_name LIKE :search_query
+								OR project_title LIKE :search_query
+								OR ksu_department LIKE :search_query
+								OR priority_level LIKE :search_query
+								OR start_date LIKE :search_query
+								OR end_date LIKE :search_query
+								OR funded LIKE :search_query
+								OR total_cost LIKE :search_query
+								OR description LIKE :search_query
+								OR last_name LIKE :search_query
+								OR first_name LIKE :search_query
+								OR participant_org LIKE :search_query
+								OR email LIKE :search_query
+								OR phone LIKE :search_query
+								OR approval LIKE :search_query)');
+        $stmt->bindValue(':search_query', '%' . $_GET['search'] . '%');
+        $stmt->execute();
+        $num_project = $stmt->fetchColumn();
+    }
 /*If no serch criteria was specified, just count all of the records in the database table
 to see if there should be a next and previous button*/
 else {
-	$num_project = $conn->query('SELECT COUNT(*) FROM project INNER JOIN project_participant ON project.project_id = project_participant.project_id WHERE project_participant.participant_category ="Sponsor"')->fetchColumn();
-}
-?>
-<!--Add in header from pmo_functions.php and insert the title of this page, "Get Project"-->
-<?=template_header('Get Project')?>
-<!--beginning of container for the get project section-->
-<div class="jumbotron" id="jumboTable">
-	<h1>All Projects - General Project & Sponsor Information</h1>
-	<!--beginning of container for a button that links back to create_project.php,
-  (this "Create Project" button can be deleted and the navbar could be used instead,
-	since that function is available, just thought this could be an option)
-	and the custom search bar.-->
-	<div>
-		<div class="d-inline-block">
-			<a class="btn btn-outline-primary btn-sm" href="create_project.php" role="button">Create Project</a>
+        $num_project = $conn->query('SELECT COUNT(*) FROM project INNER JOIN project_participant ON project.project_id = project_participant.project_id WHERE project_participant.participant_category ="Sponsor"')->fetchColumn();
+    }
+    ?>
+	<!--Add in header from pmo_functions.php and insert the title of this page, "Get Project"-->
+	<?=template_header('Get Project')?>
+	<!--beginning of container for the get project section-->
+	<div class="jumbotron" id="jumboTable">
+		<h1>All Projects - General Project & Sponsor Information</h1>
+		<!--beginning of container for a button that links back to create_project.php,
+	  (this "Create Project" button can be deleted and the navbar could be used instead,
+		since that function is available, just thought this could be an option)
+		and the custom search bar.-->
+		<div>
+			<div class="d-inline-block">
+				<a class="btn btn-outline-primary btn-sm" href="create_project.php" role="button">Create Project</a>
+			</div>
+			<div class="d-inline-block">
+				<a class="btn btn-outline-primary btn-sm" role="button" onclick="ExportExcel('xlsx')">Export Table</a>
+			</div>
+			<div class="d-inline-block">
+				<form action="get_project.php" method="get">
+					<input type="text" name="search" placeholder="Search..." value="<?=isset($_GET['search']) ? htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+				</form>
+			</div>
+			<?php	echo "($num_project) total record(s)"; ?>
 		</div>
-		<div class="d-inline-block">
-			<a class="btn btn-outline-primary btn-sm" role="button" onclick="ExportExcel('xlsx')">Export Table</a>
-		</div>
-		<div class="d-inline-block">
-			<form action="get_project.php" method="get">
-				<input type="text" name="search" placeholder="Search..." value="<?=isset($_GET['search']) ? htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
-			</form>
-		</div>
-		<?php	echo "($num_project) total record(s)";?>
-	</div>
-	<!--end of container for the Create_project.php button link and custom search bar-->
-	<!--Beginning of table for records to be displayed-->
-	<table class="table-responsive table-striped table-sm" id="exportable_table"> <!-- class="table-responsive table-striped table-sm" -->
-		    <!--beginning of table column header row-->
-				<!--The records are ordered by project_id by default, but if the user clicks the
-				column heading i.e. "Title", the records will then be ordered by "Title".-->
-        <thead>
-            <tr>
-							<?php if($_SESSION['adminCheck'] == 1): ?>
+		<!--end of container for the Create_project.php button link and custom search bar-->
+		<!--Beginning of table for records to be displayed-->
+		<table class="table-responsive table-striped table-sm" id="exportable_table"> <!-- class="table-responsive table-striped table-sm" -->
+			    <!--beginning of table column header row-->
+					<!--The records are ordered by project_id by default, but if the user clicks the
+					column heading i.e. "Title", the records will then be ordered by "Title".-->
+	        <thead>
+	            <tr>
+								<?php if ($_SESSION['adminCheck'] == 1): ?>
+									<!--Empty cell column header for the column containing the edit/delete icon links-->
+		              <td></td>
+									<!--Empty cell column header for the column containing the edit/delete icon links-->
+		              <td></td>
+									<!--Empty cell column header for the column containing the edit/delete icon links-->
+		              <td></td>
+									<!--Empty cell column header for the column containing the edit/delete icon links-->
+						<td></td>
+								<?php else: ?>
 								<!--Empty cell column header for the column containing the edit/delete icon links-->
 	              <td></td>
-								<!--Empty cell column header for the column containing the edit/delete icon links-->
-	              <td></td>
-								<!--Empty cell column header for the column containing the edit/delete icon links-->
-	              <td></td>
-							<?php else: ?>
-								<!--Empty cell column header for the column containing the edit/delete icon links-->
-	              <td></td>
-							<?php endif; ?> <!--end of admin check -->
+							<?php endif;?> <!--end of admin check -->
 							<!--Project ID column header-->
 							<td>
 								<a href="get_project.php?page=1&records_per_page=<?=$records_per_page?>&order_by=project.project_id&order_sort=<?=$order_sort == 'ASC' ? 'DESC' : 'ASC'?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 								ID
 								<?php if ($order_by == 'project.project_id'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
 			        </td>
 							<!--Project Category column header-->
@@ -188,7 +190,7 @@ else {
 								Category
 								<?php if ($order_by == 'project_category'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
 			        </td>
 							<!--Organization Name column header-->
@@ -197,7 +199,7 @@ else {
 								Organization
 								<?php if ($order_by == 'organization_name'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
 			        </td>
 							<!--Project Title column header-->
@@ -206,7 +208,7 @@ else {
 								Title
 								<?php if ($order_by == 'project_title'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
 							</td>
 							<!--Department column header-->
@@ -215,7 +217,7 @@ else {
 						    KSU Department
 								<?php if ($order_by == 'ksu_department'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
 							</td>
 							<!--Priority Level column header-->
@@ -224,7 +226,7 @@ else {
 								Priority
 								<?php if ($order_by == 'priority_level'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
               </td>
 							<!--Start Date column header-->
@@ -233,7 +235,7 @@ else {
 						    Start Date
 								<?php if ($order_by == 'start_date'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
               </td>
 							<!--End Date column header-->
@@ -242,7 +244,7 @@ else {
 								End Date
 								<?php if ($order_by == 'end_date'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
               </td>
 							<!--Funded column header-->
@@ -251,7 +253,7 @@ else {
 								Funded
 								<?php if ($order_by == 'funded'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
               </td>
 							<!--Cost column header-->
@@ -260,7 +262,7 @@ else {
 								Cost
 								<?php if ($order_by == 'total_cost'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
 							</td>
 							<!--Description column header-->
@@ -269,7 +271,7 @@ else {
 						    Description
 								<?php if ($order_by == 'description'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
 							</td>
 							<!--Last Name column header-->
@@ -278,7 +280,7 @@ else {
 						    Sponsor's Last Name
 								<?php if ($order_by == 'last_name'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
 							</td>
 							<!--First Name column header-->
@@ -287,7 +289,7 @@ else {
 						    Sponsor's First Name
 								<?php if ($order_by == 'first_name'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
 							</td>
 							<!--Participant's Organization column header-->
@@ -296,7 +298,7 @@ else {
 						    Sponsor's Organizaion
 								<?php if ($order_by == 'participant_org'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
 							</td>
 							<!--Email column header-->
@@ -305,7 +307,7 @@ else {
 						    Sponsor's Email
 								<?php if ($order_by == 'email'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
 							</td>
 							<!--Phone column header-->
@@ -314,7 +316,7 @@ else {
 						    Sponsor's Phone
 								<?php if ($order_by == 'phone'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
 							</td>
 							<!--Approval column header-->
@@ -323,7 +325,7 @@ else {
 						    Approval Status
 								<?php if ($order_by == 'approval'): ?>
 								<i class="fas fa-long-arrow-alt-<?=str_replace(array('ASC', 'DESC'), array('up', 'down'), $order_sort)?>"></i>
-								<?php endif; ?>
+								<?php endif;?>
 								</a>
 							</td>
 
@@ -334,7 +336,12 @@ else {
             <?php foreach ($project as $project): ?>
             <tr>
 							<!--Populate the end of each row with icons links that edit and delete each record-->
-							<?php if($_SESSION['adminCheck'] == 1): ?>
+							<?php if ($_SESSION['adminCheck'] == 1): ?>
+
+								<td>
+										<a href="pmo_files.php?project_id=<?=$project['project_id']?>"><i class="fas fa-paperclip fa-xs"></i></a>
+								</td>
+
 								<td>
 										<a href="update_project.php?project_id=<?=$project['project_id']?>"><i class="fas fa-pen fa-xs"></i></a>
 								</td>
@@ -348,7 +355,7 @@ else {
 								<td>
 										<a href="view_project.php?project_id=<?=$project['project_id']?>"><i class="fas fa-eye fa-xs"></i></a>
 								</td>
-							<?php endif; ?> <!--end of admin check -->
+							<?php endif;?> <!--end of admin check -->
 							  <td><?=$project['project_id']?></td>
 								<td><?=$project['project_category']?></td>
 								<td><?=$project['organization_name']?></td>
@@ -368,7 +375,7 @@ else {
 								<td><?=$project['approval']?></td>
 
             </tr>
-            <?php endforeach; ?>
+            <?php endforeach;?>
         </tbody>
     </table>
 		<!--End of table for records to be displayed-->
@@ -389,20 +396,20 @@ else {
 	  click to move page to page).-->
 		<div>
 			<?php if ($page > 1): ?>
-			<a href="get_project.php?page=<?=$page-1?>&records_per_page=<?=$records_per_page?>&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+			<a href="get_project.php?page=<?=$page - 1?>&records_per_page=<?=$records_per_page?>&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 				<i class="fas fa-angle-double-left fa-sm"></i>
 			</a>
-			<?php endif; ?>
+			<?php endif;?>
 			<!--Beginning of container for "Page" and the page number displayed-->
 			<div href="get_project.php?page=<?=$page?>&records_per_page=<?=$records_per_page?>&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 			Page <?=$page?>
 			</div>
 			<!--End of container for just the page and number displayed-->
-			<?php if ($records_per_page != 'All' && $page*$records_per_page < $num_project): ?>
-			<a href="get_project.php?page=<?=$page+1?>&records_per_page=<?=$records_per_page?>&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
+			<?php if ($records_per_page != 'All' && $page * $records_per_page < $num_project): ?>
+			<a href="get_project.php?page=<?=$page + 1?>&records_per_page=<?=$records_per_page?>&order_by=<?=$order_by?>&order_sort=<?=$order_sort?><?=isset($_GET['search']) ? '&search=' . htmlentities($_GET['search'], ENT_QUOTES) : ''?>">
 			<i class="fas fa-angle-double-right fa-sm"></i>
 			</a>
-			<?php endif; ?>
+			<?php endif;?>
 		</div>
 		<!--End of container for the pagination-->
 	</div>
