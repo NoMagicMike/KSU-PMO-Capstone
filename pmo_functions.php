@@ -74,7 +74,7 @@ echo <<<EOT
    }
 </script>
 <!--link all the pages to the external styling css file, pmo_style.css-->
-<link href="/Style/pmo_style.css" rel="stylesheet" type="text/css">
+<link href="/pmo_style.css" rel="stylesheet" type="text/css">
 </head>
 	<body>
 

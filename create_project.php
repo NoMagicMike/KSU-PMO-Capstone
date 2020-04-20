@@ -256,7 +256,7 @@ if (!empty($_POST)) {
     //message so the user can acknowledge an alert that the record was added.
     //URL in javascript below may need to be changed to one tht will work with the actual server!
     echo "<script type='text/JavaScript'>
-    window.location.href = '/KSU-PMO-Capstone/get_project.php';
+    window.location.href = '/get_project.php';
     alert('Record Successfully Added.');
     </script>";
 }
