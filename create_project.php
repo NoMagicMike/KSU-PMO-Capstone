@@ -7,7 +7,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     header("location: login.php");
     exit;
 }
-//include the pmo_functions.php file and navbar.php to add header, footer, and navbar
+// //include the pmo_functions.php file and navbar.php to add header, footer, and navbar
 include 'pmo_functions.php';
 
 //make sure post data is not empty
@@ -513,7 +513,7 @@ the fields are disabled unless they are called by this checkProjectCategory() fu
               </div>
               <div class="form-group col-xl-4 col-md-6">
                 <label for="total_cost">Total Cost : $</label>
-                <input class="form-control" type="text" id="total_cost" name="total_cost" placeholder="Format: 0.00">
+                <input class="form-control" required type="text" id="total_cost" name="total_cost" value="0.00" placeholder="Format: 0.00">
 
               </div>
             </div>

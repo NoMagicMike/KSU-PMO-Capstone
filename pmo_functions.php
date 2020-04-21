@@ -1,4 +1,5 @@
 <?php
+$pdo = 1;
 /*This file will be included in every other file for this project except any .css or .scss files*/
 include 'navbar.php';
 
@@ -24,6 +25,7 @@ try{
 }
 /*-----------start of function to connect to pmo database-----------------*/
 function pdo_connect_mysql() {
+  
  /*------ For Development Server Only!-----*/
  // $servername = "localhost";
  // $username = "KSUPMO";
@@ -35,6 +37,7 @@ function pdo_connect_mysql() {
     $DATABASE_NAME = 'pmo';
 //try the following code
 try {
+  $pdo = 1;
     	return new PDO('mysql:host=' . $DATABASE_HOST . ';dbname=' . $DATABASE_NAME . ';charset=utf8', $DATABASE_USER, $DATABASE_PASS);
       // Set the PDO error mode to report errors and throw exceptions
       $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -88,6 +91,7 @@ EOT;
 function template_footer() {
   // For Dev Use Only
   // var_dump($_SESSION);
+  // var_dump($_POST);
   //include 'footer.php';
 }
 /*-----------end of function for making the footer of each page-------*/
