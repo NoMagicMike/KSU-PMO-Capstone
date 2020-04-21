@@ -4,15 +4,15 @@ $pdo = 1;
 include 'navbar.php';
 
 // This DB Connection is for the Log In.
-    // define('DB_SERVER', 'localhost');
-    // define('DB_USERNAME', 'root');
-    // define('DB_PASSWORD', '');
-    // define('DB_NAME', 'pmo');
-    /*------ For Development Server Only!-----*/
     define('DB_SERVER', 'localhost');
-    define('DB_USERNAME', 'KSUPMO');
-    define('DB_PASSWORD', 'KSU_Capstone_2020');
+    define('DB_USERNAME', 'root');
+    define('DB_PASSWORD', '');
     define('DB_NAME', 'pmo');
+    /*------ For Development Server Only!-----*/
+    // define('DB_SERVER', 'localhost');
+    // define('DB_USERNAME', 'KSUPMO');
+    // define('DB_PASSWORD', 'KSU_Capstone_2020');
+    // define('DB_NAME', 'pmo');
 
 
 /* Attempt to connect to MySQL database */
