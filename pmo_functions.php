@@ -90,8 +90,8 @@ EOT;
 //This function contains the closing body tag, and the closing html tag
 function template_footer() {
   // For Dev Use Only
-  // var_dump($_SESSION);
-  // var_dump($_POST);
+  var_dump($_SESSION);
+  var_dump($_POST);
   //include 'footer.php';
 }
 /*-----------end of function for making the footer of each page-------*/
