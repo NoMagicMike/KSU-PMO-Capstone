@@ -1,4 +1,5 @@
 <?php
+$pdo = 1;
 /*This file will be included in every other file for this project except any .css or .scss files*/
 include 'navbar.php';
 
@@ -24,6 +25,7 @@ try{
 }
 /*-----------start of function to connect to pmo database-----------------*/
 function pdo_connect_mysql() {
+  
  /*------ For Development Server Only!-----*/
  // $servername = "localhost";
  // $username = "KSUPMO";
@@ -35,6 +37,7 @@ function pdo_connect_mysql() {
     $DATABASE_NAME = 'pmo';
 //try the following code
 try {
+  $pdo = 1;
     	return new PDO('mysql:host=' . $DATABASE_HOST . ';dbname=' . $DATABASE_NAME . ';charset=utf8', $DATABASE_USER, $DATABASE_PASS);
       // Set the PDO error mode to report errors and throw exceptions
       $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -63,7 +66,6 @@ echo <<<EOT
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <!-- Excel Export Library -->
-<script src="export.js"></script>
 <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>    
 <script type="text/javascript">
    function ExportExcel(type, fn, dl) {
@@ -75,7 +77,7 @@ echo <<<EOT
    }
 </script>
 <!--link all the pages to the external styling css file, pmo_style.css-->
-<link href="Style/pmo_style.css" rel="stylesheet" type="text/css">
+<link href="/pmo_style.css" rel="stylesheet" type="text/css">
 </head>
 	<body>
 
@@ -89,6 +91,7 @@ EOT;
 function template_footer() {
   // For Dev Use Only
   // var_dump($_SESSION);
+  // var_dump($_POST);
   //include 'footer.php';
 }
 /*-----------end of function for making the footer of each page-------*/

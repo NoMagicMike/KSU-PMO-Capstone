@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>$title</title>
+  <!-- fontawesome is used for the icons-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+  <!-- Bootstrap References -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+  <!-- Excel Export Library -->
+  <script src="export.js"></script>
+  <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+  <script type="text/javascript">
+    function ExportExcel(type, fn, dl) {
+      var elt = document.getElementById('exportable_table');
+      var wb = XLSX.utils.table_to_book(elt, {
+        sheet: "Sheet JS"
+      });
+      return dl ?
+        XLSX.write(wb, {
+          bookType: type,
+          bookSST: true,
+          type: 'base64'
+        }) :
+        XLSX.writeFile(wb, fn || ('PMOExport.' + (type || 'xlsx')));
+    }
+  </script>
+  <!--link all the pages to the external styling css file, pmo_style.css-->
+  <link href="Style/pmo_style.css" rel="stylesheet" type="text/css">
+</head>
+
+<div class="jumbotron">
+  <form action="create_project.php" autocomplete="off" method="post">
+    <h1>Create a New Project</h1>
+    <div class="row">
+      <!--Link this form's actions to this file, create_project.php-->
+
+      <div class="card col-xl-4 col-lg-6 col-md-12">
+        <div class="card-header">
+          <h2>Section 1 - General Project Information</h2>
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <div class="row">
+              <div class="form-group col-lg-6">
+                <label for="project_category">Project Category :</label>
+                <select class="form-control" onchange="checkProjectCategory()" id="project_category"
+                  name="project_category" required>
+                  <option value="" disabled selected>Select a Category</option>
+                  <option value="Capstone">Capstone</option>
+                  <option value="Contract for Hire">Contract for Hire</option>
+                  <option value="Research">Research</option>
+                </select>
+              </div>
+              <div class="form-group col-lg-6">
+                <label for="organization_name">Organization Name :</label>
+                <input type="text" class="form-control" id="organization_name" name="organization_name"
+                  placeholder="ex./ Kennesaw State University" required>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-lg-6">
+                <label for="project_title">Project Title :</label>
+                <input type="text" class="form-control" id="project_title" name="project_title"
+                  placeholder="ex./ PMO Capstone" required>
+              </div>
+              <div class="form-group col-lg-6">
+                <label for="ksu_department">KSU Department :</label>
+                <select id="ksu_department" class="form-control" name="ksu_department" required>
+                  <option value="" disabled selected>Select a Department</option>
+                  <option value="Analytics and Data Science">Analytics and Data Science</option>
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Information Technology">Information Technology</option>
+                  <option value="Software Engineering and Game Development">Software Engineering and Game Development
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="priority_level">Priority Level :</label>
+                <select required class="form-control" id="priority_level" name="priority_level" required>
+                  <option value="" disabled selected>Select a Priority Level</option>
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+              </div>
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="start_date">Start Date :</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" required>
+                <br />
+              </div>
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="end_date">End Date :</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" required>
+              </div>
+
+
+
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="funded">Is this project funded ?</label><br />
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="funded" id="yes_1" value="Yes">
+                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="funded" id="no_1" value="No">
+                  <label class="form-check-label" for="inlineRadio2">No</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="funded" id="n/a" value="N/A" checked>
+                  <label class="form-check-label" for="inlineRadio3">N/A</label>
+                </div>
+              </div>
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="total_cost">Total Cost : $</label>
+                <input class="form-control" type="text" id="total_cost" name="total_cost" placeholder="Format: 0.00">
+
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label for="description">Description :</label>
+                <textarea class="form-control" id="description" maxlength="600" name="description"
+                  placeholder="Type up to 600 characters." required rows="3"></textarea>
+              </div>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+
+
+      <div class="card col-xl-4 col-lg-6 col-md-12">
+        <div class="card-header">
+          <h2>Section 2 - Sponsor Information</h2>
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <label for="last_name">Last Name :</label>
+            <input class="form-control" type="text" id="last_name" name="last_name" required>
+            <br />
+            <label for="first_name">First Name :</label>
+            <input class="form-control" type="text" id="first_name" name="first_name" required>
+            <br />
+            <label for="participant_org">Sponsor's Organization Name :</label>
+            <input class="form-control" type="text" id="participant_org" name="participant_org" required>
+            <br />
+            <label for="email">Email :</label>
+            <input class="form-control" type="email" id="email" name="email" required>
+            <br />
+            <label for="phone">Phone Number :</label>
+            <input class="form-control" type="text" id="phone" name="phone" required>
+            <br />
+          </blockquote>
+        </div>
+      </div>
+
+
+      <!--Beginning of dynamic project category form fields-->
+      <div class="card card col-xl-4 col-lg-6 col-md-12" id="capstone_fields" name="capstone_fields"
+        style="display: none">
+        <div class="card-header">
+          <h2>Section 3 - Capstone Details</h2>
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <!--capstone project fields-->
+            <div class="row">
+              <div class="form-group col-lg-6">
+                <label for="degree_level" disabled>What is the degree level for this project?</label>
+                <input type="radio" id="grad" name="degree_level" value="1" required disabled> Graduate
+                <input type="radio" id="undergrad" name="degree_level" value="0" disabled> Undergraduate
+              </div>
+
+              <div class="form-group col-lg-6">
+                <label for="skills_needed">Skills Needed :</label>
+                <textarea class="form-control" id="skills_needed" maxlength="600" name="skills_needed"
+                  placeholder="Type up to 600 characters." required disabled rows="3"></textarea>
+              </div>
+
+
+            </div>
+
+            <div class="row">
+              <div class="form-group col-lg-6">
+                <label for="milestone_1">Milestone 1 Deliverables :</label>
+                <textarea class="form-control" id="milestone_1" maxlength="600" name="milestone_1"
+                  placeholder="Type up to 600 characters." required disabled rows="3"></textarea>
+              </div>
+
+              <div class="form-group col-lg-6">
+                <label for="milestone_2">Milestone 2 Deliverables :</label>
+                <textarea class="form-control" id="milestone_2" maxlength="600" name="milestone_2"
+                  placeholder="Type up to 600 characters." required disabled rows="3"></textarea>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-lg-12">
+                <label for="final_deliverables">Final Deliverables :</label>
+                <textarea class="form-control" id="final_deliverables" maxlength="600" name="final_deliverables"
+                  placeholder="Type up to 600 characters." required disabled rows="3"></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-lg-12">
+                <label for="student_benefits">How does this project benefit the student ?</label>
+                <textarea class="form-control" id="student_benefits" maxlength="600" name="student_benefits"
+                  placeholder="Type up to 600 characters." required disabled rows="3"></textarea>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-lg-12">
+                <label for="sponsor_benefits">How does this project benefit the sponsor ?</label>
+                <textarea class="form-control" id="sponsor_benefits" maxlength="600" name="sponsor_benefits"
+                  placeholder="Type up to 600 characters." required disabled rows="3"></textarea>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-lg-12">
+                <label for="company_provides">What will the company provide for the student ?</label>
+                <textarea class="form-control" id="company_provides" maxlength="600" name="company_provides"
+                  placeholder="Type up to 600 characters." required disabled rows="3"></textarea>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="nda_or_mou">Will this project require a NDA or MOU?</label><br />
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="nda_or_mou" id="yes_2" value="1" required disabled>
+                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="nda_or_mou" id="no_2" value="0" disabled>
+                  <label class="form-check-label" for="inlineRadio2">No</label>
+                </div>
+              </div>
+
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="company_retain">Does the company wish to retain IP?</label><br />
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="company_retain" id="yes_3" value="1" required
+                    disabled>
+                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="company_retain" id="no_3" value="0" disabled>
+                  <label class="form-check-label" for="inlineRadio2">No</label>
+                </div>
+              </div>
+
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="work_on_site">Will this project require students to work on site?</label><br />
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="work_on_site" id="yes_4" value="1" required
+                    disabled>
+                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="work_on_site" id="no_4" value="0" disabled>
+                  <label class="form-check-label" for="inlineRadio2">No</label>
+                </div>
+              </div>
+
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="work_sponsor_site">Will students be required to present at the sponsor’s site?</label><br />
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="work_sponsor_site" id="yes_5" value="1" required
+                    disabled>
+                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="work_sponsor_site" id="no_5" value="0" disabled>
+                  <label class="form-check-label" for="inlineRadio2">No</label>
+                </div>
+              </div>
+
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="on_campus_present">Would you like to make an on campus presentation the first week of
+                  classes?</label><br />
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="on_campus_present" id="yes_6" value="1" required
+                    disabled>
+                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="on_campus_present" id="no_6" value="0" disabled>
+                  <label class="form-check-label" for="inlineRadio2">No</label>
+                </div>
+              </div>
+
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="virtual_present">If you are unavailable for an on campus presentation,would you like to
+                  provide a video presentation ?</label><br />
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="virtual_present" id="yes_7" value="1" required
+                    disabled>
+                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="virtual_present" id="no_7" value="0" disabled>
+                  <label class="form-check-label" for="inlineRadio2">No</label>
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="num_of_teams">How many student teams are you interested in sponsoring?</label>
+                <select required disabled id="num_of_teams" name="num_of_teams" class="capstone_fields">
+                  <option value="" disabled selected>Make Selection</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+              </div>
+
+              <div class="form-group col-lg-6">
+                <label for="availability">Please describe your availability :</label>
+                <textarea class="form-control" id="availability" maxlength="600" name="availability"
+                  placeholder="Type up to 600 characters." required disabled rows="3"></textarea>
+              </div>
+            </div>
+
+
+        </div>
+        </blockquote>
+      </div>
+
+
+
+      <div class="card card col-xl-4 col-lg-6 col-md-12" id="research_fields" name="research_fields"
+        style="display: none">
+        <div class="card-header">
+          <h2>Section 3 - Research Details</h2>
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+
+            <!--research project fields-->
+
+            <div class="form-group col-lg-12">
+              <label for="topic">Please describe your research Topic :</label>
+              <textarea class="form-control research_fields" id="topic" maxlength="600" name="topic" placeholder="Type up to 600 characters." required disabled rows="3"></textarea>
+            </div>
+
+
+          </blockquote>
+        </div>
+      </div>
+
+      <div class="card card col-xl-4 col-lg-6 col-md-12" id="contract_fields" name="contract_fields"
+        style="display: none">
+        <div class="card-header">
+          <h2>Section 3 - Contract for Hire Details</h2>
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <div class="row">
+              <div class="form-group col-lg-12">
+                <label for="company_address">Company Address :</label>
+                <textarea class="form-control contract_fields" id="company_address" maxlength="600"
+                  name="company_address" placeholder="Type up to 600 characters." rows="3" required disabled></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-lg-6">
+                <label for="first_payment_amt">First Payment Amount :</label>
+                <input class="form-control" type="text" id="first_payment_amt" class="contract_fields"
+                  name="first_payment_amt" placeholder="Format: 0.00">
+
+              </div>
+              <div class="form-group col-lg-6">
+                <label for="second_payment_amt">First Payment Amount :</label>
+                <input class="form-control" type="text" id="second_payment_amt" class="contract_fields"
+                  name="second_payment_amt" placeholder="Format: 0.00">
+
+              </div>
+            </div>
+          </blockquote>
+        </div>
+      </div>
+
+      <div class="card col-sm-12">
+        <div class="card-header">
+          <h2>Optional - Add Project Participants</h2>
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <h5>Faculty</h5>
+            <table id="faculty_table" align=center class="table-responsive table-striped table-sm">
+              <tr id="f_row0" style="display: none;">
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Organization</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Department</th>
+                <th>Title</th>
+              </tr>
+            </table>
+            <input type="button" class="btn btn-outline-secondary"
+              onclick="add_f_row(); addHeader('faculty_table', 'f_row0')" value="ADD FACULTY">
+            <h5>Staff</h5>
+            <table id="staff_table" align=center class="table-responsive table-striped table-sm">
+              <tr id="sta_row0" style="display: none;">
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Organization</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Department</th>
+                <th>Title</th>
+              </tr>
+            </table>
+            <input type="button" class="btn btn-outline-secondary"
+              onclick="add_sta_row(); addHeader('staff_table', 'sta_row0')" value="ADD STAFF">
+            <h5>Students</h5>
+            <table id="student_table" align=center class="table-responsive table-striped table-sm">
+              <tr id="stu_row0" style="display: none;">
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Organization</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Major</th>
+                <th>Degree Level</th>
+              </tr>
+            </table>
+            <input type="button" class="btn btn-outline-secondary"
+              onclick="add_stu_row(); addHeader('student_table', 'stu_row0')" value="ADD STUDENT">
+            <h5>Contractors</h5>
+            <table id="contractor_table" align=center class="table-responsive table-striped table-sm">
+              <tr id="c_row0" style="display: none;">
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Organization</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Contract Start</th>
+                <th>Contract End</th>
+                <th>Title</th>
+              </tr>
+            </table>
+            <input type="button" class="btn btn-outline-secondary"
+              onclick="add_c_row(); addHeader('contractor_table', 'c_row0')" value="ADD CONTRACTOR">
+            <br />
+
+            <!--Approval Status with Admin Permission only-->
+            <br />
+            <hr>
+            <h5>Admin Use Only:</h5>
+            <div class="row">
+
+              <div class="form-group col-lg-12">
+                <?php if ($_SESSION['adminCheck'] == 1): ?>
+                <label for="approval">Approval Status :</label><br />
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="approval" id="approved" value="Approved" required>
+                  <label class="form-check-label" for="inlineRadio1">Approved</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="approval" id="disapproved" value="Disapproved"
+                    required>
+                  <label class="form-check-label" for="inlineRadio1">Disapproved</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="approval" id="pending" value="Pending" required
+                    checked>
+                  <label class="form-check-label" for="inlineRadio1">Pending</label>
+                </div>
+                <?php else: ?>
+                <label for="approval">Approval Status :</label><br />
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="approval" id="approved" value="Approved" disabled>
+                  <label class="form-check-label" for="inlineRadio1">Approved</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="approval" id="disapproved" value="Disapproved"
+                    disabled>
+                  <label class="form-check-label" for="inlineRadio1">Disapproved</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="approval" id="pending" value="Pending" disabled
+                    checked>
+                  <label class="form-check-label" for="inlineRadio1">Pending</label>
+                </div>
+                <?php endif;?>
+                <!--end of admin check -->
+              </div>
+            </div>
+            <hr>
+            <input class="btn btn-warning" type="submit" id="submit_btn" value="Submit">
+          </blockquote>
+        </div>
+      </div>
+  </form>
+</div>

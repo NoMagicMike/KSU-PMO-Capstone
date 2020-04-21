@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb5
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Apr 18, 2020 at 11:27 AM
--- Server version: 5.7.29-0ubuntu0.18.04.1
--- PHP Version: 7.4.4
+-- Host: localhost
+-- Generation Time: Apr 21, 2020 at 02:37 AM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.2.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -19,8 +21,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `pmo`
 --
-CREATE DATABASE IF NOT EXISTS `pmo` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `pmo`;
+
 -- --------------------------------------------------------
 
 --
@@ -52,8 +53,8 @@ CREATE TABLE `capstone_project` (
 --
 
 INSERT INTO `capstone_project` (`degree_level`, `skills_needed`, `milestone_1`, `milestone_2`, `final_deliverables`, `student_benefits`, `sponsor_benefits`, `company_provides`, `nda_or_mou`, `company_retain`, `work_on_site`, `work_sponsor_site`, `on_campus_present`, `virtual_present`, `num_of_teams`, `availability`, `project_id`) VALUES
-(0, 'computer, time management', 'the beginning', 'the middle', 'the end', 'they get smarter', 'they get free help', 'guidance', 0, 1, 0, 0, 1, 0, 2, 'anything via cell', 106),
-(0, 'stuff, things, more stuff', 'first things', 'second things', 'last things', 'you learn', 'stuff is made', 'good advice', 0, 1, 0, 0, 1, 0, 3, 'monday through friday 9-5', 105);
+(0, 'stuff, things, more stuff', 'first things', 'second things', 'last things', 'you learn', 'stuff is made', 'good advice', 0, 1, 0, 0, 1, 0, 3, 'monday through friday 9-5', 105),
+(0, 'computer, time management', 'the beginning', 'the middle', 'the end', 'they get smarter', 'they get free help', 'guidance', 0, 1, 0, 0, 1, 0, 2, 'anything via cell', 106);
 
 -- --------------------------------------------------------
 
@@ -155,10 +156,10 @@ CREATE TABLE `project` (
 
 INSERT INTO `project` (`project_id`, `project_category`, `organization_name`, `project_title`, `ksu_department`, `priority_level`, `start_date`, `end_date`, `funded`, `total_cost`, `description`, `approval`) VALUES
 (105, 'Capstone', 'KSU ', 'PMO Website', 'Information Technology', 'Low', '2020-04-01', '2020-04-30', 'N/A', '0.00', 'Make a site for managing projects.', 'Approved'),
-(106, 'Capstone', 'KSU', 'AI for organizing Capstone Project Requests', 'Computer Science', 'Low', '2020-04-03', '2020-05-28', 'No', '4233.66', 'Make AI stuff with Python', 'Pending'),
+(106, 'Capstone', 'KSU ', 'AI for organizing Capstone Project Requests', 'Computer Science', 'Low', '2020-04-03', '2020-05-28', 'No', '4233.66', 'Make AI stuff with Python', 'Approved'),
 (107, 'Contract for Hire', 'CDC', 'Virus Tracking System', 'Computer Science', 'High', '2020-04-08', '2020-05-31', 'Yes', '34276.00', 'Build a system that tracks the spread and stats of a virus', 'Approved'),
 (108, 'Contract for Hire', 'Fake Startup Inc.', 'AI Robot', 'Computer Science', 'Medium', '2020-04-01', '2020-04-30', 'Yes', '2342332.00', 'Built a robot', 'Approved'),
-(109, 'Research', 'National Wildlife Association', 'Software for Animal stuff', 'Information Technology', 'Medium', '2020-04-15', '2020-04-30', 'Yes', '23432.00', 'struggling to come up with stuff', 'Pending'),
+(109, 'Research', 'National Wildlife Association ', 'Software for Animal stuff', 'Information Technology', 'Medium', '2020-04-15', '2020-04-30', 'Yes', '23432.00', 'struggling to come up with stuff', 'Approved'),
 (110, 'Research', 'Big Bytes Inc.', 'Computing Things ', 'Software Engineering and Game Development', 'High', '2020-04-29', '2020-04-30', 'N/A', '0.00', 'Make computers do stuff', 'Approved');
 
 -- --------------------------------------------------------
@@ -173,6 +174,15 @@ CREATE TABLE `project_file` (
   `file_path` varchar(100) NOT NULL,
   `project_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `project_file`
+--
+
+INSERT INTO `project_file` (`file_id`, `file_name`, `file_path`, `project_id`) VALUES
+(20, 'Project Plan Document.docx', '/Applications/XAMPP/xamppfiles/htdocs/uploads/Project Plan Document.docx', 106),
+(21, 'BurndownChart.xlsx', '/Applications/XAMPP/xamppfiles/htdocs/uploads/BurndownChart.xlsx', 106),
+(23, 'W13.docx', '/Applications/XAMPP/xamppfiles/htdocs/uploads/W13.docx', 105);
 
 -- --------------------------------------------------------
 
@@ -250,8 +260,8 @@ CREATE TABLE `research_project` (
 --
 
 INSERT INTO `research_project` (`topic`, `project_id`) VALUES
-('Animals', 109),
-('calculations', 110);
+('calculations', 110),
+('Animals', 109);
 
 -- --------------------------------------------------------
 
@@ -295,11 +305,20 @@ INSERT INTO `student` (`participant_id`, `major`, `degree_level`) VALUES
 
 CREATE TABLE `user` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `user_name` varchar(45) NOT NULL,
-  `user_password_hash` varchar(100) NOT NULL,
-  `user_admin` tinyint(1) NOT NULL,
-  `user_salt` varchar(100) NOT NULL
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `user_admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`user_id`, `username`, `password`, `created_at`, `user_admin`) VALUES
+(37, 'admin', '$2y$10$nxfGG7ibcxOskO7Ip5jwEuF/mSosDBkyL0VnCs/q3xN4pgfH0sWAW', '2020-03-29 15:46:23', 1),
+(38, 'standard', '$2y$10$sOYxPR76ijukg7TRstl3E.4bOVPIyfp.KszcqydRUEizv5qS1F2Vi', '2020-03-29 16:45:48', 0),
+(41, 'admin2', '$2y$10$beuYUTTao7rwkhtkvKF.8OsxDBI0HAd8VCeF6ei7/0NpOJsB9UKSm', '2020-03-29 17:05:50', 1);
 
 --
 -- Indexes for dumped tables
@@ -365,7 +384,8 @@ ALTER TABLE `student`
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `username` (`username`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -375,22 +395,26 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `project`
 --
 ALTER TABLE `project`
-  MODIFY `project_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=111;
+  MODIFY `project_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+
 --
 -- AUTO_INCREMENT for table `project_file`
 --
 ALTER TABLE `project_file`
-  MODIFY `file_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `file_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
 --
 -- AUTO_INCREMENT for table `project_participant`
 --
 ALTER TABLE `project_participant`
-  MODIFY `participant_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=352;
+  MODIFY `participant_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=396;
+
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+
 --
 -- Constraints for dumped tables
 --
@@ -442,6 +466,7 @@ ALTER TABLE `research_project`
 --
 ALTER TABLE `student`
   ADD CONSTRAINT `FK_780` FOREIGN KEY (`participant_id`) REFERENCES `project_participant` (`participant_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
