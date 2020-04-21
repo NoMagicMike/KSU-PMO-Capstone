@@ -3,10 +3,10 @@
 session_start();
 
 // Check if the user is logged in, if not then redirect to login page
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
-    header("location: login.php");
-    exit;
-}
+// if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
+//     header("location: login.php");
+//     exit;
+// }
 // //include the pmo_functions.php file and navbar.php to add header, footer, and navbar
 include 'pmo_functions.php';
 
