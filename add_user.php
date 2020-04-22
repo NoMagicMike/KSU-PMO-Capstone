@@ -84,7 +84,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         
         // Prepare an insert statement
-        $sql = "INSERT INTO User (username, password, user_admin) VALUES (:username, :password, :user_admin)";
+        $sql = "INSERT INTO user (username, password, user_admin) VALUES (:username, :password, :user_admin)";
          
         if($stmt = $pdo->prepare($sql)){
             // Bind variables to the prepared statement as parameters
