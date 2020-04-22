@@ -824,7 +824,7 @@ function add_c_row()
         <input type="text" id="final_deliverables" name="final_deliverables" class="capstone_fields" value="<?=$project['final_deliverables']?>" required disabled>
         <br />
         <label for="student_benefits">How does this project benefit the student ?</label>
-        <input type="text" id="student_benefits" name="student_benefits" class="capstone_fields" value="<?=$project['student_benefits']?? '' ?>" required disabled>
+        <input type="text" id="student_benefits" name="student_benefits" class="capstone_fields" value="<?=$project['student_benefits']?>" required disabled>
         <br />
         <label for="sponsor_benefits">How does this project benefit the sponsor ?</label>
         <input type="text" id="sponsor_benefits" name="sponsor_benefits" class="capstone_fields" value="<?=$project['sponsor_benefits']?>" required disabled>
