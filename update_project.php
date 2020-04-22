@@ -81,9 +81,10 @@ if (isset($_GET['project_id'])) {
             foreach ($allParticipants as $key=>$val) {
               if (!in_array($val, $participantsSubmitted)) {
                 $conn->beginTransaction();
-                $deleteParticipantSQL = 'DELETE FROM project_participant
-                                     WHERE participant_id = ?';
-                ($stmt = $conn->prepare($deleteParticipantSQL))->execute([$val]);
+                // $deleteParticipantSQL = 'DELETE FROM project_participant
+                //                      WHERE participant_id = ?';
+                $stmt = $conn->prepare('DELETE FROM project_participant
+                WHERE participant_id = ?')->execute([$val]);
                 $conn->commit();
                 $stmt = null;
               }
