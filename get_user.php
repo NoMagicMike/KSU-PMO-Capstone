@@ -88,7 +88,6 @@ if (isset($_GET['search'])) {
 to see if there should be a next and previous button*/
 else {
 	$num_user = $conn->query('SELECT COUNT(*) FROM user')->fetchColumn();
-	$num_project = $conn->query('SELECT COUNT(*) FROM project')->fetchColumn();
 }
 ?>
 <!--Add in header from pmo_functions.php and insert the title of this page, "Get User"-->
