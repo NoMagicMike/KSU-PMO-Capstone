@@ -387,7 +387,8 @@ if (isset($_GET['project_id'])) {
             $conn->beginTransaction();
             $deleteCaptoneSQL = "DELETE FROM capstone_project
                                  WHERE project_id = ?";
-            ($stmt = $conn->prepare($deleteCaptoneSQL))->execute([$_GET['project_id']]);
+            $stmt = $conn->prepare('DELETE FROM capstone_project
+            WHERE project_id = ?')->execute([$_GET['project_id']]);
             $conn->commit();
             $stmt = null;
             $conn = null;
