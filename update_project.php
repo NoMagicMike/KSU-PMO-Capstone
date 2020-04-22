@@ -812,80 +812,80 @@ function add_c_row()
         <input id="undergrad" type="radio" name="degree_level" value="0" <?php if (($project['degree_level']) =='0') echo 'checked="checked"'; ?> disabled/> Undergraduate
         <br />
         <label for="skills_needed">Skills Needed :</label>
-        <input type="text" id="skills_needed" name="skills_needed" class="capstone_fields" value="<?=$project['skills_needed'] ?? ''?>" required disabled>
+        <input type="text" id="skills_needed" name="skills_needed" class="capstone_fields" value="<?=$project['skills_needed']?>" required disabled>
         <br />
         <label for="milestone_1">Milestone 1 Deliverables :</label>
-        <input type="text" id="milestone_1" name="milestone_1" class="capstone_fields" value="<?=$project['milestone_1'] ?? '' ?>" required disabled>
+        <input type="text" id="milestone_1" name="milestone_1" class="capstone_fields" value="<?=$project['milestone_1'] ?>" required disabled>
         <br />
         <label for="milestone_2">Milestone 2 Deliverables :</label>
-        <input type="text" id="milestone_2" name="milestone_2" class="capstone_fields" value="<?=$project['milestone_2'] ?? ''?>" required disabled>
+        <input type="text" id="milestone_2" name="milestone_2" class="capstone_fields" value="<?=$project['milestone_2']?>" required disabled>
         <br />
         <label for="final_deliverables">Final Deliverables :</label>
-        <input type="text" id="final_deliverables" name="final_deliverables" class="capstone_fields" value="<?=$project['final_deliverables'] ?? ''?>" required disabled>
+        <input type="text" id="final_deliverables" name="final_deliverables" class="capstone_fields" value="<?=$project['final_deliverables']?>" required disabled>
         <br />
         <label for="student_benefits">How does this project benefit the student ?</label>
         <input type="text" id="student_benefits" name="student_benefits" class="capstone_fields" value="<?=$project['student_benefits']?? '' ?>" required disabled>
         <br />
         <label for="sponsor_benefits">How does this project benefit the sponsor ?</label>
-        <input type="text" id="sponsor_benefits" name="sponsor_benefits" class="capstone_fields" value="<?=$project['sponsor_benefits'] ?? ''?>" required disabled>
+        <input type="text" id="sponsor_benefits" name="sponsor_benefits" class="capstone_fields" value="<?=$project['sponsor_benefits']?>" required disabled>
         <br />
         <label for="company_provides">What will the company provide for the student ?</label>
-        <input type="text" id="company_provides" name="company_provides" class="capstone_fields" value="<?=$project['company_provides'] ?? ''?>" required disabled>
+        <input type="text" id="company_provides" name="company_provides" class="capstone_fields" value="<?=$project['company_provides']?>" required disabled>
         <br />
         <label for="nda_or_mou" disabled>Will this project require a NDA or MOU ?</label>
-        <input id="yes_2" type="radio" name="nda_or_mou" value="1" <?php if (($project['nda_or_mou'] ?? '') =='1') echo 'checked="checked"'; ?> required disabled/> Yes
-        <input id="no_2" type="radio" name="nda_or_mou" value="0" <?php if (($project['nda_or_mou'] ?? '') =='0') echo 'checked="checked"'; ?> disabled/> No
+        <input id="yes_2" type="radio" name="nda_or_mou" value="1" <?php if (($project['nda_or_mou']) =='1') echo 'checked="checked"'; ?> required disabled/> Yes
+        <input id="no_2" type="radio" name="nda_or_mou" value="0" <?php if (($project['nda_or_mou']) =='0') echo 'checked="checked"'; ?> disabled/> No
         <br />
         <label for="company_retain" disabled>Does the company wish to retain IP ?</label>
-        <input id="yes_3" type="radio" name="company_retain" value="1" <?php if (($project['company_retain'] ?? '') =='1') echo 'checked="checked"'; ?> required disabled/> Yes
-        <input id="no_3" type="radio" name="company_retain" value="0" <?php if (($project['company_retain'] ?? '')=='0') echo 'checked="checked"'; ?> disabled/> No
+        <input id="yes_3" type="radio" name="company_retain" value="1" <?php if (($project['company_retain']) =='1') echo 'checked="checked"'; ?> required disabled/> Yes
+        <input id="no_3" type="radio" name="company_retain" value="0" <?php if (($project['company_retain'])=='0') echo 'checked="checked"'; ?> disabled/> No
         <br />
         <label for="work_on_site" disabled>Will this project require students to work on site ?</label>
-        <input id="yes_4" type="radio" name="work_on_site" value="1" <?php if (($project['work_on_site'] ?? '')=='1') echo 'checked="checked"'; ?> required disabled/> Yes
-        <input id="no_4" type="radio" name="work_on_site" value="0" <?php if (($project['work_on_site'] ?? '')=='0') echo 'checked="checked"'; ?> disabled/> No
+        <input id="yes_4" type="radio" name="work_on_site" value="1" <?php if (($project['work_on_site'])=='1') echo 'checked="checked"'; ?> required disabled/> Yes
+        <input id="no_4" type="radio" name="work_on_site" value="0" <?php if (($project['work_on_site'])=='0') echo 'checked="checked"'; ?> disabled/> No
         <br />
         <label for="work_sponsor_site" disabled>Will students be required to present at the sponsor’s site ?</label>
-        <input id="yes_5" type="radio" name="work_sponsor_site" value="1" <?php if (($project['work_sponsor_site'] ?? '')=='1') echo 'checked="checked"'; ?> required disabled/> Yes
-        <input id="no_5" type="radio" name="work_sponsor_site" value="0" <?php if (($project['work_sponsor_site'] ?? '') =='0') echo 'checked="checked"'; ?> disabled/> No
+        <input id="yes_5" type="radio" name="work_sponsor_site" value="1" <?php if (($project['work_sponsor_site'])=='1') echo 'checked="checked"'; ?> required disabled/> Yes
+        <input id="no_5" type="radio" name="work_sponsor_site" value="0" <?php if (($project['work_sponsor_site']) =='0') echo 'checked="checked"'; ?> disabled/> No
         <br />
         <label for="on_campus_present" disabled>Would you like to make an on campus presentation the first week of classes ?</label>
-        <input id="yes_6" type="radio" name="on_campus_present" value="1" <?php if (($project['on_campus_present'] ?? '')=='1') echo 'checked="checked"'; ?> required disabled/> Yes
-        <input id="no_6" type="radio" name="on_campus_present" value="0" <?php if (($project['on_campus_present'] ?? '')=='0') echo 'checked="checked"'; ?> disabled/> No
+        <input id="yes_6" type="radio" name="on_campus_present" value="1" <?php if (($project['on_campus_present'])=='1') echo 'checked="checked"'; ?> required disabled/> Yes
+        <input id="no_6" type="radio" name="on_campus_present" value="0" <?php if (($project['on_campus_present'])=='0') echo 'checked="checked"'; ?> disabled/> No
         <br />
         <label for="virtual_present" disabled>If you are unavailable for an on campus presentation,would you like to provide a video presentation ?</label>
-        <input id="yes_7" type="radio" name="virtual_present" value="1" <?php if (($project['virtual_present'] ?? '')=='1') echo 'checked="checked"'; ?> required disabled/> Yes
-        <input id="no_7" type="radio" name="virtual_present" value="0" <?php if (($project['virtual_present'] ?? '') =='0') echo 'checked="checked"'; ?> disabled/> No
+        <input id="yes_7" type="radio" name="virtual_present" value="1" <?php if (($project['virtual_present'])=='1') echo 'checked="checked"'; ?> required disabled/> Yes
+        <input id="no_7" type="radio" name="virtual_present" value="0" <?php if (($project['virtual_present']) =='0') echo 'checked="checked"'; ?> disabled/> No
         <br />
         <label for="num_of_teams">How many student teams are you interested in sponsoring ?</label>
         <select disabled id="num_of_teams" name="num_of_teams" class="capstone_fields" required>
         <option value="" disabled selected>Make Selection</option>
-        <option <?php if(($project['num_of_teams'] ?? '')=="1"){echo "selected";}?>>1</option>
-        <option <?php if(($project['num_of_teams'] ?? '')=="2"){echo "selected";}?>>2</option>
-        <option <?php if(($project['num_of_teams'] ?? '')=="3"){echo "selected";}?>>3</option>
+        <option <?php if(($project['num_of_teams'])=="1"){echo "selected";}?>>1</option>
+        <option <?php if(($project['num_of_teams'])=="2"){echo "selected";}?>>2</option>
+        <option <?php if(($project['num_of_teams'])=="3"){echo "selected";}?>>3</option>
         </select>
         <br />
         <label for="availability">Please describe your availability :</label>
-        <input type="text" name="availability" class="capstone_fields" value="<?=$project['availability'] ?? ''?>" id="availability" required disabled>
+        <input type="text" name="availability" class="capstone_fields" value="<?=$project['availability']?>" id="availability" required disabled>
         <br />
         </div>
         <!--research project fields-->
         <div id="research_fields" name="research_fields" style="display: none">
         <h2>Section 2 - Research Details</h2>
         <label for="topic">Topic :</label>
-        <input type="text" name="topic" class="research_fields" value="<?=$project['topic'] ?? ''?>" id="topic" required disabled>
+        <input type="text" name="topic" class="research_fields" value="<?=$project['topic']?>" id="topic" required disabled>
         <br />
         </div>
         <!--contract project fields-->
         <div id="contract_fields" name="contract_fields" style="display: none">
         <h2>Section 2 - Contract for Hire Details</h2>
         <label for="company_address">Company Address :</label>
-        <input type="text" name="company_address" class="contract_fields" value="<?=$project['company_address'] ?? ''?>" id="company_address" required disabled>
+        <input type="text" name="company_address" class="contract_fields" value="<?=$project['company_address']?>" id="company_address" required disabled>
         <br />
         <label for="first_payment_amt">First Payment Amount :</label>
-        <input type="text" name="first_payment_amt" class="contract_fields" value="<?=$project['first_payment_amt'] ?? ''?>" id="first_payment_amt" required disabled>
+        <input type="text" name="first_payment_amt" class="contract_fields" value="<?=$project['first_payment_amt']?>" id="first_payment_amt" required disabled>
         <br />
         <label for="second_payment_amt">Second Payment Amount :</label>
-        <input type="text" name="second_payment_amt" class="contract_fields" value="<?=$project['second_payment_amt'] ?? ''?>" id="second_payment_amt" required disabled>
+        <input type="text" name="second_payment_amt" class="contract_fields" value="<?=$project['second_payment_amt']?>" id="second_payment_amt" required disabled>
         <br />
         </div>
         <!--End of dynamic project category form fields-->
