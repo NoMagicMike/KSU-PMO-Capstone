@@ -808,8 +808,8 @@ function add_c_row()
         <div id="capstone_fields" name="capstone_fields" style="display: none">
         <h2>Section 2 - Capstone Details</h2>
         <label for="degree_level" disabled>What is the degree level for this project?</label>
-        <input id="grad" type="radio" name="degree_level" value="1" <?php if (($project['degree_level'] ?? '') =='1') echo 'checked="checked"'; ?> required disabled/> Graduate
-        <input id="undergrad" type="radio" name="degree_level" value="0" <?php if (($project['degree_level'] ?? '') =='0') echo 'checked="checked"'; ?> disabled/> Undergraduate
+        <input id="grad" type="radio" name="degree_level" value="1" <?php if (($project['degree_level']) =='1') echo 'checked="checked"'; ?> required disabled/> Graduate
+        <input id="undergrad" type="radio" name="degree_level" value="0" <?php if (($project['degree_level']) =='0') echo 'checked="checked"'; ?> disabled/> Undergraduate
         <br />
         <label for="skills_needed">Skills Needed :</label>
         <input type="text" id="skills_needed" name="skills_needed" class="capstone_fields" value="<?=$project['skills_needed'] ?? ''?>" required disabled>
