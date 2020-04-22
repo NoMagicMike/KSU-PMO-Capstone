@@ -404,7 +404,7 @@ if (isset($_GET['project_id'])) {
             $conn->beginTransaction();
             $deleteResearchSQL = "DELETE FROM research_project
                                   WHERE project_id = ?";
-            ($stmt = $conn->prepare($deleteResearchSQL))->execute([$_GET['project_id']]);
+            $stmt = $conn->prepare($deleteResearchSQL)->execute([$_GET['project_id']]);
             $conn->commit();
             $stmt = null;
             $conn = null;
