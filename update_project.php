@@ -396,7 +396,7 @@ if (isset($_GET['project_id'])) {
             $conn->beginTransaction();
             $deleteContractForHireSQL = "DELETE FROM contract_for_hire
                                          WHERE project_id = ?";
-            ($stmt = $conn->prepare($deleteContractForHireSQL))->execute([$_GET['project_id']]);
+            $stmt = $conn->prepare($deleteContractForHireSQL)->execute([$_GET['project_id']]);
             $conn->commit();
             $stmt = null;
             $conn = null;
