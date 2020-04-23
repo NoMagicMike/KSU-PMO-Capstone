@@ -16,6 +16,7 @@ if($_SESSION['adminCheck'] != 1){
 	      </script>";
   exit;
 }
+$blank = '';
 // Include the pmo_functions.php file to add header, footer, and navbar
 require 'pmo_functions.php';
 // Check if the project_id exists
@@ -916,7 +917,7 @@ if (isset($_GET['project_id'])) {
                   <label for="milestone_2">Milestone 2 Deliverables :</label>
                   
                     <textarea class="form-control" id="milestone_2" maxlength="600" name="milestone_2"
-                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['milestone_2']?></textarea>
+                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['milestone_2'] ?? ''?></textarea>
                 </div>
               </div>
 
