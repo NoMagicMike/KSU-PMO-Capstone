@@ -1017,8 +1017,6 @@ if (isset($_GET['project_id'])) {
                 </div>
                 <div class="form-group col-lg-6">
                   <label for="availability">Please describe your availability :</label>
-                  <input class="form-control" type="text" name="availability" class="capstone_fields"
-                    value="<?=$project['availability']?>" id="availability" required disabled>
                     <textarea class="form-control" id="availability" maxlength="600" name="availability"
                   placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['availability']?></textarea>
                 </div>
