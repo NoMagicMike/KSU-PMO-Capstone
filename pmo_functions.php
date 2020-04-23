@@ -6,7 +6,7 @@ include 'navbar.php';
 // This DB Connection is for the Log In.
     define('DB_SERVER', 'localhost');
     define('DB_USERNAME', 'root');
-    define('DB_PASSWORD', '');
+    define('DB_PASSWORD', 'password');
     define('DB_NAME', 'pmo');
     /*------ For Development Server Only!-----*/
     // define('DB_SERVER', 'localhost');
