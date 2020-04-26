@@ -2,7 +2,7 @@
 require 'pmo_functions.php';
 $conn = pdo_connect_mysql();
 
-$target_dir = getcwd() . "/uploads/";
+$target_dir = getcwd() . "uploads/";
 
 $file_ary = reArrayFiles($_FILES['fileToUpload']);
 
