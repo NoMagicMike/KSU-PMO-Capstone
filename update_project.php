@@ -901,7 +901,7 @@ if (isset($_GET['project_id'])) {
                   <label for="skills_needed">Skills Needed :</label>
                   
                     <textarea class="form-control" id="skills_needed" maxlength="600" name="skills_needed"
-                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['skills_needed']?></textarea>
+                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['skills_needed'] ?? ''?></textarea>
                 </div>
               </div>
 
@@ -910,7 +910,7 @@ if (isset($_GET['project_id'])) {
                   <label for="milestone_1">Milestone 1 Deliverables :</label>
                   
                     <textarea class="form-control" id="milestone_1" maxlength="600" name="milestone_1"
-                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['milestone_1'] ?></textarea>
+                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['milestone_1']  ?? ''?></textarea>
                 </div>
 
                 <div class="form-group col-lg-6">
@@ -926,28 +926,28 @@ if (isset($_GET['project_id'])) {
                   <label for="final_deliverables">Final Deliverables :</label>
                   
                     <textarea class="form-control" id="final_deliverables" maxlength="600" name="final_deliverables"
-                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['final_deliverables']?></textarea>
+                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['final_deliverables'] ?? ''?></textarea>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-lg-12">
                   <label for="student_benefits">How does this project benefit the student ?</label>
                     <textarea class="form-control" id="student_benefits" maxlength="600" name="student_benefits"
-                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['student_benefits']?></textarea>
+                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['student_benefits'] ?? ''?></textarea>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-lg-12">
                   <label for="sponsor_benefits">How does this project benefit the sponsor ?</label>
                     <textarea class="form-control" id="sponsor_benefits" maxlength="600" name="sponsor_benefits"
-                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['sponsor_benefits']?></textarea>
+                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['sponsor_benefits'] ?? ''?></textarea>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-lg-12">
                   <label for="company_provides">What will the company provide for the student ?</label>
                     <textarea class="form-control" id="company_provides" maxlength="600" name="company_provides"
-                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['company_provides']?></textarea>
+                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['company_provides'] ?? ''?></textarea>
                 </div>
               </div>
               <div class="row">
