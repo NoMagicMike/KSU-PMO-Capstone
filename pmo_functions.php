@@ -6,7 +6,7 @@ include 'navbar.php';
 // This DB Connection is for the Log In.
     define('DB_SERVER', 'localhost');
     define('DB_USERNAME', 'root');
-    define('DB_PASSWORD', 'password');
+    define('DB_PASSWORD', '');
     define('DB_NAME', 'pmo');
     /*------ For Development Server Only!-----*/
     // define('DB_SERVER', 'localhost');
@@ -33,7 +33,7 @@ function pdo_connect_mysql() {
  // $dbname = "pmo";
     $DATABASE_HOST = 'localhost';
     $DATABASE_USER = 'root';
-    $DATABASE_PASS = 'password';
+    $DATABASE_PASS = '';
     $DATABASE_NAME = 'pmo';
 //try the following code
 try {
