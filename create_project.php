@@ -753,7 +753,7 @@ the fields are disabled unless they are called by this checkProjectCategory() fu
           </blockquote>
         </div>
       </div>
-
+      <!--contract project fields-->
       <div class="card card col-xl-4 col-lg-6 col-md-12" id="contract_fields" name="contract_fields"
         style="display: none">
         <div class="card-header">
@@ -786,7 +786,7 @@ the fields are disabled unless they are called by this checkProjectCategory() fu
           </blockquote>
         </div>
       </div>
-
+    <!--End of dynamic project category form fields-->
       <div class="card col-sm-12">
         <div class="card-header">
           <h2>Optional - Add Project Participants</h2>

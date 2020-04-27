@@ -307,7 +307,7 @@ CREATE TABLE `user` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `created_at` datetime DEFAULT current_timestamp(),
+  `created_at` timestamp DEFAULT current_timestamp(),
   `user_admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

@@ -16,6 +16,7 @@ if($_SESSION['adminCheck'] != 1){
 	      </script>";
   exit;
 }
+$blank = '';
 // Include the pmo_functions.php file to add header, footer, and navbar
 require 'pmo_functions.php';
 // Check if the project_id exists
@@ -81,9 +82,10 @@ if (isset($_GET['project_id'])) {
             foreach ($allParticipants as $key=>$val) {
               if (!in_array($val, $participantsSubmitted)) {
                 $conn->beginTransaction();
-                $deleteParticipantSQL = "DELETE FROM project_participant
-                                     WHERE participant_id = ?";
-                ($stmt = $conn->prepare($deleteParticipantSQL))->execute([$val]);
+                // $deleteParticipantSQL = 'DELETE FROM project_participant
+                //                      WHERE participant_id = ?';
+                $stmt = $conn->prepare('DELETE FROM project_participant
+                WHERE participant_id = ?')->execute([$val]);
                 $conn->commit();
                 $stmt = null;
               }
@@ -386,7 +388,8 @@ if (isset($_GET['project_id'])) {
             $conn->beginTransaction();
             $deleteCaptoneSQL = "DELETE FROM capstone_project
                                  WHERE project_id = ?";
-            ($stmt = $conn->prepare($deleteCaptoneSQL))->execute([$_GET['project_id']]);
+            $stmt = $conn->prepare('DELETE FROM capstone_project
+            WHERE project_id = ?')->execute([$_GET['project_id']]);
             $conn->commit();
             $stmt = null;
             $conn = null;
@@ -394,7 +397,7 @@ if (isset($_GET['project_id'])) {
             $conn->beginTransaction();
             $deleteContractForHireSQL = "DELETE FROM contract_for_hire
                                          WHERE project_id = ?";
-            ($stmt = $conn->prepare($deleteContractForHireSQL))->execute([$_GET['project_id']]);
+            $stmt = $conn->prepare($deleteContractForHireSQL)->execute([$_GET['project_id']]);
             $conn->commit();
             $stmt = null;
             $conn = null;
@@ -402,7 +405,7 @@ if (isset($_GET['project_id'])) {
             $conn->beginTransaction();
             $deleteResearchSQL = "DELETE FROM research_project
                                   WHERE project_id = ?";
-            ($stmt = $conn->prepare($deleteResearchSQL))->execute([$_GET['project_id']]);
+            $stmt = $conn->prepare($deleteResearchSQL)->execute([$_GET['project_id']]);
             $conn->commit();
             $stmt = null;
             $conn = null;
@@ -560,344 +563,546 @@ if (isset($_GET['project_id'])) {
 ?>
 <!--javascript to dynamically delete existing rows, and add rows to create new project participants-->
 <script>
-//function to dynamically delete rows and remove the table header is there are no rows present
-function delete_row(rowno)
-{
- $('#'+rowno).remove();
- $f = document.getElementById("faculty_table").rows.length;
- if ($f <= 1) {
- document.getElementById("f_row0").style.display = 'none';
- }
- $sta = document.getElementById("staff_table").rows.length;
- if ($sta <= 1) {
- document.getElementById("sta_row0").style.display = 'none';
- }
- $stu = document.getElementById("student_table").rows.length;
- if ($stu <= 1) {
- document.getElementById("stu_row0").style.display = 'none';
- }
- $c = document.getElementById("contractor_table").rows.length;
- if ($c <= 1) {
- document.getElementById("c_row0").style.display = 'none';
- }
-}
-//function to dynamically add the table header is there is at least one row present
-function addHeader(table, row) {
-  $x= document.getElementById(table).rows.length;
-  if ($x > 1) {
-    document.getElementById(row).style.display = '';
+  //function to dynamically delete rows and remove the table header is there are no rows present
+  function delete_row(rowno) {
+    $('#' + rowno).remove();
+    $f = document.getElementById("faculty_table").rows.length;
+    if ($f <= 1) {
+      document.getElementById("f_row0").style.display = 'none';
+    }
+    $sta = document.getElementById("staff_table").rows.length;
+    if ($sta <= 1) {
+      document.getElementById("sta_row0").style.display = 'none';
+    }
+    $stu = document.getElementById("student_table").rows.length;
+    if ($stu <= 1) {
+      document.getElementById("stu_row0").style.display = 'none';
+    }
+    $c = document.getElementById("contractor_table").rows.length;
+    if ($c <= 1) {
+      document.getElementById("c_row0").style.display = 'none';
+    }
   }
-}
-//function to dynamically add empty faculty row
-function add_f_row()
-{
- $rowno=$("#faculty_table tr").length;
- $rowno=$rowno+1;
- $("#faculty_table tr:last").after("<tr id='f_row"+$rowno+"'>"
- +"<td><input type='text' name='f_lname[]' placeholder='Last Name' required></td>"
- +"<td><input type='text' name='f_fname[]' placeholder='First Name' required></td>"
- +"<td><input type='text' name='f_org[]' placeholder='Organization' required></td>"
- +"<td><input type='email' name='f_email[]' placeholder='Email' required></td>"
- +"<td><input type='text' name='f_phone[]' placeholder='Phone'></td>"
- +"<td><select name='f_dept[]' required><option value='' disabled selected>Select a Department</option>"
- +"<option value='Analytics and Data Science'>Analytics and Data Science</option>"
- +"<option value='Computer Science'>Computer Science</option>"
- +"<option value='Information Technology'>Information Technology</option>"
- +"<option value='Software Engineering and Game Development'>Software Engineering and Game Development</option></select></td>"
- +"<td><input type='text' name='f_title[]' placeholder='Title'></td>"
- +"<td><input type='button' value='DELETE' onclick=delete_row('f_row"+$rowno+"')></td></tr>");
-}
-//function to dynamically add empty Staff row
-function add_sta_row()
-{
- $rowno=$("#staff_table tr").length;
- $rowno=$rowno+1;
- $("#staff_table tr:last").after("<tr id='sta_row"+$rowno+"'>"
- +"<td><input type='text' name='sta_lname[]' placeholder='Last Name' required></td>"
- +"<td><input type='text' name='sta_fname[]' placeholder='First Name' required></td>"
- +"<td><input type='text' name='sta_org[]' placeholder='Organization' required></td>"
- +"<td><input type='email' name='sta_email[]' placeholder='Email' required></td>"
- +"<td><input type='text' name='sta_phone[]' placeholder='Phone'></td>"
- +"<td><select name='sta_dept[]' required><option value='' disabled selected>Select a Department</option>"
- +"<option value='Analytics and Data Science'>Analytics and Data Science</option>"
- +"<option value='Computer Science'>Computer Science</option>"
- +"<option value='Information Technology'>Information Technology</option>"
- +"<option value='Software Engineering and Game Development'>Software Engineering and Game Development</option></select></td>"
- +"<td><input type='text' name='sta_title[]' placeholder='Title'></td>"
- +"<td><input type='button' value='DELETE' onclick=delete_row('sta_row"+$rowno+"')></td></tr>");
-}
-//function to dynamically add empty Student row
-function add_stu_row()
-{
- $rowno=$("#student_table tr").length;
- $rowno=$rowno+1;
- $("#student_table tr:last").after("<tr id='stu_row"+$rowno+"'>"
- +"<td><input type='text' name='stu_lname[]' placeholder='Last Name' required></td>"
- +"<td><input type='text' name='stu_fname[]' placeholder='First Name' required></td>"
- +"<td><input type='text' name='stu_org[]' placeholder='Organization' required></td>"
- +"<td><input type='email' name='stu_email[]' placeholder='Email' required></td>"
- +"<td><input type='text' name='stu_phone[]' placeholder='Phone'></td>"
- +"<td><select name='major[]' required><option value='' disabled selected>Select a Major</option>"
- +"<option value='Applied Computer Science'>Applied Computer Science</option>"
- +"<option value='Computer Game Design and Development'>Computer Game Design and Development</option>"
- +"<option value='Computer Science'>Computer Science</option>"
- +"<option value='Information Technology (BAS)'>Information Technology (BAS)</option>"
- +"<option value='Information Technology (BS)'>Information Technology (BS)</option>"
- +"<option value='Software Engineering'>Software Engineering</option>"
- +"<option value='Analytics and Data Science'>Analytics and Data Science</option></select></td>"
- +"<td><select name='stu_lvl[]' required><option value='' disabled selected>Degree Level</option>"
- +"<option value='Bachelor of Science'>Bachelor of Science</option>"
- +"<option value='Master of Science'>Master of Science</option>"
- +"<option value='Doctor of Philosophy'>Doctor of Philosophy</option></select></td>"
- +"<td><input type='button' value='DELETE' onclick=delete_row('stu_row"+$rowno+"')></td></tr>");
-}
-//function to dynamically add empty Contractor row
-function add_c_row()
-{
- $rowno=$("#contractor_table tr").length;
- $rowno=$rowno+1;
- $("#contractor_table tr:last").after("<tr id='c_row"+$rowno+"'>"
- +"<td><input type='text' name='c_lname[]' placeholder='Last Name' required></td>"
- +"<td><input type='text' name='c_fname[]' placeholder='First Name' required></td>"
- +"<td><input type='text' name='c_org[]' placeholder='Organization' required></td>"
- +"<td><input type='email' name='c_email[]' placeholder='Email' required></td>"
- +"<td><input type='text' name='c_phone[]' placeholder='Phone'></td>"
- +"<td><input type='date' name='c_start[]' required></td>"
- +"<td><input type='date' name='c_end[]' required></td>"
- +"<td><input type='text' name='c_title[]' placeholder='Title'></td>"
- +"<td><input type='button' value='DELETE' onclick=delete_row('c_row"+$rowno+"')></td></tr>");
-}
+  //function to dynamically add the table header is there is at least one row present
+  function addHeader(table, row) {
+    $x = document.getElementById(table).rows.length;
+    if ($x > 1) {
+      document.getElementById(row).style.display = '';
+    }
+  }
+  //function to dynamically add empty faculty row
+  function add_f_row() {
+    $rowno = $("#faculty_table tr").length;
+    $rowno = $rowno + 1;
+    $("#faculty_table tr:last").after("<tr id='f_row" + $rowno + "'>" +
+      "<td><input type='text' name='f_lname[]' placeholder='Last Name' required></td>" +
+      "<td><input type='text' name='f_fname[]' placeholder='First Name' required></td>" +
+      "<td><input type='text' name='f_org[]' placeholder='Organization' required></td>" +
+      "<td><input type='email' name='f_email[]' placeholder='Email' required></td>" +
+      "<td><input type='text' name='f_phone[]' placeholder='Phone'></td>" +
+      "<td><select name='f_dept[]' required><option value='' disabled selected>Select a Department</option>" +
+      "<option value='Analytics and Data Science'>Analytics and Data Science</option>" +
+      "<option value='Computer Science'>Computer Science</option>" +
+      "<option value='Information Technology'>Information Technology</option>" +
+      "<option value='Software Engineering and Game Development'>Software Engineering and Game Development</option></select></td>" +
+      "<td><input type='text' name='f_title[]' placeholder='Title'></td>" +
+      "<td><input type='button' value='DELETE' onclick=delete_row('f_row" + $rowno + "')></td></tr>");
+  }
+  //function to dynamically add empty Staff row
+  function add_sta_row() {
+    $rowno = $("#staff_table tr").length;
+    $rowno = $rowno + 1;
+    $("#staff_table tr:last").after("<tr id='sta_row" + $rowno + "'>" +
+      "<td><input type='text' name='sta_lname[]' placeholder='Last Name' required></td>" +
+      "<td><input type='text' name='sta_fname[]' placeholder='First Name' required></td>" +
+      "<td><input type='text' name='sta_org[]' placeholder='Organization' required></td>" +
+      "<td><input type='email' name='sta_email[]' placeholder='Email' required></td>" +
+      "<td><input type='text' name='sta_phone[]' placeholder='Phone'></td>" +
+      "<td><select name='sta_dept[]' required><option value='' disabled selected>Select a Department</option>" +
+      "<option value='Analytics and Data Science'>Analytics and Data Science</option>" +
+      "<option value='Computer Science'>Computer Science</option>" +
+      "<option value='Information Technology'>Information Technology</option>" +
+      "<option value='Software Engineering and Game Development'>Software Engineering and Game Development</option></select></td>" +
+      "<td><input type='text' name='sta_title[]' placeholder='Title'></td>" +
+      "<td><input type='button' value='DELETE' onclick=delete_row('sta_row" + $rowno + "')></td></tr>");
+  }
+  //function to dynamically add empty Student row
+  function add_stu_row() {
+    $rowno = $("#student_table tr").length;
+    $rowno = $rowno + 1;
+    $("#student_table tr:last").after("<tr id='stu_row" + $rowno + "'>" +
+      "<td><input type='text' name='stu_lname[]' placeholder='Last Name' required></td>" +
+      "<td><input type='text' name='stu_fname[]' placeholder='First Name' required></td>" +
+      "<td><input type='text' name='stu_org[]' placeholder='Organization' required></td>" +
+      "<td><input type='email' name='stu_email[]' placeholder='Email' required></td>" +
+      "<td><input type='text' name='stu_phone[]' placeholder='Phone'></td>" +
+      "<td><select name='major[]' required><option value='' disabled selected>Select a Major</option>" +
+      "<option value='Applied Computer Science'>Applied Computer Science</option>" +
+      "<option value='Computer Game Design and Development'>Computer Game Design and Development</option>" +
+      "<option value='Computer Science'>Computer Science</option>" +
+      "<option value='Information Technology (BAS)'>Information Technology (BAS)</option>" +
+      "<option value='Information Technology (BS)'>Information Technology (BS)</option>" +
+      "<option value='Software Engineering'>Software Engineering</option>" +
+      "<option value='Analytics and Data Science'>Analytics and Data Science</option></select></td>" +
+      "<td><select name='stu_lvl[]' required><option value='' disabled selected>Degree Level</option>" +
+      "<option value='Bachelor of Science'>Bachelor of Science</option>" +
+      "<option value='Master of Science'>Master of Science</option>" +
+      "<option value='Doctor of Philosophy'>Doctor of Philosophy</option></select></td>" +
+      "<td><input type='button' value='DELETE' onclick=delete_row('stu_row" + $rowno + "')></td></tr>");
+  }
+  //function to dynamically add empty Contractor row
+  function add_c_row() {
+    $rowno = $("#contractor_table tr").length;
+    $rowno = $rowno + 1;
+    $("#contractor_table tr:last").after("<tr id='c_row" + $rowno + "'>" +
+      "<td><input type='text' name='c_lname[]' placeholder='Last Name' required></td>" +
+      "<td><input type='text' name='c_fname[]' placeholder='First Name' required></td>" +
+      "<td><input type='text' name='c_org[]' placeholder='Organization' required></td>" +
+      "<td><input type='email' name='c_email[]' placeholder='Email' required></td>" +
+      "<td><input type='text' name='c_phone[]' placeholder='Phone'></td>" +
+      "<td><input type='date' name='c_start[]' required></td>" +
+      "<td><input type='date' name='c_end[]' required></td>" +
+      "<td><input type='text' name='c_title[]' placeholder='Title'></td>" +
+      "<td><input type='button' value='DELETE' onclick=delete_row('c_row" + $rowno + "')></td></tr>");
+  }
 </script>
 <!--Add in header from pmo_functions.php and insert the title of this page, "Update Project"-->
 <?=template_header('Update Project')?>
-<body onload="checkProjectCategory(); addHeader('faculty_table', 'f_row0'); addHeader('staff_table', 'sta_row0'); addHeader('student_table', 'stu_row0'); addHeader('contractor_table', 'c_row0');">
+
+<body
+  onload="checkProjectCategory(); addHeader('faculty_table', 'f_row0'); addHeader('staff_table', 'sta_row0'); addHeader('student_table', 'stu_row0'); addHeader('contractor_table', 'c_row0');">
 
 
-<!--Start of container for Update Project section-->
-<div class="container">
-  <!--In the heading, pull up the ID number and Title of the project selected for updating-->
-	<h1>Update <?=$project['project_category']?> Project # <?=$project['project_id']?> - <?=$project['project_title']?></h1>
-  <a class="btn btn-outline-primary btn-sm" href="get_project.php" role="button">Cancel Update</a>
+  <!--Start of container for Update Project section-->
+  <div class="jumbotron">
+    <!--In the heading, pull up the ID number and Title of the project selected for updating-->
+    <h1>Update <?=$project['project_category']?> Project # <?=$project['project_id']?> - <?=$project['project_title']?>
+    </h1>
+    <a class="btn btn-outline-primary btn-sm" href="get_project.php" role="button">Cancel Update</a>
     <!--Link this form's actions to this file, update_project.php-->
     <form action="update_project.php?project_id=<?=$project['project_id']?>" method="post" autocomplete="off">
-        <h2>Section 1 - General Project Information</h2>
-        <label for="project_category">Project Category :</label>
-        <select onchange="checkProjectCategory();" id="project_category" name="project_category" required>
-        <option value="" disabled selected>Select a Category</option>
-        <option <?php if($project['project_category']=="Capstone"){echo "selected";}?>>Capstone</option>
-        <option <?php if($project['project_category']=="Contract for Hire"){echo "selected";}?>>Contract for Hire</option>
-        <option <?php if($project['project_category']=="Research"){echo "selected";}?>>Research</option>
-        </select>
-        <br />
-        <label for="organization_name">Organization Name :</label>
-        <input type="text"  name="organization_name" placeholder="ex./ Kennesaw State University" value="<?=$project['organization_name']?> "id="organization_name" required>
-        <br />
-        <label for="project_title">Project Title :</label>
-        <input type="text" name="project_title" placeholder="ex./ PMO Capstone" value="<?=$project['project_title']?>" id="project_title" required>
-        <br />
-        <label for="ksu_department">KSU Department :</label>
-        <select id="ksu_department" name="ksu_department" required>
-        <option value="" disabled selected>Select KSU Department</option>
-        <option <?php if($project['ksu_department']=="Analytics and Data Science"){echo "selected";}?>>Analytics and Data Science</option>
-        <option <?php if($project['ksu_department']=="Computer Science"){echo "selected";}?>>Computer Science</option>
-        <option <?php if($project['ksu_department']=="Information Technology"){echo "selected";}?>>Information Technology</option>
-        <option <?php if($project['ksu_department']=="Software Engineering and Game Development"){echo "selected";}?>>Software Engineering and Game Development</option>
-        </select>
-        <br />
-        <label for="priority_level">Priority Level :</label>
-        <select id="priority_level" name="priority_level" required>
-        <option value="" disabled selected>Select a Priority Level :</option>
-        <option <?php if($project['priority_level']=="Low"){echo "selected";}?>>Low</option>
-        <option <?php if($project['priority_level']=="Medium"){echo "selected";}?>>Medium</option>
-        <option <?php if($project['priority_level']=="High"){echo "selected";}?>>High</option>
-        </select>
-        <br />
-        <label for="start_date">Start Date :</label>
-        <input type="date" name="start_date" placeholder="Format: YYYY-MM-DD" value="<?=$project['start_date']?>" id="start_date" required>
-        <br />
-        <label for="end_date">End Date :</label>
-        <input type="date" name="end_date" placeholder="Format: YYYY-MM-DD" value="<?=$project['end_date']?>" id="end_date" required>
-        <br />
-        <label for="funded">Is this project funded ?</label>
-        <input id="yes" type="radio" name="funded" value="Yes" <?php if ($project['funded']=='Yes') echo 'checked="checked"'; ?> /> Yes
-        <input id="no" type="radio" name="funded" value="No" <?php if ($project['funded']=='No') echo 'checked="checked"'; ?> /> No
-        <input id="n/a" type="radio" name="funded" value="N/A" <?php if ($project['funded']== 'N/A') echo 'checked="checked"'; ?> /> N/A
-        <br />
-        <label for="total_cost">Total Cost : $</label>
-        <input type="text" name="total_cost" placeholder="Format: 0.00" value="<?=$project['total_cost']?>" id="total_cost" required>
-        <br />
-        <label for="description">Description :</label>
-        <input type="text" name="description" maxlength="600" placeholder="Type up to 600 characters." value="<?=$project['description']?>" id="description" required>
-        <br />
-        <h2>Section 2 - Sponsor Information</h2>
-        <label for="last_name">Last Name :</label>
-        <input type="text" id="last_name" name="last_name" value="<?=$project['last_name']?>" required>
-        <br />
-        <label for="first_name">First Name :</label>
-        <input type="text" id="first_name" name="first_name" value="<?=$project['first_name']?>" required>
-        <br />
-        <label for="participant_org">Sponsor's Organization Name :</label>
-        <input type="text" id="participant_org" name="participant_org" value="<?=$project['participant_org']?>" required>
-        <br />
-        <label for="email">Email :</label>
-        <input type="email" id="email" name="email" value="<?=$project['email']?>" required>
-        <br />
-        <label for="phone">Phone Number :</label>
-        <input type="text" id="phone" name="phone" value="<?=$project['phone']?>" required>
-        <br />
+      <div class="row">
+        <div class="card col-xl-4 col-lg-6 col-md-12">
+          <div class="card-header">
+            <h2>Section 1 - General Project Information</h2>
+          </div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <div class="row">
+                <div class="form-group col-lg-6">
+                  <label for="project_category">Project Category :</label>
+                  <select class="form-control" onchange="checkProjectCategory();" id="project_category"
+                    name="project_category" required>
+                    <option value="" disabled selected>Select a Category</option>
+                    <option <?php if($project['project_category']=="Capstone"){echo "selected";}?>>Capstone</option>
+                    <option <?php if($project['project_category']=="Contract for Hire"){echo "selected";}?>>Contract for
+                      Hire</option>
+                    <option <?php if($project['project_category']=="Research"){echo "selected";}?>>Research</option>
+                  </select>
+                </div>
+                <div class="form-group col-lg-6">
+
+                  <label for="organization_name">Organization Name :</label>
+                  <input class="form-control" type="text" name="organization_name"
+                    placeholder="ex./ Kennesaw State University" value="<?=$project['organization_name']?> "
+                    id="organization_name" required>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-6">
+                  <label for="project_title">Project Title :</label>
+                  <input type="text" class="form-control" name="project_title" placeholder="ex./ PMO Capstone"
+                    value="<?=$project['project_title']?>" id="project_title" required>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="ksu_department">KSU Department :</label>
+                  <select class="form-control" id="ksu_department" name="ksu_department" required>
+                    <option value="" disabled selected>Select KSU Department</option>
+                    <option <?php if($project['ksu_department']=="Analytics and Data Science"){echo "selected";}?>>
+                      Analytics and Data Science</option>
+                    <option <?php if($project['ksu_department']=="Computer Science"){echo "selected";}?>>Computer
+                      Science
+                    </option>
+                    <option <?php if($project['ksu_department']=="Information Technology"){echo "selected";}?>>
+                      Information
+                      Technology</option>
+                    <option
+                      <?php if($project['ksu_department']=="Software Engineering and Game Development"){echo "selected";}?>>
+                      Software Engineering and Game Development</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-4 col-md-6">
+                  <label for="priority_level">Priority Level :</label>
+                  <select class="form-control" id="priority_level" name="priority_level" required>
+                    <option value="" disabled selected>Select a Priority Level :</option>
+                    <option <?php if($project['priority_level']=="Low"){echo "selected";}?>>Low</option>
+                    <option <?php if($project['priority_level']=="Medium"){echo "selected";}?>>Medium</option>
+                    <option <?php if($project['priority_level']=="High"){echo "selected";}?>>High</option>
+                  </select>
+                </div>
+                <div class="form-group col-xl-4 col-md-6">
+                  <label for="start_date">Start Date :</label>
+                  <input class="form-control" type="date" name="start_date" placeholder="Format: YYYY-MM-DD"
+                    value="<?=$project['start_date']?>" id="start_date" required>
+                </div>
+                <div class="form-group col-xl-4 col-md-6">
+                  <label for="end_date">End Date :</label>
+                  <input type="date" name="end_date" placeholder="Format: YYYY-MM-DD" value="<?=$project['end_date']?>"
+                    id="end_date" required>
+                </div>
+
+
+                <div class="form-group col-xl-4 col-md-6">
+                  <label for="funded">Is this project funded ?</label><br />
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" <?php if ($project['funded']=='Yes') echo 'checked="checked"'; ?>
+                      type="radio" name="funded" id="yes_1" value="Yes">
+                    <label class="form-check-label" for="inlineRadio1">Yes</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" <?php if ($project['funded']=='No') echo 'checked="checked"'; ?>
+                      type="radio" name="funded" id="no_1" value="No">
+                    <label class="form-check-label" for="inlineRadio2">No</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" <?php if ($project['funded']== 'N/A') echo 'checked="checked"'; ?>
+                      type="radio" name="funded" id="n/a" value="N/A" checked>
+                    <label class="form-check-label" for="inlineRadio3">N/A</label>
+                  </div>
+                </div>
+
+
+
+                <div class="form-group col-xl-4 col-md-6">
+
+                  <label for="total_cost">Total Cost : $</label>
+                  <input class="form-control" type="text" name="total_cost" placeholder="Format: 0.00"
+                    value="<?=$project['total_cost']?>" id="total_cost" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="description">Description :</label>
+                  
+                    <textarea class="form-control" id="description" maxlength="600" name="description"
+                  placeholder="Type up to 600 characters." required rows="3"><?=$project['description']?></textarea>
+                </div>
+              </div>
+            </blockquote>
+          </div>
+        </div>
+
+        <div class="card col-xl-4 col-lg-6 col-md-12">
+          <div class="card-header">
+            <h2>Section 2 - Sponsor Information</h2>
+          </div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <label for="last_name">Last Name :</label>
+              <input class="form-control" type="text" id="last_name" name="last_name" value="<?=$project['last_name']?>"
+                required>
+
+              <label for="first_name">First Name :</label>
+              <input class="form-control" type="text" id="first_name" name="first_name"
+                value="<?=$project['first_name']?>" required>
+
+              <label for="participant_org">Sponsor's Organization Name :</label>
+              <input class="form-control" type="text" id="participant_org" name="participant_org"
+                value="<?=$project['participant_org']?>" required>
+
+              <label for="email">Email :</label>
+              <input class="form-control" type="email" id="email" name="email" value="<?=$project['email']?>" required>
+
+              <label for="phone">Phone Number :</label>
+              <input class="form-control" type="text" id="phone" name="phone" value="<?=$project['phone']?>" required>
+
+            </blockquote>
+          </div>
+        </div>
         <!--javascript for dynamic project category form fields. This controls which following input fields are
         displayed and required to be filled out based on the selection they make for "Project Category".
         the fields are disabled unless they are called by this checkProjectCategory() function-->
         <script>
           function checkProjectCategory() {
-              if (document.getElementById('project_category').value == 'Capstone') {
-                document.getElementById('capstone_fields').style.display = '';
-                document.getElementById('grad').disabled = false;
-                document.getElementById('undergrad').disabled = false;
-                document.getElementById('skills_needed').disabled = false;
-                document.getElementById('milestone_1').disabled = false;
-                document.getElementById('milestone_2').disabled = false;
-                document.getElementById('final_deliverables').disabled = false;
-                document.getElementById('student_benefits').disabled = false;
-                document.getElementById('sponsor_benefits').disabled = false;
-                document.getElementById('company_provides').disabled = false;
-                document.getElementById('yes_2').disabled = false;
-                document.getElementById('no_2').disabled = false;
-                document.getElementById('yes_3').disabled = false;
-                document.getElementById('no_3').disabled = false;
-                document.getElementById('yes_4').disabled = false;
-                document.getElementById('no_4').disabled = false;
-                document.getElementById('yes_5').disabled = false;
-                document.getElementById('no_5').disabled = false;
-                document.getElementById('yes_6').disabled = false;
-                document.getElementById('no_6').disabled = false;
-                document.getElementById('yes_7').disabled = false;
-                document.getElementById('no_7').disabled = false;
-                document.getElementById('num_of_teams').disabled = false;
-                document.getElementById('availability').disabled = false;
-				        $('.capstone_fields').prop('required',true);
-              } else {
-                document.getElementById('capstone_fields').style.display = 'none';
-				        $('.capstone_fields').prop('required',false);
-              }
-              if (document.getElementById('project_category').value == 'Contract for Hire') {
-                document.getElementById('contract_fields').style.display = '';
-                document.getElementById('company_address').disabled = false;
-                document.getElementById('first_payment_amt').disabled = false;
-                document.getElementById('second_payment_amt').disabled = false;
-				        $('.contract_fields').prop('required',true);
-              } else {
-                document.getElementById('contract_fields').style.display = 'none';
-				        $('.contract_fields').prop('required',false);
-              }
-              if (document.getElementById('project_category').value == 'Research') {
-                document.getElementById('research_fields').style.display = '';
-                document.getElementById('topic').disabled = false;
-				        $('.research_fields').prop('required',true);
-              } else {
-                document.getElementById('research_fields').style.display = 'none';
-				        $('.research_fields').prop('required',false);
-              }
-        }
+            if (document.getElementById('project_category').value == 'Capstone') {
+              document.getElementById('capstone_fields').style.display = '';
+              document.getElementById('grad').disabled = false;
+              document.getElementById('undergrad').disabled = false;
+              document.getElementById('skills_needed').disabled = false;
+              document.getElementById('milestone_1').disabled = false;
+              document.getElementById('milestone_2').disabled = false;
+              document.getElementById('final_deliverables').disabled = false;
+              document.getElementById('student_benefits').disabled = false;
+              document.getElementById('sponsor_benefits').disabled = false;
+              document.getElementById('company_provides').disabled = false;
+              document.getElementById('yes_2').disabled = false;
+              document.getElementById('no_2').disabled = false;
+              document.getElementById('yes_3').disabled = false;
+              document.getElementById('no_3').disabled = false;
+              document.getElementById('yes_4').disabled = false;
+              document.getElementById('no_4').disabled = false;
+              document.getElementById('yes_5').disabled = false;
+              document.getElementById('no_5').disabled = false;
+              document.getElementById('yes_6').disabled = false;
+              document.getElementById('no_6').disabled = false;
+              document.getElementById('yes_7').disabled = false;
+              document.getElementById('no_7').disabled = false;
+              document.getElementById('num_of_teams').disabled = false;
+              document.getElementById('availability').disabled = false;
+              $('.capstone_fields').prop('required', true);
+            } else {
+              document.getElementById('capstone_fields').style.display = 'none';
+              $('.capstone_fields').prop('required', false);
+            }
+            if (document.getElementById('project_category').value == 'Contract for Hire') {
+              document.getElementById('contract_fields').style.display = '';
+              document.getElementById('company_address').disabled = false;
+              document.getElementById('first_payment_amt').disabled = false;
+              document.getElementById('second_payment_amt').disabled = false;
+              $('.contract_fields').prop('required', true);
+            } else {
+              document.getElementById('contract_fields').style.display = 'none';
+              $('.contract_fields').prop('required', false);
+            }
+            if (document.getElementById('project_category').value == 'Research') {
+              document.getElementById('research_fields').style.display = '';
+              document.getElementById('topic').disabled = false;
+              $('.research_fields').prop('required', true);
+            } else {
+              document.getElementById('research_fields').style.display = 'none';
+              $('.research_fields').prop('required', false);
+            }
+          }
         </script>
         <!--Beginning of dynamic project category form fields-->
+
         <!--capstone project fields-->
-        <br>
-        <div id="capstone_fields" name="capstone_fields" style="display: none">
-        <h2>Section 2 - Capstone Details</h2>
-        <label for="degree_level" disabled>What is the degree level for this project?</label>
-        <input id="grad" type="radio" name="degree_level" value="1" <?php if (($project['degree_level'] ?? '') =='1') echo 'checked="checked"'; ?> required disabled/> Graduate
-        <input id="undergrad" type="radio" name="degree_level" value="0" <?php if (($project['degree_level'] ?? '') =='0') echo 'checked="checked"'; ?> disabled/> Undergraduate
-        <br />
-        <label for="skills_needed">Skills Needed :</label>
-        <input type="text" id="skills_needed" name="skills_needed" class="capstone_fields" value="<?=$project['skills_needed'] ?? ''?>" required disabled>
-        <br />
-        <label for="milestone_1">Milestone 1 Deliverables :</label>
-        <input type="text" id="milestone_1" name="milestone_1" class="capstone_fields" value="<?=$project['milestone_1'] ?? '' ?>" required disabled>
-        <br />
-        <label for="milestone_2">Milestone 2 Deliverables :</label>
-        <input type="text" id="milestone_2" name="milestone_2" class="capstone_fields" value="<?=$project['milestone_2'] ?? ''?>" required disabled>
-        <br />
-        <label for="final_deliverables">Final Deliverables :</label>
-        <input type="text" id="final_deliverables" name="final_deliverables" class="capstone_fields" value="<?=$project['final_deliverables'] ?? ''?>" required disabled>
-        <br />
-        <label for="student_benefits">How does this project benefit the student ?</label>
-        <input type="text" id="student_benefits" name="student_benefits" class="capstone_fields" value="<?=$project['student_benefits']?? '' ?>" required disabled>
-        <br />
-        <label for="sponsor_benefits">How does this project benefit the sponsor ?</label>
-        <input type="text" id="sponsor_benefits" name="sponsor_benefits" class="capstone_fields" value="<?=$project['sponsor_benefits'] ?? ''?>" required disabled>
-        <br />
-        <label for="company_provides">What will the company provide for the student ?</label>
-        <input type="text" id="company_provides" name="company_provides" class="capstone_fields" value="<?=$project['company_provides'] ?? ''?>" required disabled>
-        <br />
-        <label for="nda_or_mou" disabled>Will this project require a NDA or MOU ?</label>
-        <input id="yes_2" type="radio" name="nda_or_mou" value="1" <?php if (($project['nda_or_mou'] ?? '') =='1') echo 'checked="checked"'; ?> required disabled/> Yes
-        <input id="no_2" type="radio" name="nda_or_mou" value="0" <?php if (($project['nda_or_mou'] ?? '') =='0') echo 'checked="checked"'; ?> disabled/> No
-        <br />
-        <label for="company_retain" disabled>Does the company wish to retain IP ?</label>
-        <input id="yes_3" type="radio" name="company_retain" value="1" <?php if (($project['company_retain'] ?? '') =='1') echo 'checked="checked"'; ?> required disabled/> Yes
-        <input id="no_3" type="radio" name="company_retain" value="0" <?php if (($project['company_retain'] ?? '')=='0') echo 'checked="checked"'; ?> disabled/> No
-        <br />
-        <label for="work_on_site" disabled>Will this project require students to work on site ?</label>
-        <input id="yes_4" type="radio" name="work_on_site" value="1" <?php if (($project['work_on_site'] ?? '')=='1') echo 'checked="checked"'; ?> required disabled/> Yes
-        <input id="no_4" type="radio" name="work_on_site" value="0" <?php if (($project['work_on_site'] ?? '')=='0') echo 'checked="checked"'; ?> disabled/> No
-        <br />
-        <label for="work_sponsor_site" disabled>Will students be required to present at the sponsor’s site ?</label>
-        <input id="yes_5" type="radio" name="work_sponsor_site" value="1" <?php if (($project['work_sponsor_site'] ?? '')=='1') echo 'checked="checked"'; ?> required disabled/> Yes
-        <input id="no_5" type="radio" name="work_sponsor_site" value="0" <?php if (($project['work_sponsor_site'] ?? '') =='0') echo 'checked="checked"'; ?> disabled/> No
-        <br />
-        <label for="on_campus_present" disabled>Would you like to make an on campus presentation the first week of classes ?</label>
-        <input id="yes_6" type="radio" name="on_campus_present" value="1" <?php if (($project['on_campus_present'] ?? '')=='1') echo 'checked="checked"'; ?> required disabled/> Yes
-        <input id="no_6" type="radio" name="on_campus_present" value="0" <?php if (($project['on_campus_present'] ?? '')=='0') echo 'checked="checked"'; ?> disabled/> No
-        <br />
-        <label for="virtual_present" disabled>If you are unavailable for an on campus presentation,would you like to provide a video presentation ?</label>
-        <input id="yes_7" type="radio" name="virtual_present" value="1" <?php if (($project['virtual_present'] ?? '')=='1') echo 'checked="checked"'; ?> required disabled/> Yes
-        <input id="no_7" type="radio" name="virtual_present" value="0" <?php if (($project['virtual_present'] ?? '') =='0') echo 'checked="checked"'; ?> disabled/> No
-        <br />
-        <label for="num_of_teams">How many student teams are you interested in sponsoring ?</label>
-        <select disabled id="num_of_teams" name="num_of_teams" class="capstone_fields" required>
-        <option value="" disabled selected>Make Selection</option>
-        <option <?php if(($project['num_of_teams'] ?? '')=="1"){echo "selected";}?>>1</option>
-        <option <?php if(($project['num_of_teams'] ?? '')=="2"){echo "selected";}?>>2</option>
-        <option <?php if(($project['num_of_teams'] ?? '')=="3"){echo "selected";}?>>3</option>
-        </select>
-        <br />
-        <label for="availability">Please describe your availability :</label>
-        <input type="text" name="availability" class="capstone_fields" value="<?=$project['availability'] ?? ''?>" id="availability" required disabled>
-        <br />
+        <div class="card card col-xl-4 col-lg-6 col-md-12" id="capstone_fields" name="capstone_fields"
+          style="display: none">
+          <div class="card-header">
+            <h2>Section 3 - Capstone Details</h2>
+          </div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <!--capstone project fields-->
+              <div class="row">
+                <div class="form-group col-lg-6">
+                  <label for="degree_level" disabled>What is the degree level for this project?</label>
+                  <input id="grad" type="radio" name="degree_level" value="1"
+                    <?php if (($project['degree_level']) =='1') echo 'checked="checked"'; ?> required disabled />
+                  Graduate
+                  <input id="undergrad" type="radio" name="degree_level" value="0"
+                    <?php if (($project['degree_level']) =='0') echo 'checked="checked"'; ?> disabled /> Undergraduate
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="skills_needed">Skills Needed :</label>
+                  
+                    <textarea class="form-control" id="skills_needed" maxlength="600" name="skills_needed"
+                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['skills_needed'] ?? ''?></textarea>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-lg-6">
+                  <label for="milestone_1">Milestone 1 Deliverables :</label>
+                  
+                    <textarea class="form-control" id="milestone_1" maxlength="600" name="milestone_1"
+                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['milestone_1']  ?? ''?></textarea>
+                </div>
+
+                <div class="form-group col-lg-6">
+                  <label for="milestone_2">Milestone 2 Deliverables :</label>
+                  
+                    <textarea class="form-control" id="milestone_2" maxlength="600" name="milestone_2"
+                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['milestone_2'] ?? ''?></textarea>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-lg-12">
+                  <label for="final_deliverables">Final Deliverables :</label>
+                  
+                    <textarea class="form-control" id="final_deliverables" maxlength="600" name="final_deliverables"
+                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['final_deliverables'] ?? ''?></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-12">
+                  <label for="student_benefits">How does this project benefit the student ?</label>
+                    <textarea class="form-control" id="student_benefits" maxlength="600" name="student_benefits"
+                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['student_benefits'] ?? ''?></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-12">
+                  <label for="sponsor_benefits">How does this project benefit the sponsor ?</label>
+                    <textarea class="form-control" id="sponsor_benefits" maxlength="600" name="sponsor_benefits"
+                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['sponsor_benefits'] ?? ''?></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-12">
+                  <label for="company_provides">What will the company provide for the student ?</label>
+                    <textarea class="form-control" id="company_provides" maxlength="600" name="company_provides"
+                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['company_provides'] ?? ''?></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-4 col-md-6">
+                  <label for="nda_or_mou" disabled>Will this project require a NDA or MOU ?</label>
+                  <input id="yes_2" type="radio" name="nda_or_mou" value="1"
+                    <?php if (($project['nda_or_mou']) =='1') echo 'checked="checked"'; ?> required disabled /> Yes
+                
+                <input id="no_2" type="radio" name="nda_or_mou" value="0"
+                  <?php if (($project['nda_or_mou']) =='0') echo 'checked="checked"'; ?> disabled /> No
+                  </div>
+
+
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="company_retain" disabled>Does the company wish to retain IP ?</label>
+                <input id="yes_3" type="radio" name="company_retain" value="1"
+                  <?php if (($project['company_retain']) =='1') echo 'checked="checked"'; ?> required disabled />
+                Yes
+                <input id="no_3" type="radio" name="company_retain" value="0"
+                  <?php if (($project['company_retain'])=='0') echo 'checked="checked"'; ?> disabled /> No
+              </div>
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="work_on_site" disabled>Will this project require students to work on site ?</label>
+                <input id="yes_4" type="radio" name="work_on_site" value="1"
+                  <?php if (($project['work_on_site'])=='1') echo 'checked="checked"'; ?> required disabled /> Yes
+                <input id="no_4" type="radio" name="work_on_site" value="0"
+                  <?php if (($project['work_on_site'])=='0') echo 'checked="checked"'; ?> disabled /> No
+              </div>
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="work_sponsor_site" disabled>Will students be required to present at the sponsor’s site
+                  ?</label>
+                <input id="yes_5" type="radio" name="work_sponsor_site" value="1"
+                  <?php if (($project['work_sponsor_site'])=='1') echo 'checked="checked"'; ?> required disabled />
+                Yes
+                <input id="no_5" type="radio" name="work_sponsor_site" value="0"
+                  <?php if (($project['work_sponsor_site']) =='0') echo 'checked="checked"'; ?> disabled /> No
+              </div>
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="on_campus_present" disabled>Would you like to make an on campus presentation the first
+                  week of classes ?</label>
+                <input id="yes_6" type="radio" name="on_campus_present" value="1"
+                  <?php if (($project['on_campus_present'])=='1') echo 'checked="checked"'; ?> required disabled />
+                Yes
+                <input id="no_6" type="radio" name="on_campus_present" value="0"
+                  <?php if (($project['on_campus_present'])=='0') echo 'checked="checked"'; ?> disabled /> No
+              </div>
+
+              <div class="form-group col-xl-4 col-md-6">
+                <label for="virtual_present" disabled>If you are unavailable for an on campus presentation,would you
+                  like to provide a video presentation ?</label>
+                <input id="yes_7" type="radio" name="virtual_present" value="1"
+                  <?php if (($project['virtual_present'])=='1') echo 'checked="checked"'; ?> required disabled />
+                Yes
+                <input id="no_7" type="radio" name="virtual_present" value="0"
+                  <?php if (($project['virtual_present']) =='0') echo 'checked="checked"'; ?> disabled /> No
+              </div>
+
+              <div class="row">
+                <div class="form-group col-xl-4 col-md-6">
+                  <label for="num_of_teams">How many student teams are you interested in sponsoring ?</label>
+                  <select class="form-control" disabled id="num_of_teams" name="num_of_teams" class="capstone_fields"
+                    required>
+                    <option value="" disabled selected>Make Selection</option>
+                    <option <?php if(($project['num_of_teams'])=="1"){echo "selected";}?>>1</option>
+                    <option <?php if(($project['num_of_teams'])=="2"){echo "selected";}?>>2</option>
+                    <option <?php if(($project['num_of_teams'])=="3"){echo "selected";}?>>3</option>
+                  </select>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="availability">Please describe your availability :</label>
+                    <textarea class="form-control" id="availability" maxlength="600" name="availability"
+                  placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['availability']?></textarea>
+                </div>
+              </div>
+            </blockquote>
+          </div>
         </div>
+
+
+
         <!--research project fields-->
-        <div id="research_fields" name="research_fields" style="display: none">
-        <h2>Section 2 - Research Details</h2>
-        <label for="topic">Topic :</label>
-        <input type="text" name="topic" class="research_fields" value="<?=$project['topic'] ?? ''?>" id="topic" required disabled>
-        <br />
+        <div class="card card col-xl-4 col-lg-6 col-md-12" id="research_fields" name="research_fields"
+          style="display: none">
+          <div class="card-header">
+            <h2>Section 3 - Research Details</h2>
+          </div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+
+
+              <div class="form-group col-lg-12">
+                <label for="topic">Topic :</label>
+                  <textarea class="form-control research_fields" id="topic" maxlength="600" name="topic"
+                placeholder="Type up to 600 characters." required disabled rows="3"><?=$project['topic']?></textarea>
+              </div>
+            </blockquote>
+          </div>
         </div>
+
         <!--contract project fields-->
-        <div id="contract_fields" name="contract_fields" style="display: none">
-        <h2>Section 2 - Contract for Hire Details</h2>
-        <label for="company_address">Company Address :</label>
-        <input type="text" name="company_address" class="contract_fields" value="<?=$project['company_address'] ?? ''?>" id="company_address" required disabled>
-        <br />
-        <label for="first_payment_amt">First Payment Amount :</label>
-        <input type="text" name="first_payment_amt" class="contract_fields" value="<?=$project['first_payment_amt'] ?? ''?>" id="first_payment_amt" required disabled>
-        <br />
-        <label for="second_payment_amt">Second Payment Amount :</label>
-        <input type="text" name="second_payment_amt" class="contract_fields" value="<?=$project['second_payment_amt'] ?? ''?>" id="second_payment_amt" required disabled>
-        <br />
+        <div class="card card col-xl-4 col-lg-6 col-md-12" id="contract_fields" name="contract_fields"
+          style="display: none">
+          <div class="card-header">
+            <h2>Section 3 - Contract for Hire Details</h2>
+          </div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+
+              <div class="row">
+                <div class="form-group col-lg-12">
+                  <label for="company_address">Company Address :</label>
+                  
+                    <textarea class="form-control contract_fields" id="company_address" maxlength="600"
+                  name="company_address" placeholder="Type up to 600 characters." rows="3" required disabled><?=$project['company_address']?></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-6">
+                  <label for="first_payment_amt">First Payment Amount :</label>
+                  <input class="form-control" type="text" name="first_payment_amt" class="contract_fields"
+                    value="<?=$project['first_payment_amt']?>" id="first_payment_amt" required disabled>
+                </div>
+                <div class="form-group col-lg-6">
+                  <label for="second_payment_amt">Second Payment Amount :</label>
+                  <input class="form-control" type="text" name="second_payment_amt" class="contract_fields"
+                    value="<?=$project['second_payment_amt']?>" id="second_payment_amt" required disabled>
+                </div>
+              </div>
+            </blockquote>
+          </div>
         </div>
         <!--End of dynamic project category form fields-->
-        <h2>Optional - Add Project Participants</h2>
+
         <!--hidden input to store comma seperated list of participant IDs that are on form when it is submitted-->
         <?php
         print '<input type="hidden" name="all_participant_ids" value="'. implode(',', $participantList) .'">';
         ?>
-        <h3>Faculty</h3>
-        <table id="faculty_table" align=center>
-          <tr id="f_row0" style="display: none;"><th>Last Name</th><th>First Name</th><th>Organization</th><th>Email</th>
-                          <th>Phone</th><th>Department</th><th>Title</th></tr>
-          <!--Adds the rows of the already existing faculty members-->
-          <?php
+        <div class="card col-sm-12">
+          <div class="card-header">
+            <h2>Optional - Add Project Participants</h2>
+          </div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <table class="table-responsive table-striped table-sm" id="faculty_table" align=center>
+                <tr id="f_row0" style="display: none;">
+                  <th>Last Name</th>
+                  <th>First Name</th>
+                  <th>Organization</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Department</th>
+                  <th>Title</th>
+                </tr>
+                <!--Adds the rows of the already existing faculty members-->
+                <?php
             $departments = ['Analytics and Data Science','Computer Science','Information Technology',
                             'Software Engineering and Game Development'];
             $i = 1;
@@ -929,14 +1134,21 @@ function add_c_row()
               }
             }
           ?>
-        </table>
-        <input type="button" onclick="add_f_row(); addHeader('faculty_table', 'f_row0')" value="ADD FACULTY">
-        <h3>Staff</h3>
-        <table id="staff_table" align=center>
-          <tr id="sta_row0" style="display: none;"><th>Last Name</th><th>First Name</th><th>Organization</th><th>Email</th>
-                          <th>Phone</th><th>Department</th><th>Title</th></tr>
-            <!--Adds the rows of the already existing staff members in the project.-->
-            <?php
+              </table>
+              <input type="button" onclick="add_f_row(); addHeader('faculty_table', 'f_row0')" value="ADD FACULTY">
+              <h3>Staff</h3>
+              <table class="table-responsive table-striped table-sm" id="staff_table" align=center>
+                <tr id="sta_row0" style="display: none;">
+                  <th>Last Name</th>
+                  <th>First Name</th>
+                  <th>Organization</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Department</th>
+                  <th>Title</th>
+                </tr>
+                <!--Adds the rows of the already existing staff members in the project.-->
+                <?php
               $i = 1;
               if(isset($other_participants['Staff'])) {
                 foreach($other_participants['Staff'] as $staff) {
@@ -966,14 +1178,21 @@ function add_c_row()
                 }
               }
             ?>
-        </table>
-        <input type="button" onclick="add_sta_row(); addHeader('staff_table', 'sta_row0')" value="ADD STAFF">
-        <h3>Students</h3>
-        <table id="student_table" align=center>
-          <tr id="stu_row0" style="display: none;"><th>Last Name</th><th>First Name</th><th>Organization</th><th>Email</th>
-                          <th>Phone</th><th>Major</th><th>Degree Level</th></tr>
-            <!--Adds the rows of the already existing students in the project.-->
-            <?php
+              </table>
+              <input type="button" onclick="add_sta_row(); addHeader('staff_table', 'sta_row0')" value="ADD STAFF">
+              <h3>Students</h3>
+              <table class="table-responsive table-striped table-sm" id="student_table" align=center>
+                <tr id="stu_row0" style="display: none;">
+                  <th>Last Name</th>
+                  <th>First Name</th>
+                  <th>Organization</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Major</th>
+                  <th>Degree Level</th>
+                </tr>
+                <!--Adds the rows of the already existing students in the project.-->
+                <?php
               $majors = ['Applied Computer Science','Computer Game Design and Development', 'Computer Science',
               'Information Technology (BAS)','Information Technology (BS)','Software Engineering','Analytics and Data Science'];
               $degreeLevels = ['Bachelor of Science','Master of Science','Doctor of Philosophy'];
@@ -1014,14 +1233,22 @@ function add_c_row()
                 }
               }
             ?>
-        </table>
-        <input type="button" onclick="add_stu_row(); addHeader('student_table', 'stu_row0')" value="ADD STUDENT">
-        <h3>Contractors</h3>
-        <table id="contractor_table" align=center>
-          <tr id="c_row0" style="display: none;"><th>Last Name</th><th>First Name</th><th>Organization</th><th>Email</th>
-                          <th>Phone</th><th>Contract Start</th><th>Contract End</th><th>Title</th></tr>
-            <!--Adds the rows of the already existing contractors in the project.-->
-            <?php
+              </table>
+              <input type="button" onclick="add_stu_row(); addHeader('student_table', 'stu_row0')" value="ADD STUDENT">
+              <h3>Contractors</h3>
+              <table class="table-responsive table-striped table-sm" id="contractor_table" align=center>
+                <tr id="c_row0" style="display: none;">
+                  <th>Last Name</th>
+                  <th>First Name</th>
+                  <th>Organization</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Contract Start</th>
+                  <th>Contract End</th>
+                  <th>Title</th>
+                </tr>
+                <!--Adds the rows of the already existing contractors in the project.-->
+                <?php
               $i = 1;
               if(isset($other_participants['Contractor'])) {
                 foreach($other_participants['Contractor'] as $contractor) {
@@ -1043,21 +1270,26 @@ function add_c_row()
                 }
               }
             ?>
-        </table>
-        <input type="button" onclick="add_c_row(); addHeader('contractor_table', 'c_row0')" value="ADD CONTRACTOR">
-        <!--Approval Status with Admin Permission only-->
-        <h2>Admin Use Only</h2>
-        <!--End of dynamic project category form fields-->
-        <label for="approval">Approval Status :</label>
-        <input id="approved" type="radio" name="approval" value="Approved" <?php if ($project['approval']=='Approved') echo 'checked="checked"'; ?> /> Approved
-        <input id="disapproved" type="radio" name="approval" value="Disapproved" <?php if ($project['approval']=='Disapproved') echo 'checked="checked"'; ?> /> Disapproved
-        <input id="pending" type="radio" name="approval" value="Pending" <?php if ($project['approval']=='Pending') echo 'checked="checked"'; ?> /> Pending
-        <br />
-        <input type="submit" value="Update">
-        <br />
+              </table>
+              <input type="button" onclick="add_c_row(); addHeader('contractor_table', 'c_row0')"
+                value="ADD CONTRACTOR">
+              <!--Approval Status with Admin Permission only-->
+              <h2>Admin Use Only</h2>
+              <!--End of dynamic project category form fields-->
+              <label for="approval">Approval Status :</label>
+              <input id="approved" type="radio" name="approval" value="Approved"
+                <?php if ($project['approval']=='Approved') echo 'checked="checked"'; ?> /> Approved
+              <input id="disapproved" type="radio" name="approval" value="Disapproved"
+                <?php if ($project['approval']=='Disapproved') echo 'checked="checked"'; ?> /> Disapproved
+              <input id="pending" type="radio" name="approval" value="Pending"
+                <?php if ($project['approval']=='Pending') echo 'checked="checked"'; ?> /> Pending
+
+              <input type="submit" value="Update">
+            </blockquote>
+          </div>
+        </div>
     </form>
-</div>
-<!--end of update project section container-->
-<!--Add in footer from pmo_functions.php-->
+    <!--end of update project section container-->
+    <!--Add in footer from pmo_functions.php-->
 </body>
 <?=template_footer()?>
