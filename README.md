@@ -13,8 +13,13 @@ Contributors to the GitHub Repo (Upon Submission) include:
 #### Shravan Raul
    - Implemented Bootstrap Elements
                   
+ Contributors not listed on Github:
  
+#### Avery Brown
+   - Database Design
 
+#### Hannah Faissal
+   - Project Documentation and Technical Writing
 
 ## Installation
 
